@@ -1,0 +1,206 @@
+
+    <div align="center" *ngIf="!isloaded()">
+        <mat-spinner color="warn" diameter="50"></mat-spinner>
+    </div> 
+
+
+    <mat-progress-bar mode="query"  color="warn" style="padding:0 ; margin-left:0; margin-right:0 ; margin-top: 0; margin-bottom:10px ;width: 100%" *ngIf="isSubmit" ></mat-progress-bar>
+
+    <form *ngIf="isloaded()" (keydown.enter)="$event.preventDefault()">
+
+    <mat-dialog-content>
+
+        <div class="row">
+
+            <div class="col-md-2">
+                    <img class="img" [src]="this.imageUrl" class="image-cover"/>
+            </div>
+    
+            <div class="col-md-2" style="margin-top: 50px">
+                <mat-form-field class="example-full-width">
+                 <input matInput autocomplete="off"  placeholder="Employee #" disabled  [value]="housing.employeeID">
+                 </mat-form-field>
+             </div>
+
+            <div class="col-md-3" style="margin-top: 50px" >
+              <mat-form-field class="example-full-width">
+                  <input  matInput  autocomplete="off" placeholder="Name" disabled [value]="housing.name">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3" style="margin-top: 50px">
+                <mat-form-field class="example-full-width">
+                  <input  matInput autocomplete="off" placeholder="Surname" disabled  [value]="housing.surname">
+                </mat-form-field>
+            </div>
+            <div class="col-md-2" style="margin-top: 50px">
+                <mat-form-field class="example-full-width">
+                  <input matInput  autocomplete="off" placeholder="Local Plus" disabled  [value]="housing.localPlus">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px">
+
+
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autocomplete="off"  placeholder="Working Location" disabled [value]="housing.workingLocation">
+                      </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autocomplete="off"  placeholder="Employee Category" disabled  [value]="housing.employeeCategory">
+                      </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                        <mat-form-field class="example-full-width">
+                            <input matInput autocomplete="off"  placeholder="Cost Centre" disabled  [value]="housing.costCentre">
+                          </mat-form-field>
+                </div>
+        </div>
+
+
+           
+        <div class="row" style="margin-top: 10px">
+
+                        <div class="col-md-2">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autocomplete="off"  placeholder="Family Status" disabled  [value]="housing.familyStatus">
+                              </mat-form-field>
+                        </div>
+                        <div class="col-md-2" style="margin-top : 0px;">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autocomplete="off"  placeholder="Following Partner" disabled [value]="housing.followingPartner ? 'Yes' : 'No'">
+                              </mat-form-field>
+                        </div>
+                        <div class="col-md-2" style="margin-top : 0px;">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autocomplete="off"  placeholder="Following Children" disabled [value]="housing.followingChildren">
+                              </mat-form-field>
+                        </div>
+                        <div class="col-md-6" style="margin-top : 0px;">
+                            <mat-form-field class="example-full-width">
+                                <input matInput  autocomplete="off" placeholder="Activity Status" disabled  [value]="housing.activityStatus">
+                              </mat-form-field>
+                        </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px">
+
+            <div class="col-md-12">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" [formControl]="this.homeAddressControl" placeholder="Home Address">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px">
+
+            <div class="col-md-2">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" type="number" [formControl]="this.entitledBedroomsControl" placeholder="Entitled Bedrooms">
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" type="number" [formControl]="this.actualBedroomsControl" placeholder="Actual Bedrooms">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" [formControl]="this.typeofPropertyControl" placeholder="Type of Property">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" type="number" [formControl]="this.rentDueDateControl" placeholder="Rent Due Date">
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" type="number" [formControl]="this.currentRentalControl" placeholder="Current Rental">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px">
+            <div class="col-md-2">
+                <mat-form-field class="example-full-width">
+                        <input matInput autocomplete="off"  #startDate [formControl]="this.tenancyStartDateControl"  [matDatepicker]="myDatepicker"
+                        placeholder="Tenancy Start Date">
+                    <mat-datepicker-toggle matSuffix
+                                           [for]="myDatepicker">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #myDatepicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-2">
+                <mat-form-field class="example-full-width">
+                        <input matInput autocomplete="off" #endDate [formControl]="this.tenancyEndDateControl"  [matDatepicker]="myDatepicker2"
+                        placeholder="Tenancy End Date">
+                    <mat-datepicker-toggle matSuffix
+                                           [for]="myDatepicker2">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #myDatepicker2></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" disabled type="number"  placeholder="Month Remaining" [value] = "endDate.value  | amDifference: startDate.value :'month' : true | number : '1.0-0'" >
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" [formControl]="this.monthNoticePeriodControl" placeholder="Month Notice Period">
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-2">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" type="number" [formControl]="this.initialRentControl" placeholder="Initial Rent">
+                </mat-form-field>
+            </div>
+        </div>
+        
+        <div class="row" style="margin-top: 10px">
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" #unfurnished type="number" [formControl]="this.unfurnishedAllowanceWeekControl" placeholder="Unfurnished Allowance/Week">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" type="text" disabled placeholder="Unfurnished Allowance/Month" [value]="unfurnished.value * 4 | currency:'GBP':'symbol':'1.0-2'" >
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" type="text" disabled placeholder="Furnished Allowance/Week" [value]="unfurnished.value * 1.1 | currency:'GBP':'symbol':'1.0-2'" >
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" type="text" disabled placeholder="Furnished Allowance/Month" [value]="unfurnished.value * 4 * 1.1 | currency:'GBP':'symbol':'1.0-2'" >
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px">
+            <div class="col-md-12">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" [formControl]="this.housingCommentsControl" placeholder="Housing Comment">
+                </mat-form-field>
+            </div>
+        </div>
+        
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button  matDialogClose  (keydown.enter)="$event.preventDefault()"  mat-raised-button class="btn btn-default" [disabled]="isSubmit" (click)="close()"> Close </button>
+    <button  type="submit" mat-raised-button class="btn btn-primary" [disabled]="isSubmit" (click)="save()" >Update Housing</button>
+</mat-dialog-actions>
+
+
+</form>

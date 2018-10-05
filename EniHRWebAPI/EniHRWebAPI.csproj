@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+    <Folder Include="Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.1.2" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\20180904085545_MyDBContext-first-migration.cs" />
+    <Compile Remove="Migrations\20180904114307_MyUsersDBContext-initial.cs" />
+    <Compile Remove="Migrations\20180904114307_MyUsersDBContext-initial.Designer.cs" />
+    <Compile Remove="Migrations\20180904120233_MyUsersDBContext-initial.cs" />
+    <Compile Remove="Migrations\20180904120233_MyUsersDBContext-initial.Designer.cs" />
+    <Compile Remove="Migrations\20180920173741_MyUsersDBContext-initial.cs" />
+    <Compile Remove="Migrations\20180920174534_MyUsersDBContext-initial.cs" />
+    <Compile Remove="Migrations\20180920174534_MyUsersDBContext-initial.Designer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="migrate-script.txt" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,23 @@
+﻿CREATE TABLE `Leaves` (
+    `LeaveID` bigint NOT NULL AUTO_INCREMENT,
+    `EmployeeID` bigint NOT NULL,
+    `FromDate` datetime(6) NOT NULL,
+    `UntilDate` datetime(6) NOT NULL,
+    `CountedDays` int NOT NULL,
+    `LeaveType` longtext NULL,
+    `Comment` longtext NULL,
+    `AttachmentUrl` longtext NULL,
+    CONSTRAINT `PK_Leaves` PRIMARY KEY (`LeaveID`),
+    CONSTRAINT `FK_Leaves_Employees_EmployeeID` FOREIGN KEY (`EmployeeID`) REFERENCES `Employees` (`EmployeeID`) ON DELETE CASCADE
+);
+
+CREATE INDEX `IX_Leaves_EmployeeID` ON `Leaves` (`EmployeeID`);
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20180920175811_MyDBContext-leave', '2.1.2-rtm-30932');
+
+ALTER TABLE `Leaves` ADD `RegisteredDataTime` datetime(6) NOT NULL DEFAULT '0001-01-01 00:00:00.000000';
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20180921113144_MyDBContext-leave-2', '2.1.2-rtm-30932');
+

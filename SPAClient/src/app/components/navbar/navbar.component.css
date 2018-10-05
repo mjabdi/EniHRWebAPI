@@ -1,0 +1,67 @@
+.text-user
+{
+    vertical-align: top;
+    color :rgb(58, 58, 58) !important;
+    font-weight: bold;
+}
+
+.text-nav-date
+{
+    vertical-align: top;
+    color :rgb(58, 58, 58) !important;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.dropdown-item
+{
+    cursor: pointer !important;
+}
+.dropdown-item:hover
+{
+
+    background: rgb(235, 235, 235) !important;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.14)!important;
+    transition: all 0s !important;
+}
+
+.icon-time
+{
+    vertical-align: top;
+    color :rgb(58, 58, 58) !important;
+    font-weight: bold;
+    margin-left : 20px;
+}
+
+
+.icon-user
+{
+    vertical-align: top;
+    color :rgb(58, 58, 58) !important;
+    font-weight: bold;
+}
+
+.icon-logout
+{
+    vertical-align: top;
+    color :rgb(58, 58, 58) !important;
+    cursor : pointer;
+}
+
+.icon-logout:hover
+{
+    vertical-align: top;
+    color :rgb(255, 94, 0) !important;
+    font-weight: bold;
+}
+
+.my-navbar
+{
+    vertical-align: top;
+    border-radius: 10px; 
+    /* border:2px solid rgb(49, 49, 49); */
+    height: 50px; 
+    /* background:rgb(58, 58, 58); */
+}
+
+

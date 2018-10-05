@@ -1,0 +1,17 @@
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/bin/Release/netcoreapp2.1/centos.7-x64/libhostpolicy.so
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/bin/Release/netcoreapp2.1/centos.7-x64/libhostfxr.so
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/bin/Release/netcoreapp2.1/centos.7-x64/EniHRWebAPI
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/bin/Release/netcoreapp2.1/centos.7-x64/EniHRWebAPI.deps.json
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/bin/Release/netcoreapp2.1/centos.7-x64/EniHRWebAPI.runtimeconfig.json
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/bin/Release/netcoreapp2.1/centos.7-x64/EniHRWebAPI.runtimeconfig.dev.json
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/bin/Release/netcoreapp2.1/centos.7-x64/EniHRWebAPI.dll
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/bin/Release/netcoreapp2.1/centos.7-x64/EniHRWebAPI.pdb
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/obj/Release/netcoreapp2.1/centos.7-x64/EniHRWebAPI.csprojAssemblyReference.cache
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/obj/Release/netcoreapp2.1/centos.7-x64/EniHRWebAPI.csproj.CoreCompileInputs.cache
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/obj/Release/netcoreapp2.1/centos.7-x64/EniHRWebAPI.RazorAssemblyInfo.cache
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/obj/Release/netcoreapp2.1/centos.7-x64/EniHRWebAPI.RazorAssemblyInfo.cs
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/obj/Release/netcoreapp2.1/centos.7-x64/EniHRWebAPI.AssemblyInfoInputs.cache
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/obj/Release/netcoreapp2.1/centos.7-x64/EniHRWebAPI.AssemblyInfo.cs
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/obj/Release/netcoreapp2.1/centos.7-x64/EniHRWebAPI.RazorTargetAssemblyInfo.cache
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/obj/Release/netcoreapp2.1/centos.7-x64/EniHRWebAPI.dll
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/obj/Release/netcoreapp2.1/centos.7-x64/EniHRWebAPI.pdb

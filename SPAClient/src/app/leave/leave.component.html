@@ -1,0 +1,227 @@
+
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+            <mat-accordion>
+                <mat-expansion-panel class="expansion-search" (opened)="panelOpenState = true"  (closed)="panelOpenState = false">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      Advanced Search...
+                    </mat-panel-title>
+                    <mat-panel-description>
+                      {{panelOpenState ? 'click to collapse' : 'click to expand'}}
+                    </mat-panel-description>
+                  </mat-expansion-panel-header>
+              
+                  <div class="row">
+                  <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                     <input matInput  type="number" autocomplete="off"  #employeeID placeholder="Employee #" [formControl]="employeeIDControl" (keyup)="this.EmployeeIDChanged($event)" >
+                     </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                        <input  matInput [formControl]="employeeNameControl" placeholder="Name">
+                      </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                      <mat-form-field class="example-full-width">
+                        <input  matInput placeholder="Surname" [formControl]="employeeSurnameControl">
+                      </mat-form-field>
+                  </div>
+                  <div class="col-md-3">
+                        Total Leave Days : {{this.calcTotalDays()}}
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                            <input matInput autocomplete="off"  #fromdate [formControl]="fromDateControl"  [matDatepicker]="myDatepicker"
+                            placeholder="From Date">
+                        <mat-datepicker-toggle matSuffix
+                                               [for]="myDatepicker">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #myDatepicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                            <input matInput autocomplete="off"  #untildate [formControl]="untilDateControl" [matDatepicker]="myDatepicker2"
+                            placeholder="Until Date">
+                        <mat-datepicker-toggle matSuffix
+                                               [for]="myDatepicker2">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #myDatepicker2></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                            <mat-select autocomplete="off"  [formControl]="leaveTypeControl"  placeholder="Leave Type">
+                                    <mat-option value="">
+                                    </mat-option>
+                                    <mat-option *ngFor="let item of LeaveTypes" [value]="item">
+                                      {{item}}
+                                    </mat-option>
+                            </mat-select>                      
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <button  #searchbutton mat-raised-button class="btn btn-danger" (click)="this.Search()" > Search</button>
+                    <button  #resetbutton mat-raised-button class="btn btn-default" (click)="this.ResetSearch()"> Reset</button>
+
+                </div>
+    
+            </div>
+
+                </mat-expansion-panel>
+            </mat-accordion>
+            </div>
+
+        </div>    
+        <div class="row" style="margin-top:10px;">
+                <div class="col-md-12">
+                <mat-form-field>
+                        <input matInput autocomplete="off" (keyup)="applyFilter($event.target.value)" placeholder="Smart Search...">
+                </mat-form-field>
+                </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <mat-icon class="icon-employees" aria-label="Leave table" >transfer_within_a_station</mat-icon>
+                        <h4 style="display: inline-block;font-weight: bold" class="card-title ">Leave</h4>
+                        <a matTooltip="Refresh Data" (click)="ngOnInit()" >
+                        <mat-icon class="btn-refresh" aria-label="refresh" >refresh</mat-icon>
+                        </a>
+
+                      </div>
+
+                            <div class="example-loading-shade"
+                                 *ngIf="this.isLoading">
+                              <mat-spinner color="warn"></mat-spinner>
+                             </div>
+
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+
+
+
+
+
+
+      <mat-table [dataSource]="dataSource" matSort>
+
+
+        <!-- <ng-container matColumnDef="ID">
+                    <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
+                    <mat-cell *matCellDef="let rowIndex=index;let Leave"> 
+                        <img *ngIf="Leave.technicalID && Leave.technicalID.length > 1" style="margin-right:20px;" width="64px" [src]="this.imageUrl +  Leave.technicalID + '.jpg'">     
+                           {{rowIndex+1}} 
+                    </mat-cell>
+        </ng-container> -->
+
+        <ng-container matColumnDef="employeeID">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Employee No. </mat-header-cell>
+                <mat-cell *matCellDef="let Leave"> {{Leave.employeeID}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                <mat-cell *matCellDef="let Leave"> {{Leave.name}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="surname">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Surname </mat-header-cell>
+                <mat-cell *matCellDef="let Leave"> {{Leave.surname}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="localPlus">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Local Plus </mat-header-cell>
+                <mat-cell *matCellDef="let Leave"> {{Leave.localPlus}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="workingLocation">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Working Location </mat-header-cell>
+                <mat-cell *matCellDef="let Leave"> {{Leave.workingLocation}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="employeeCategory">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Employee Cat. </mat-header-cell>
+                <mat-cell *matCellDef="let Leave"> {{Leave.employeeCategory}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="costCentre">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Cost Centre</mat-header-cell>
+                <mat-cell *matCellDef="let Leave"> {{Leave.costCentre}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="familyStatus">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Family Status </mat-header-cell>
+                <mat-cell *matCellDef="let Leave"> {{Leave.familyStatus}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="followingPartner">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Following Partner </mat-header-cell>
+                <mat-cell *matCellDef="let Leave"> {{Leave.followingPartner? 'Yes' : 'No' }}  </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="followingChildren">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Following Children </mat-header-cell>
+                <mat-cell *matCellDef="let Leave"> {{Leave.followingChildren}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="activityStatus">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Activity Status </mat-header-cell>
+                <mat-cell *matCellDef="let Leave">  {{ Leave.activityStatus}} </mat-cell>
+        </ng-container>
+
+    <ng-container matColumnDef="fromDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> From Date </mat-header-cell>
+        <mat-cell *matCellDef="let Leave"> {{Leave.fromDate | date}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="untilDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Until Date </mat-header-cell>
+        <mat-cell *matCellDef="let Leave"> {{Leave.untilDate | date }} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="countedDays">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Counted Days </mat-header-cell>
+        <mat-cell  *matCellDef="let Leave"> {{Leave.countedDays}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="leaveType">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Leave Type</mat-header-cell>
+        <mat-cell *matCellDef="let Leave"> {{Leave.leaveType}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="comment">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Comment </mat-header-cell>
+        <mat-cell *matCellDef="let Leave"> {{Leave.comment}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="registeredDateTime">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Registered at </mat-header-cell>
+        <mat-cell *matCellDef="let Leave"> {{Leave.registeredDateTime | date:'medium' }} </mat-cell>
+    </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns" 
+        matRipple
+        class="element-row"
+        (click)="selectedLeave = row"
+        (dblclick) = "doubleClick(row)"
+        [class.selected]="selectedLeave== row"
+        [class.deleted] = "row.activityStatus == 'Leaver'" 
+        [matTooltip] = "row.activityStatus == 'Leaver' ? row.name + ' has left the company!' : ''"
+        matTooltipPosition = "left" >
+        </mat-row>
+
+    </mat-table>
+
+
+   
+      </div>
+    </div>
+  </div>
+</div>
+
+<div  style="position: fixed;right:50px; bottom:50px;z-index:9997">
+        
+
+    <button  *ngIf="!isLoading" (click)="this.CreateNewLeave()"  matTooltip="Register new Leave" mat-fab color="warn">
+            <mat-icon aria-label="Enter new Leave">playlist_add</mat-icon>
+    </button>        
+    
+</div>

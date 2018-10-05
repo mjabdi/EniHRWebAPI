@@ -1,0 +1,153 @@
+
+    <div align="center" *ngIf="!isloaded()">
+            <mat-spinner color="warn" diameter="50"></mat-spinner>
+        </div> 
+    
+    
+        <mat-progress-bar mode="query"  color="warn" style="padding:0 ; margin-left:0; margin-right:0 ; margin-top: 0; margin-bottom:10px ;width: 100%" *ngIf="isSubmit" ></mat-progress-bar>
+    
+        <form *ngIf="isloaded()" (keydown.enter)="$event.preventDefault()">
+    
+        <mat-dialog-content>
+    
+            <div class="row">
+    
+                <div class="col-md-2">
+                        <img class="img" [src]="this.imageUrl" class="image-cover"/>
+                </div>
+        
+                <div class="col-md-2" style="margin-top: 50px">
+                    <mat-form-field class="example-full-width">
+                     <input matInput  type="number" autocomplete="off"  #employeeID placeholder="Employee #" [formControl]="employeeIDControl" [value]="leave.employeeID" (keyup)="this.EmployeeIDChanged($event)" >
+                     </mat-form-field>
+                 </div>
+    
+                <div class="col-md-3" style="margin-top: 50px" >
+                  <mat-form-field class="example-full-width">
+                      <input  matInput [formControl]="employeeNameControl" placeholder="Name" [value]="leave.name">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-3" style="margin-top: 50px">
+                    <mat-form-field class="example-full-width">
+                      <input  matInput placeholder="Surname" [formControl]="employeeSurnameControl"   [value]="leave.surname">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2" style="margin-top: 50px">
+                    <mat-form-field class="example-full-width">
+                      <input matInput  placeholder="Local Plus"  [formControl]="localPlusControl"  [value]="leave.localPlus">
+                    </mat-form-field>
+                </div>
+            </div>
+    
+            <div class="row" style="margin-top: 10px">
+    
+    
+                    <div class="col-md-3">
+                        <mat-form-field class="example-full-width">
+                            <input matInput  placeholder="Working Location" [formControl]="workingLocationControl" [value]="leave.workingLocation">
+                          </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field class="example-full-width">
+                            <input matInput  placeholder="Employee Category" [formControl]="categoryControl"  [value]="leave.employeeCategory">
+                          </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                            <mat-form-field class="example-full-width">
+                                <input matInput  placeholder="Cost Centre" [formControl]="costCenterControl"  [value]="leave.costCentre">
+                              </mat-form-field>
+                    </div>
+            </div>
+    
+    
+               
+            <div class="row" style="margin-top: 10px">
+    
+                            <div class="col-md-2">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput  placeholder="Family Status" [formControl]="familyStatusControl"  [value]="leave.familyStatus">
+                                  </mat-form-field>
+                            </div>
+                            <div class="col-md-2" style="margin-top : 0px;">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput  placeholder="Following Partner" [formControl]="followingPartnerControl" [value]="leave.followingPartner ? 'Yes' : 'No'">
+                                  </mat-form-field>
+                            </div>
+                            <div class="col-md-2" style="margin-top : 0px;">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput  placeholder="Following Children" [formControl]="followingChildrenControl" [value]="leave.followingChildren">
+                                  </mat-form-field>
+                            </div>
+                            <div class="col-md-6" style="margin-top : 0px;">
+                                <mat-form-field class="example-full-width">
+                                    <input matInput  placeholder="Activity Status" [formControl]="activityStatusControl"  [value]="leave.activityStatus">
+                                  </mat-form-field>
+                            </div>
+            </div>
+    
+            <div class="row" style="margin-top: 10px">
+    
+                <div class="col-md-2">
+                        <mat-form-field class="example-full-width">
+                                <input matInput autocomplete="off"  #fromdate [formControl]="fromDateControl"  [matDatepicker]="myDatepicker"
+                                placeholder="From Date" [value]="leave.fromDate" (dateChange)="this.DateChenged($event)">
+                            <mat-datepicker-toggle matSuffix
+                                                   [for]="myDatepicker">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #myDatepicker></mat-datepicker>
+                        </mat-form-field>
+                </div>
+
+                <div class="col-md-2">
+                        <mat-form-field class="example-full-width">
+                                <input matInput autocomplete="off"  #untildate [formControl]="untilDateControl" (dateChange)="this.DateChenged($event)" [matDatepicker]="myDatepicker2"
+                                placeholder="Until Date" [value]="leave.untilDate">
+                            <mat-datepicker-toggle matSuffix
+                                                   [for]="myDatepicker2">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #myDatepicker2></mat-datepicker>
+                        </mat-form-field>
+                </div>
+
+                <div class="col-md-2">
+                        <mat-form-field class="example-full-width">
+                            <input matInput autocomplete="off"  type="number" [formControl]="this.daysControl" placeholder="Working Days">
+                        </mat-form-field>
+                </div>
+
+                <div class="col-md-3">
+                        <mat-form-field class="example-full-width">
+                                <mat-select autocomplete="off"  [formControl]="leaveTypeControl"  placeholder="Leave Type">
+                                        <mat-option *ngFor="let item of LeaveTypes" [value]="item">
+                                          {{item}}
+                                        </mat-option>
+                                </mat-select>                      
+                              </mat-form-field>
+                </div>
+
+                <div class="col-md-3">
+                        <mat-form-field class="example-full-width">
+                            <input matInput autocomplete="off"  type="number" [formControl]="countedDaysControl" placeholder="Counted Days">
+                        </mat-form-field>
+                </div>
+            </div>
+    
+            <div class="row" style="margin-top: 10px">
+    
+                <div class="col-md-12">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autocomplete="off"  type="text" [formControl]="commentControl" placeholder="Comment">
+                    </mat-form-field>
+                </div>
+            </div>
+
+    </mat-dialog-content>
+    
+    <mat-dialog-actions align="end">
+        <button  matDialogClose  (keydown.enter)="$event.preventDefault()"  mat-raised-button class="btn btn-default" [disabled]="isSubmit" (click)="close()"> Close </button>
+        <button  type="submit" [hidden]="CreateMode"   mat-raised-button class="btn btn-primary" [disabled]="isSubmit || !this.ValidateData()" (click)="save()"> Update Leave</button>
+        <button  type="submit" #createButton [hidden]="!CreateMode"  mat-raised-button class="btn btn-danger" [disabled]="isSubmit || !this.ValidateData()" (click)="createNew()"> Register New Leave</button>
+        </mat-dialog-actions>
+    
+    
+    </form>

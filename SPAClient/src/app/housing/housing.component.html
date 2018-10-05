@@ -1,0 +1,186 @@
+
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+                    <div class="col-md-12" align="right">
+                    <div>
+                            <span [class]="showOnlyActives.checked? ['header-show-active-checkbox-active'] : ['header-show-active-checkbox'] ">show only active employees</span>
+                            <mat-slide-toggle #showOnlyActives style="margin-right:20px" labelPosition="before" [checked]="true" (change)="this.filterActiveHousings(showOnlyActives.checked)"></mat-slide-toggle>
+                     </div>
+                     </div>
+        </div>    
+
+
+        <div class="row" style="margin-top:10px;">
+                <div class="col-md-12">
+                <mat-form-field>
+                        <input matInput autocomplete="off" (keyup)="applyFilter($event.target.value)" placeholder="Smart Search...">
+                </mat-form-field>
+                </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <mat-icon class="icon-employees" aria-label="Housing table" >account_balance</mat-icon>
+                        <h4 style="display: inline-block;font-weight: bold" class="card-title ">Housing</h4>
+                        <a matTooltip="Refresh Data" (click)="ngOnInit()" >
+                        <mat-icon class="btn-refresh" aria-label="refresh" >refresh</mat-icon>
+                        </a>
+
+                      </div>
+
+                            <div class="example-loading-shade"
+                                 *ngIf="this.isLoading">
+                              <mat-spinner color="warn"></mat-spinner>
+                             </div>
+
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+
+
+      <mat-table [dataSource]="dataSource" matSort>
+
+
+            <ng-container matColumnDef="ID">
+                    <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
+                    <mat-cell *matCellDef="let rowIndex=index;let housing"> 
+                        <img *ngIf="housing.technicalID && housing.technicalID.length > 1" style="margin-right:20px;" width="64px" [src]="this.imageUrl +  housing.technicalID + '.jpg'">     
+                           {{rowIndex+1}} 
+                    </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="employeeID">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Employee No. </mat-header-cell>
+                <mat-cell *matCellDef="let housing"> {{housing.employeeID}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                <mat-cell *matCellDef="let housing"> {{housing.name}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="surname">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Surname </mat-header-cell>
+                <mat-cell *matCellDef="let housing"> {{housing.surname}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="localPlus">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Local Plus </mat-header-cell>
+                <mat-cell *matCellDef="let housing"> {{housing.localPlus}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="workingLocation">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Working Location </mat-header-cell>
+                <mat-cell *matCellDef="let housing"> {{housing.workingLocation}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="employeeCategory">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Employee Cat. </mat-header-cell>
+                <mat-cell *matCellDef="let housing"> {{housing.employeeCategory}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="costCentre">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Cost Centre</mat-header-cell>
+                <mat-cell *matCellDef="let housing"> {{housing.costCentre}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="familyStatus">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Family Status </mat-header-cell>
+                <mat-cell *matCellDef="let housing"> {{housing.familyStatus}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="followingPartner">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Following Partner </mat-header-cell>
+                <mat-cell *matCellDef="let housing"> {{housing.followingPartner? 'Yes' : 'No' }}  </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="followingChildren">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Following Children </mat-header-cell>
+                <mat-cell *matCellDef="let housing"> {{housing.followingChildren}} </mat-cell>
+        </ng-container>
+        <ng-container matColumnDef="activityStatus">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Activity Status </mat-header-cell>
+                <mat-cell *matCellDef="let housing">  {{ housing.activityStatus}} </mat-cell>
+        </ng-container>
+
+    <ng-container matColumnDef="homeAddress">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Home Address (UK) </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.homeAddress}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="entitledBedrooms">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Entitled Bedrooms </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.entitledBedrooms}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="actualBedrooms">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Actual Bedrooms </mat-header-cell>
+        <mat-cell  *matCellDef="let housing"> {{housing.actualBedrooms}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="typeofProperty">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Type of Property </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.typeofProperty}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="rentDueDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Rent Due Date </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.rentDueDate}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="tenancyStartDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Tenancy Start Date </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.tenancyStartDate | date}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="tenancyEndDate">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Tenancy End Date </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.tenancyEndDate | date}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="monthRemaining">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Month Remaining</mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.tenancyEndDate  | amDifference: housing.tenancyStartDate :'month' : true | number : '1.0-0'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="monthNoticePeriod">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Month Notice Period </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.monthNoticePeriod}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="initialRent">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Initial Rent </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.initialRent | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="currentRental">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Current Rental </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.currentRental | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="unfurnishedAllowanceWeek">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Unfurnished Allowance/Week </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.unfurnishedAllowanceWeek | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="unfurnishedAllowanceMonth">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Unfurnished Allowance/Month </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.unfurnishedAllowanceWeek * 4 | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="furnishedAllowanceWeek">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Furnished Allowance/Week </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.unfurnishedAllowanceWeek * 1.1 | currency:'GBP':'symbol':'1.0-2'}}  </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="furnishedAllowanceMonth">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Furnished Allowance/Month </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.unfurnishedAllowanceWeek * 1.1 * 4 | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="housingComments">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Housing Comments </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.housingComments}} </mat-cell>
+    </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns" 
+        matRipple
+        class="element-row"
+        (click)="selectedHousing = row"
+        (dblclick) = "doubleClick(row)"
+        [class.selected]="selectedHousing== row"
+        [class.deleted] = "row.activityStatus == 'Leaver'" 
+        [matTooltip] = "row.activityStatus == 'Leaver' ? row.name + ' has left the company!' : ''"
+        matTooltipPosition = "left" >
+        </mat-row>
+
+    </mat-table>
+
+
+   
+      </div>
+    </div>
+  </div>
+</div>
