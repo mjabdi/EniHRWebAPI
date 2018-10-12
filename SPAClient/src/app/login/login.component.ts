@@ -40,7 +40,13 @@ export class LoginComponent {
   hide:boolean;
   returnUrl: string;
 
-  constructor(public snackbar : MatSnackBar, public router: Router, public http: Http, private toastrService: ToastrService, private route: ActivatedRoute,private authenticationService: AuthenticationService) {
+  constructor(
+    private snackbar : MatSnackBar,
+    private toastrService: ToastrService,
+     private router: Router, 
+     private http: Http, 
+      private route: ActivatedRoute,
+      private authenticationService: AuthenticationService) {
   }
 
   ngOnInit() {

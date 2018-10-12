@@ -251,248 +251,271 @@ namespace EniHRWebAPI.Models
 
         public void UpdateFromEmployeeViewModel(MyDBContext _context, EmployeeViewModel _employee)
         {
-            if (this.EmployeeID != _employee.employeeID)
-            {
-                throw new InvalidOperationException();
-            }
-
-            this.Name = _employee.name;
-            this.Surname = _employee.surname;
-            this.UserId = _employee.technicalID;
-
-            LocalPlus _localPlus;
             try
             {
-                _localPlus = _context.LocalPlus.First(l => l.Description == _employee.localPlus);
-            }
-            catch (Exception)
-            {
-                _localPlus = null;
-            }
 
-            if (_localPlus == null &&  !String.IsNullOrWhiteSpace(_employee.localPlus))
-            {
-                _localPlus = new LocalPlus { Description = _employee.localPlus };
-            }
-            this.LocalPlus = _localPlus;
+                if (this.EmployeeID != _employee.employeeID)
+                {
+                    throw new InvalidOperationException();
+                }
 
-            Location _location;
-            try
-            {
-                _location = _context.Location.First(l => l.Description ==  _employee.workingLocation);
-            }
-            catch (Exception)
-            {
-                _location = null;
-            }
-            if (location == null && !String.IsNullOrWhiteSpace(_employee.workingLocation))
-            {
-                _location = new Location { Description = _employee.workingLocation };
-            }
-            this.location = _location;
+                this.Name = _employee.name;
+                this.Surname = _employee.surname;
+                this.UserId = _employee.technicalID;
 
-
-            StandardEmployeeCategory _standardEmployeeCategory;
-            try
-            {
-                _standardEmployeeCategory = _context.StandardEmployeeCategory.First(l => l.Description == _employee.employeeCategory);
-            }
-            catch (Exception)
-            {
-                _standardEmployeeCategory = null;
-            }
-            if (_standardEmployeeCategory == null && !String.IsNullOrWhiteSpace(_employee.employeeCategory))
-            {
-                _standardEmployeeCategory = new StandardEmployeeCategory { Description = _employee.employeeCategory };
-            }
-            this.standardEmployeeCategory = _standardEmployeeCategory;
-
-
-            OrganisationUnit _organisationUnit;
-            try
-            {
-                _organisationUnit = _context.OrganisationUnit.First(l => l.Description == _employee.organizationUnit);
-            }
-            catch (InvalidOperationException)
-            {
-                _organisationUnit = null;
-            }
-            if (_organisationUnit == null && !String.IsNullOrWhiteSpace(_employee.organizationUnit))
-            {
-                _organisationUnit = new OrganisationUnit { Description = _employee.organizationUnit };
-            }
-            this.organisationUnit = _organisationUnit;
-
-            string[] cost_parts = _employee.costCentre?.Split("|".ToCharArray());
-            if (cost_parts?.Length == 2)
-            {
-                string costCode = cost_parts[0].Trim();
-                string costDesc = cost_parts[1].Trim();
-
-                WorkingCostCentre _workingCostCentre;
+                LocalPlus _localPlus;
                 try
                 {
-                    _workingCostCentre = _context.WorkingCostCentre.First(l => l.ID == costCode);
+                    _localPlus = _context.LocalPlus.FirstOrDefault(l => l.Description == _employee.localPlus);
                 }
                 catch (Exception)
                 {
-                    _workingCostCentre = null;
+                    _localPlus = null;
                 }
-                if (_workingCostCentre == null)
+
+                if (_localPlus == null && !String.IsNullOrWhiteSpace(_employee.localPlus))
                 {
-                    _workingCostCentre = new WorkingCostCentre { ID = costCode, Description = costDesc };
+                    _localPlus = new LocalPlus { Description = _employee.localPlus };
                 }
-                this.workingCostCentre = _workingCostCentre;
-            }
+                this.LocalPlus = _localPlus;
 
-            Position _position;
-            try
-            {
-                _position = _context.Position.First(l => l.Description == _employee.position);
-            }
-            catch (Exception)
-            {
-                _position = null;
-            }
-            if (_position != null)
-            {
-                this.position = _position;
-            }
-
-            ProfessionalArea _professionalArea;
-            try
-            {
-                _professionalArea = _context.ProfessionalArea.First(l => l.Description == _employee.professionalArea);
-            }
-            catch (Exception)
-            {
-                _professionalArea = null;
-            }
-            if (_professionalArea == null && !String.IsNullOrWhiteSpace(_employee.professionalArea))
-            {
-                _professionalArea = new ProfessionalArea { Description = _employee.professionalArea };
-            }
-            this.professionalArea = _professionalArea;
-
-            this.CompanyHiringDate = _employee.companyHiringDate;
-
-            HomeCompany _homeCompany;
-            try
-            {
-                _homeCompany = _context.HomeCompany.First(l => l.Description == _employee.homeCompany);
-            }
-            catch (Exception)
-            {
-                _homeCompany = null;
-            }
-            if (_homeCompany == null && !String.IsNullOrWhiteSpace(_employee.homeCompany))
-            {
-                _homeCompany = new HomeCompany { Description = _employee.homeCompany };
-            }
-            this.homeCompany = _homeCompany;
+                Location _location;
+                try
+                {
+                    _location = _context.Location.FirstOrDefault(l => l.Description == _employee.workingLocation);
+                }
+                catch (Exception)
+                {
+                    _location = null;
+                }
+                if (location == null && !String.IsNullOrWhiteSpace(_employee.workingLocation))
+                {
+                    _location = new Location { Description = _employee.workingLocation };
+                }
+                this.location = _location;
 
 
-            this.GenderString = _employee.gender;
-
-            this.BirthDate = _employee.birthDate;
-
-            Country _countryofBirth = null;
-            try
-            {
-                _countryofBirth = _context.Country.First(l => l.CountryName.ToUpper() == _employee.countryOfBirth);
-            }
-            catch (Exception)
-            {
-                _countryofBirth = null;
-            }
-            if (_countryofBirth == null && !String.IsNullOrWhiteSpace(_employee.countryOfBirth))
-            {
-                _countryofBirth = new Country { CountryName = _employee.countryOfBirth };
-            }
-            this.CountryofBirth = _countryofBirth;
-
-            Country _nationality = null;
-            try
-            {
-                _nationality = _context.Country.First(l => l.CountryName.ToUpper() == _employee.nationality);
-            }
-            catch (Exception)
-            {
-                _nationality = null;
-            }
-            if (_nationality == null && !String.IsNullOrWhiteSpace(_employee.nationality))
-            {
-                _nationality = new Country { CountryName = _employee.nationality };
-            }
-            this.Nationality = _nationality;
+                StandardEmployeeCategory _standardEmployeeCategory;
+                try
+                {
+                    _standardEmployeeCategory = _context.StandardEmployeeCategory.FirstOrDefault(l => l.Description == _employee.employeeCategory);
+                }
+                catch (Exception)
+                {
+                    _standardEmployeeCategory = null;
+                }
+                if (_standardEmployeeCategory == null && !String.IsNullOrWhiteSpace(_employee.employeeCategory))
+                {
+                    _standardEmployeeCategory = new StandardEmployeeCategory { Description = _employee.employeeCategory };
+                }
+                this.standardEmployeeCategory = _standardEmployeeCategory;
 
 
-            Country _spousenationality = null;
-            try
-            {
-                _spousenationality = _context.Country.First(l => l.CountryName.ToUpper() == _employee.spouseNationality);
-            }
-            catch (Exception)
-            {
-                _spousenationality = null;
-            }
-            if (_spousenationality == null && !String.IsNullOrWhiteSpace(_employee.spouseNationality))
-            {
-                _spousenationality = new Country { CountryName = _employee.spouseNationality };
-            }
-            this.SpouseNationality = _spousenationality;
+                OrganisationUnit _organisationUnit;
+                try
+                {
+                    _organisationUnit = _context.OrganisationUnit.FirstOrDefault(l => l.Description == _employee.organizationUnit);
+                }
+                catch (InvalidOperationException)
+                {
+                    _organisationUnit = null;
+                }
+                if (_organisationUnit == null && !String.IsNullOrWhiteSpace(_employee.organizationUnit))
+                {
+                    _organisationUnit = new OrganisationUnit { Description = _employee.organizationUnit };
+                }
+                this.organisationUnit = _organisationUnit;
 
-            FamilyStatus _familyStatus;
-            try
-            {
-                _familyStatus = _context.FamilyStatus.First(l => l.Description == _employee.familyStatus);
-            }
-            catch (Exception)
-            {
-                _familyStatus = null;
-            }
-            if (_familyStatus == null && !String.IsNullOrWhiteSpace(_employee.familyStatus))
-            {
-                _familyStatus = new FamilyStatus { Description = _employee.familyStatus };
-            }
-            this.familyStatus = _familyStatus;
+                string[] cost_parts = _employee.costCentre?.Split("|".ToCharArray());
+                if (cost_parts?.Length == 2)
+                {
+                    string costCode = cost_parts[0].Trim();
+                    string costDesc = cost_parts[1].Trim();
 
-            this.FollowingPartner = _employee.followingPartner;
+                    WorkingCostCentre _workingCostCentre;
+                    try
+                    {
+                        _workingCostCentre = _context.WorkingCostCentre.FirstOrDefault(l => l.ID == costCode);
+                    }
+                    catch (Exception)
+                    {
+                        _workingCostCentre = null;
+                    }
+                    if (_workingCostCentre == null)
+                    {
+                        _workingCostCentre = new WorkingCostCentre { ID = costCode, Description = costDesc };
+                        _context.WorkingCostCentre.Add(_workingCostCentre);
+                    }
+                    this.workingCostCentre = _workingCostCentre;
+                }
 
-            this.FollowingChildren = _employee.followingChildren.HasValue ? _employee.followingChildren.Value : 0 ;
+                Position _position;
+                try
+                {
+                    _position = _context.Position.FirstOrDefault(l => l.Description == _employee.position);
+                }
+                catch (Exception)
+                {
+                    _position = null;
+                }
+                if (_position != null)
+                {
+                    this.position = _position;
+                }
+                else
+                {
+                    string[] posSplit = _employee.position.Split("|".ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
+                    if (posSplit.Length == 2)
+                    {
+                        _position = _context.Position.FirstOrDefault(l => l.ID == posSplit[0].Trim());
+                        if (_position == null)
+                        {
+                            _position = new Position { ID = posSplit[0].Trim(), Description = posSplit[1].Trim() };
+                            _context.Position.Add(_position);
+                        }
 
-            TypeOfVISA _typeOfVISA;
-            try
-            {
-                _typeOfVISA = _context.TypeOfVISA.First(l => l.Description == _employee.typeOfVisa);
-            }
-            catch (Exception)
-            {
-                _typeOfVISA = null;
-            }
-            if (_typeOfVISA == null && !String.IsNullOrWhiteSpace(_employee.typeOfVisa))
-            {
-                _typeOfVISA = new TypeOfVISA { Description = _employee.typeOfVisa };
-            }
-            this.typeOfVISA = _typeOfVISA;
+                        this.position = _position;
+                    }
+                }
 
-            this.VISAExpirayDate = _employee.visaExpiryDate;
-            this.EmailAddress = _employee.emailAddress;
+                ProfessionalArea _professionalArea;
+                try
+                {
+                    _professionalArea = _context.ProfessionalArea.FirstOrDefault(l => l.Description == _employee.professionalArea);
+                }
+                catch (Exception)
+                {
+                    _professionalArea = null;
+                }
+                if (_professionalArea == null && !String.IsNullOrWhiteSpace(_employee.professionalArea))
+                {
+                    _professionalArea = new ProfessionalArea { Description = _employee.professionalArea };
+                }
+                this.professionalArea = _professionalArea;
 
-            ActivityStatus _activityStatus;
-            try
+                this.CompanyHiringDate = _employee.companyHiringDate;
+
+                HomeCompany _homeCompany;
+                try
+                {
+                    _homeCompany = _context.HomeCompany.FirstOrDefault(l => l.Description == _employee.homeCompany);
+                }
+                catch (Exception)
+                {
+                    _homeCompany = null;
+                }
+                if (_homeCompany == null && !String.IsNullOrWhiteSpace(_employee.homeCompany))
+                {
+                    _homeCompany = new HomeCompany { Description = _employee.homeCompany };
+                }
+                this.homeCompany = _homeCompany;
+
+
+                this.GenderString = _employee.gender;
+
+                this.BirthDate = _employee.birthDate;
+
+                Country _countryofBirth = null;
+                try
+                {
+                    _countryofBirth = _context.Country.FirstOrDefault(l => l.CountryName.ToUpper() == _employee.countryOfBirth);
+                }
+                catch (Exception)
+                {
+                    _countryofBirth = null;
+                }
+                if (_countryofBirth == null && !String.IsNullOrWhiteSpace(_employee.countryOfBirth))
+                {
+                    _countryofBirth = new Country { CountryName = _employee.countryOfBirth };
+                }
+                this.CountryofBirth = _countryofBirth;
+
+                Country _nationality = null;
+                try
+                {
+                    _nationality = _context.Country.FirstOrDefault(l => l.CountryName.ToUpper() == _employee.nationality);
+                }
+                catch (Exception)
+                {
+                    _nationality = null;
+                }
+                if (_nationality == null && !String.IsNullOrWhiteSpace(_employee.nationality))
+                {
+                    _nationality = new Country { CountryName = _employee.nationality };
+                }
+                this.Nationality = _nationality;
+
+
+                Country _spousenationality = null;
+                try
+                {
+                    _spousenationality = _context.Country.FirstOrDefault(l => l.CountryName.ToUpper() == _employee.spouseNationality);
+                }
+                catch (Exception)
+                {
+                    _spousenationality = null;
+                }
+                if (_spousenationality == null && !String.IsNullOrWhiteSpace(_employee.spouseNationality))
+                {
+                    _spousenationality = new Country { CountryName = _employee.spouseNationality };
+                }
+                this.SpouseNationality = _spousenationality;
+
+                FamilyStatus _familyStatus;
+                try
+                {
+                    _familyStatus = _context.FamilyStatus.FirstOrDefault(l => l.Description == _employee.familyStatus);
+                }
+                catch (Exception)
+                {
+                    _familyStatus = null;
+                }
+                if (_familyStatus == null && !String.IsNullOrWhiteSpace(_employee.familyStatus))
+                {
+                    _familyStatus = new FamilyStatus { Description = _employee.familyStatus };
+                }
+                this.familyStatus = _familyStatus;
+
+                this.FollowingPartner = _employee.followingPartner;
+
+                this.FollowingChildren = _employee.followingChildren.HasValue ? _employee.followingChildren.Value : 0;
+
+                TypeOfVISA _typeOfVISA;
+                try
+                {
+                    _typeOfVISA = _context.TypeOfVISA.FirstOrDefault(l => l.Description == _employee.typeOfVisa);
+                }
+                catch (Exception)
+                {
+                    _typeOfVISA = null;
+                }
+                if (_typeOfVISA == null && !String.IsNullOrWhiteSpace(_employee.typeOfVisa))
+                {
+                    _typeOfVISA = new TypeOfVISA { Description = _employee.typeOfVisa };
+                }
+                this.typeOfVISA = _typeOfVISA;
+
+                this.VISAExpirayDate = _employee.visaExpiryDate;
+                this.EmailAddress = _employee.emailAddress;
+
+                ActivityStatus _activityStatus;
+                try
+                {
+                    _activityStatus = _context.ActivityStatus.FirstOrDefault(l => l.Description == _employee.activityStatus);
+                }
+                catch (Exception)
+                {
+                    _activityStatus = null;
+                }
+                if (_activityStatus == null && !String.IsNullOrWhiteSpace(_employee.activityStatus))
+                {
+                    _activityStatus = new ActivityStatus { Description = _employee.activityStatus };
+                }
+                this.activityStatus = _activityStatus;
+            }catch (Exception ex)
             {
-                _activityStatus = _context.ActivityStatus.First(l => l.Description == _employee.activityStatus);
+                throw ex;
             }
-            catch (Exception)
-            {
-                _activityStatus = null;
-            }
-            if (_activityStatus == null && !String.IsNullOrWhiteSpace(_employee.activityStatus))
-            {
-                _activityStatus = new ActivityStatus { Description = _employee.activityStatus };
-            }
-            this.activityStatus = _activityStatus;
         }
     }
 

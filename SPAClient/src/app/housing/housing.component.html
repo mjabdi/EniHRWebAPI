@@ -149,7 +149,7 @@
     </ng-container>
     <ng-container matColumnDef="unfurnishedAllowanceMonth">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Unfurnished Allowance/Month </mat-header-cell>
-        <mat-cell *matCellDef="let housing"> {{housing.unfurnishedAllowanceWeek * 4 | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.unfurnishedAllowanceWeek * 4.333 | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
     </ng-container>
     <ng-container matColumnDef="furnishedAllowanceWeek">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Furnished Allowance/Week </mat-header-cell>
@@ -157,7 +157,7 @@
     </ng-container>
     <ng-container matColumnDef="furnishedAllowanceMonth">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Furnished Allowance/Month </mat-header-cell>
-        <mat-cell *matCellDef="let housing"> {{housing.unfurnishedAllowanceWeek * 1.1 * 4 | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.unfurnishedAllowanceWeek * 1.1 * 4.333 | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
     </ng-container>
     <ng-container matColumnDef="housingComments">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Housing Comments </mat-header-cell>

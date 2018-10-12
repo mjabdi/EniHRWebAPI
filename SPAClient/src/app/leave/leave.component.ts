@@ -14,14 +14,7 @@ import {EmployeeService} from '../employees/employee.service';
 import {Employee} from '../employees/employee';
 import {LeaveSearch} from './leavesearch';
 
-import {
-  Overlay,
-  OverlayConfig,
-  OverlayContainer,
-  OverlayRef,
-  ScrollStrategy,
-  ScrollStrategyOptions,
-} from '@angular/cdk/overlay';
+
 import { LeaveDialogComponent } from '../leave-dialog/leave-dialog.component';
 
 
