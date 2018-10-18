@@ -24,13 +24,26 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header card-header-danger">
-                        <mat-icon class="icon-employees" aria-label="Housing table" >account_balance</mat-icon>
-                        <h4 style="display: inline-block;font-weight: bold" class="card-title ">Housing</h4>
-                        <a matTooltip="Refresh Data" (click)="ngOnInit()" >
-                        <mat-icon class="btn-refresh" aria-label="refresh" >refresh</mat-icon>
-                        </a>
 
-                      </div>
+                        <div class="row">
+                                <div class="col-3">
+                                        <mat-icon class="icon-employees" aria-label="Housing table" >account_balance</mat-icon>
+                                        <h4 style="display: inline-block;font-weight: bold" class="card-title ">Housing</h4>
+                                        <a matTooltip="Refresh Data" (click)="ngOnInit()" >
+                                        <mat-icon class="btn-refresh" aria-label="refresh" >refresh</mat-icon>
+                                        </a>
+                                </div>
+                                <div class="col-6">
+
+                                </div>
+                                <div class="col-3" style="text-align: right">
+                                    <span *ngIf="housings" class="text-table-count fadeIn animated">
+                                       {{this.dataSource.filteredData.length}} Rows   
+                                    </span>  
+                                </div>
+                            </div>    
+                        </div>
+
 
                             <div class="example-loading-shade"
                                  *ngIf="this.isLoading">
@@ -42,7 +55,7 @@
                         <div class="table-responsive">
 
 
-      <mat-table [dataSource]="dataSource" matSort>
+      <mat-table class="mat-table-housing" [dataSource]="dataSource" matSort>
 
 
             <ng-container matColumnDef="ID">
@@ -67,7 +80,7 @@
                 <mat-cell *matCellDef="let housing"> {{housing.surname}} </mat-cell>
         </ng-container>
         <ng-container matColumnDef="localPlus">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> Local Plus </mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Staff Typology </mat-header-cell>
                 <mat-cell *matCellDef="let housing"> {{housing.localPlus}} </mat-cell>
         </ng-container>
         <ng-container matColumnDef="workingLocation">
@@ -159,6 +172,40 @@
         <mat-header-cell *matHeaderCellDef mat-sort-header> Furnished Allowance/Month </mat-header-cell>
         <mat-cell *matCellDef="let housing"> {{housing.unfurnishedAllowanceWeek * 1.1 * 4.333 | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
     </ng-container>
+
+    <ng-container matColumnDef="differenceAllowanceMonthlyCostsPaid">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Diff Allowance & Monthly Costs </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.differenceAllowanceMonthlyCostsPaid | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="furnitureAllowance">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Furniture Allowance(Japon) </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.furnitureAllowance | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="actualFurnitureCosts">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Actual Furniture Costs(Japon)  </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.actualFurnitureCosts | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="parkingCharges">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Parking Charges(Paris)</mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.parkingCharges | currency:'GBP':'symbol':'1.0-2'}}  </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="regularPayrollDeduction">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Regular Payroll Deduction</mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.regularPayrollDeduction | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="utilitiesIncluded">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Utilities Included? </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.utilitiesIncluded}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="furnishedUnFurnished">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Furnished/Unfurnished </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.furnishedUnFurnished}} </mat-cell>
+    </ng-container>
+
+
+
+
+
     <ng-container matColumnDef="housingComments">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Housing Comments </mat-header-cell>
         <mat-cell *matCellDef="let housing"> {{housing.housingComments}} </mat-cell>

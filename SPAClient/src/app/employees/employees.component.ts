@@ -23,7 +23,7 @@ import {
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
-  styleUrls: ['./employees.component.css'],
+  styleUrls: ['./employees.component.scss'],
   encapsulation: ViewEncapsulation.None,
   providers : [EmployeeService,CountryService],
 })

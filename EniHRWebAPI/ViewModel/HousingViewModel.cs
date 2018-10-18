@@ -30,6 +30,15 @@ namespace EniHRWebAPI.ViewModel
             initialRent = housing.InitialHouseContractRent;
             currentRental = housing.CurrentHouseRental;
             unfurnishedAllowanceWeek = housing.EntitledUnFurnishedAllowanceWeek;
+
+            differenceAllowanceMonthlyCostsPaid = housing.DifferenceAllowanceMonthlyCostsPaid;
+            furnitureAllowance = housing.FurnitureAllowance;
+            actualFurnitureCosts = housing.ActualFurnitureCosts;
+            parkingCharges = housing.ParkingCharges;
+            regularPayrollDeduction = housing.RegularPayrollDeduction;
+            utilitiesIncluded = housing.UtilitiesIncluded;
+            furnishedUnFurnished = housing.FurnishedUnFurnished;
+
             housingComments = housing.HousingComments;
         }
 
@@ -57,7 +66,15 @@ namespace EniHRWebAPI.ViewModel
         public decimal? initialRent { get; set; }
         public decimal? currentRental { get; set; }
         public decimal? unfurnishedAllowanceWeek { get; set; }
-        public string housingComments { get; set; }
 
+        public decimal? differenceAllowanceMonthlyCostsPaid { get; set; }
+        public decimal? furnitureAllowance { get; set; }
+        public decimal? actualFurnitureCosts { get; set; }
+        public decimal? parkingCharges { get; set; }
+        public decimal? regularPayrollDeduction { get; set; }
+        public string utilitiesIncluded { get; set; }
+        public string furnishedUnFurnished { get; set; }
+
+        public string housingComments { get; set; }
     }
 }

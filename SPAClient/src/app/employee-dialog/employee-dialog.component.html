@@ -43,7 +43,7 @@
 
                 <div class="col-md-2">
                   <mat-form-field class="example-full-width">
-                        <input type="text"  (dblclick)="setupFilters()" [formControl]="localPlusControl" matInput placeholder="Local Plus" [matAutocomplete]="autoLocalPlus">
+                        <input type="text"  (dblclick)="setupFilters()" [formControl]="localPlusControl" matInput placeholder="Staff Typology" [matAutocomplete]="autoLocalPlus">
                         <mat-autocomplete  #autoLocalPlus="matAutocomplete" >
                                 <mat-option *ngFor="let item of filter_localPlus | async" [value]="item">
                                   {{item}}

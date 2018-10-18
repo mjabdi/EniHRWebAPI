@@ -34,7 +34,7 @@
             </div>
             <div class="col-md-2" style="margin-top: 50px">
                 <mat-form-field class="example-full-width">
-                  <input matInput  autocomplete="off" placeholder="Local Plus" disabled  [value]="housing.localPlus">
+                  <input matInput  autocomplete="off" placeholder="Staff Typology" disabled  [value]="housing.localPlus">
                 </mat-form-field>
             </div>
         </div>
@@ -184,6 +184,53 @@
                 <mat-form-field class="example-full-width">
                     <input matInput autocomplete="off" type="text" disabled placeholder="Furnished Allowance/Month" [value]="unfurnished.value * 4.333 * 1.1 | currency:'GBP':'symbol':'1.0-2'" >
                 </mat-form-field>
+            </div>
+        </div>
+
+
+        <div class="row" style="margin-top: 10px">
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" #unfurnished type="number" [formControl]="this.differenceAllowanceMonthlyCostsPaidControl" placeholder="Diff Allowance & Monthly Costs">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" #unfurnished type="number" [formControl]="this.furnitureAllowanceControl" placeholder="Furniture Allowance (Japon)">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" #unfurnished type="number" [formControl]="this.actualFurnitureCostsControl" placeholder="Actual Furniture Costs (Japon)">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" #unfurnished type="number" [formControl]="this.differenceAllowanceMonthlyCostsPaidControl" placeholder="Parking Charges (Paris)">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px">
+            <div class="col-md-4">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" #unfurnished type="number" [formControl]="this.regularPayrollDeductionControl" placeholder="Regular Payroll Deduction">
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" [formControl]="this.utilitiesIncludedControl" placeholder="Utilities Included?">
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-4">
+                <mat-form-field class="example-full-width">
+                    <mat-select [formControl]="furnishedUnFurnishedControl" placeholder="Furnished/Unfurnished">
+                            <mat-option *ngFor="let item of furnishedList" [value]="item">
+                              {{item}}
+                            </mat-option>
+                    </mat-select>                      
+                  </mat-form-field>
             </div>
         </div>
 

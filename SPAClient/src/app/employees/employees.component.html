@@ -23,25 +23,36 @@
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header card-header-danger">
-                            <mat-icon class="icon-employees" aria-label="Employees table" >people</mat-icon>
-                            <h4 style="display: inline-block;font-weight: bold" class="card-title ">Employees</h4>
-                            <a matTooltip="Refresh Data" (click)="ngOnInit()" >
-                            <mat-icon class="btn-refresh" aria-label="Create new employee" >refresh</mat-icon>
-                            </a>
+                            <div class="row">
+                                    <div class="col-3">
+                                                <mat-icon class="icon-employees" aria-label="Employees table" >people</mat-icon>
+                                                <h4 style="display: inline-block;font-weight: bold" class="card-title ">Employees</h4>
+                                                <a matTooltip="Refresh Data" (click)="ngOnInit()" >
+                                                <mat-icon class="btn-refresh" aria-label="Create new employee" >refresh</mat-icon>
+                                                </a>
+                                    </div>
+                                    <div class="col-6">
+
+                                    </div>
+                                    <div class="col-3" style="text-align: right">
+                                        <span *ngIf="employees" class="text-table-count fadeIn animated">
+                                           {{this.dataSource.filteredData.length}} Rows   
+                                        </span>  
+                                    </div>
+                            </div>    
 
                           </div>
-
                                 <div class="example-loading-shade"
                                      *ngIf="this.isLoading">
                                   <mat-spinner color="warn"></mat-spinner>
-                                 </div>
+                           </div>
 
 
                         <div class="card-body">
                          <div class="table-responsive">
 
 
-          <mat-table [dataSource]="dataSource" matSort>
+          <mat-table class="mat-table-employees" [dataSource]="dataSource" matSort>
 
 
                 <ng-container matColumnDef="ID">
@@ -70,7 +81,7 @@
                     <mat-cell *matCellDef="let employee"> {{employee.technicalID}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="localPlus">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> Local Plus </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Staff Typology </mat-header-cell>
                     <mat-cell *matCellDef="let employee"> {{employee.localPlus}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="workingLocation">

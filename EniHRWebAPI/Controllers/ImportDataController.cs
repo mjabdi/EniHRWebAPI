@@ -199,12 +199,68 @@ namespace EniHRWebAPI.Controllers
                         }
                         catch (Exception) { }
 
+
+
+                        decimal? diffAllowanceMonthlyPaid = null;
+                        try
+                        {
+                            diffAllowanceMonthlyPaid = decimal.Parse(data[i][36].ToString());
+                        }
+                        catch (Exception) { }
+
+                        decimal? furnitureAllowance = null;
+                        try
+                        {
+                            furnitureAllowance = decimal.Parse(data[i][39].ToString());
+                        }
+                        catch (Exception) { }
+
+                        decimal? actualFurnitureCosts = null;
+                        try
+                        {
+                            actualFurnitureCosts = decimal.Parse(data[i][40].ToString());
+                        }
+                        catch (Exception) { }
+
+                        decimal? parkingCharges = null;
+                        try
+                        {
+                            parkingCharges = decimal.Parse(data[i][41].ToString());
+                        }
+                        catch (Exception) { }
+
+                        decimal? regularPayrollDeduction = null;
+                        try
+                        {
+                            regularPayrollDeduction = decimal.Parse(data[i][42].ToString());
+                        }
+                        catch (Exception) { }
+
+                        var utilitiesIncuded = "";
+                        try
+                        {
+                            utilitiesIncuded = data[i][43]?.ToString().ToLower().Trim();
+                        }
+                        catch (Exception) { }
+
+                        var furnishedUnfurnished = "";
+                        try
+                        {
+                            furnishedUnfurnished = data[i][44]?.ToString().ToLower().Trim();
+                        }
+                        catch (Exception) { }
+
+
+
                         var housingComments = "";
                         try
                         {
                             housingComments = data[i][47]?.ToString().ToLower().Trim();
                         }
                         catch (Exception) { }
+
+
+
 
 
 
@@ -308,7 +364,7 @@ namespace EniHRWebAPI.Controllers
                             //}
 
 
-                            if (!string.IsNullOrEmpty(positionDesc) && !string.IsNullOrEmpty(positionCode) && employee.position?.ID.ToLower() != positionCode.ToLower())
+                            if (!string.IsNullOrEmpty(positionDesc) && !string.IsNullOrEmpty(positionCode) && employee.position?.ID.ToLower() != positionCode.ToLower() &&  employee.position?.Description.ToLower() != positionDesc.ToLower())
                             {
                                 ChangeColumn cc = new ChangeColumn();
                                 cc.colIndex = 11;
@@ -430,6 +486,110 @@ namespace EniHRWebAPI.Controllers
                                 cc.newValue = unfurnishedWeek.ToString();
                                 res.changedColumns.Add(cc); 
                             }
+
+                            if (diffAllowanceMonthlyPaid.HasValue && housing.DifferenceAllowanceMonthlyCostsPaid.HasValue && Math.Abs(housing.DifferenceAllowanceMonthlyCostsPaid.Value - diffAllowanceMonthlyPaid.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 36;
+                                cc.currentValue = housing.DifferenceAllowanceMonthlyCostsPaid.ToString();
+                                cc.newValue = diffAllowanceMonthlyPaid.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+                            else if (diffAllowanceMonthlyPaid.HasValue && !housing.DifferenceAllowanceMonthlyCostsPaid.HasValue)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 36;
+                                cc.currentValue = "";
+                                cc.newValue = diffAllowanceMonthlyPaid.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+
+                            if (furnitureAllowance.HasValue && housing.FurnitureAllowance.HasValue && Math.Abs(housing.FurnitureAllowance.Value - furnitureAllowance.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 39;
+                                cc.currentValue = housing.FurnitureAllowance.ToString();
+                                cc.newValue = furnitureAllowance.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+                            else if (furnitureAllowance.HasValue && !housing.FurnitureAllowance.HasValue)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 39;
+                                cc.currentValue = "";
+                                cc.newValue = furnitureAllowance.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+
+                            if (actualFurnitureCosts.HasValue && housing.ActualFurnitureCosts.HasValue && Math.Abs(housing.ActualFurnitureCosts.Value - actualFurnitureCosts.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 40;
+                                cc.currentValue = housing.ActualFurnitureCosts.ToString();
+                                cc.newValue = actualFurnitureCosts.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+                            else if (actualFurnitureCosts.HasValue && !housing.ActualFurnitureCosts.HasValue)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 40;
+                                cc.currentValue = "";
+                                cc.newValue = actualFurnitureCosts.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+
+                            if (parkingCharges.HasValue && housing.ParkingCharges.HasValue && Math.Abs(housing.ParkingCharges.Value - parkingCharges.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 41;
+                                cc.currentValue = housing.ParkingCharges.ToString();
+                                cc.newValue = parkingCharges.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+                            else if (parkingCharges.HasValue && !housing.ParkingCharges.HasValue)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 41;
+                                cc.currentValue = "";
+                                cc.newValue = parkingCharges.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+
+                            if (regularPayrollDeduction.HasValue && housing.RegularPayrollDeduction.HasValue && Math.Abs(housing.RegularPayrollDeduction.Value - regularPayrollDeduction.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 42;
+                                cc.currentValue = housing.RegularPayrollDeduction.ToString();
+                                cc.newValue = regularPayrollDeduction.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+                            else if (regularPayrollDeduction.HasValue && !housing.RegularPayrollDeduction.HasValue)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 42;
+                                cc.currentValue = "";
+                                cc.newValue = regularPayrollDeduction.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+
+                            if (!string.IsNullOrEmpty(utilitiesIncuded) && housing.UtilitiesIncluded?.Trim().ToLower() != utilitiesIncuded.ToLower())
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 43;
+                                cc.currentValue = housing.UtilitiesIncluded;
+                                cc.newValue = utilitiesIncuded;
+                                res.changedColumns.Add(cc);
+                            }
+
+                            if (!string.IsNullOrEmpty(furnishedUnfurnished) && housing.FurnishedUnFurnished?.Trim().ToLower() != furnishedUnfurnished.ToLower())
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 44;
+                                cc.currentValue = housing.FurnishedUnFurnished;
+                                cc.newValue = furnishedUnfurnished;
+                                res.changedColumns.Add(cc);
+                            }
+
 
                             res.isChanged = res.changedColumns.Count > 0;
                             response.Add(res);
@@ -616,6 +776,59 @@ namespace EniHRWebAPI.Controllers
                         }
                         catch (Exception) { }
 
+
+                        decimal? diffAllowanceMonthlyPaid = null;
+                        try
+                        {
+                            diffAllowanceMonthlyPaid = decimal.Parse(data[i][36].ToString());
+                        }
+                        catch (Exception) { }
+
+                        decimal? furnitureAllowance = null;
+                        try
+                        {
+                            furnitureAllowance = decimal.Parse(data[i][39].ToString());
+                        }
+                        catch (Exception) { }
+
+                        decimal? actualFurnitureCosts = null;
+                        try
+                        {
+                            actualFurnitureCosts = decimal.Parse(data[i][40].ToString());
+                        }
+                        catch (Exception) { }
+
+                        decimal? parkingCharges = null;
+                        try
+                        {
+                            parkingCharges = decimal.Parse(data[i][41].ToString());
+                        }
+                        catch (Exception) { }
+
+                        decimal? regularPayrollDeduction = null;
+                        try
+                        {
+                            regularPayrollDeduction = decimal.Parse(data[i][42].ToString());
+                        }
+                        catch (Exception) { }
+
+                        var utilitiesIncuded = "";
+                        try
+                        {
+                            utilitiesIncuded = data[i][43]?.ToString().ToLower().Trim();
+                        }
+                        catch (Exception) { }
+
+                        var furnishedUnfurnished = "";
+                        try
+                        {
+                            furnishedUnfurnished = data[i][44]?.ToString().ToLower().Trim();
+                        }
+                        catch (Exception) { }
+
+
+
+
                         var housingComments = "";
                         try
                         {
@@ -690,6 +903,13 @@ namespace EniHRWebAPI.Controllers
                             housing.employee = newEmployee;
                             housing.HomeAddressUK = homeAddress;
                             housing.EntitledUnFurnishedAllowanceWeek = unfurnishedWeek;
+                            housing.DifferenceAllowanceMonthlyCostsPaid = diffAllowanceMonthlyPaid;
+                            housing.FurnitureAllowance = furnitureAllowance;
+                            housing.ActualFurnitureCosts = actualFurnitureCosts;
+                            housing.ParkingCharges = parkingCharges;
+                            housing.RegularPayrollDeduction = regularPayrollDeduction;
+                            housing.UtilitiesIncluded = utilitiesIncuded;
+                            housing.FurnishedUnFurnished = furnishedUnfurnished;
                             housing.HousingComments = housingComments;
                             context.Housing.Add(housing);
                         }
@@ -732,7 +952,7 @@ namespace EniHRWebAPI.Controllers
                                 employeeVM.costCentre = costCenterCode + "|" + costCenterDesc;
                             }
 
-                            if (!string.IsNullOrEmpty(positionDesc) && !string.IsNullOrEmpty(positionCode) && employee.position?.ID.ToLower() != positionCode.ToLower())
+                            if (!string.IsNullOrEmpty(positionDesc) && !string.IsNullOrEmpty(positionCode) && employee.position?.ID.ToLower() != positionCode.ToLower() && employee.position?.Description.ToLower() != positionDesc.ToLower())
                             {
                                 employeeVM.position = positionCode + "|" + positionDesc;
                             }
@@ -795,6 +1015,62 @@ namespace EniHRWebAPI.Controllers
                             else if (unfurnishedWeek.HasValue && !housing.EntitledUnFurnishedAllowanceWeek.HasValue)
                             {
                                 housing.EntitledUnFurnishedAllowanceWeek = unfurnishedWeek;
+                            }
+
+
+                            if (diffAllowanceMonthlyPaid.HasValue && housing.DifferenceAllowanceMonthlyCostsPaid.HasValue && Math.Abs(housing.DifferenceAllowanceMonthlyCostsPaid.Value - diffAllowanceMonthlyPaid.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
+                            {
+                                housing.DifferenceAllowanceMonthlyCostsPaid = diffAllowanceMonthlyPaid;
+                            }
+                            else if (diffAllowanceMonthlyPaid.HasValue && !housing.DifferenceAllowanceMonthlyCostsPaid.HasValue)
+                            {
+                                housing.DifferenceAllowanceMonthlyCostsPaid = diffAllowanceMonthlyPaid;
+                            }
+
+                            if (furnitureAllowance.HasValue && housing.FurnitureAllowance.HasValue && Math.Abs(housing.FurnitureAllowance.Value - furnitureAllowance.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
+                            {
+                                housing.FurnitureAllowance = furnitureAllowance;
+                            }
+                            else if (furnitureAllowance.HasValue && !housing.FurnitureAllowance.HasValue)
+                            {
+                                housing.FurnitureAllowance = furnitureAllowance;
+                            }
+
+                            if (actualFurnitureCosts.HasValue && housing.ActualFurnitureCosts.HasValue && Math.Abs(housing.ActualFurnitureCosts.Value - actualFurnitureCosts.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
+                            {
+                                housing.ActualFurnitureCosts = actualFurnitureCosts;
+                            }
+                            else if (actualFurnitureCosts.HasValue && !housing.ActualFurnitureCosts.HasValue)
+                            {
+                                housing.ActualFurnitureCosts = actualFurnitureCosts;
+                            }
+
+                            if (parkingCharges.HasValue && housing.ParkingCharges.HasValue && Math.Abs(housing.ParkingCharges.Value - parkingCharges.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
+                            {
+                                housing.ParkingCharges = parkingCharges;
+                            }
+                            else if (parkingCharges.HasValue && !housing.ParkingCharges.HasValue)
+                            {
+                                housing.ParkingCharges = parkingCharges;
+                            }
+
+                            if (regularPayrollDeduction.HasValue && housing.RegularPayrollDeduction.HasValue && Math.Abs(housing.RegularPayrollDeduction.Value - regularPayrollDeduction.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
+                            {
+                                housing.RegularPayrollDeduction = regularPayrollDeduction;
+                            }
+                            else if (regularPayrollDeduction.HasValue && !housing.RegularPayrollDeduction.HasValue)
+                            {
+                                housing.RegularPayrollDeduction = regularPayrollDeduction;
+                            }
+
+                            if (!string.IsNullOrEmpty(utilitiesIncuded) && housing.UtilitiesIncluded?.Trim().ToLower() != utilitiesIncuded.ToLower())
+                            {
+                                housing.UtilitiesIncluded = utilitiesIncuded;
+                            }
+
+                            if (!string.IsNullOrEmpty(furnishedUnfurnished) && housing.FurnishedUnFurnished?.Trim().ToLower() != furnishedUnfurnished.ToLower())
+                            {
+                                housing.FurnishedUnFurnished = furnishedUnfurnished;
                             }
 
                             employee.UpdateFromEmployeeViewModel(this.context,employeeVM);

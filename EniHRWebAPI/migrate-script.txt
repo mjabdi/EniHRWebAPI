@@ -1,4 +1,289 @@
-﻿CREATE TABLE `Leaves` (
+﻿CREATE TABLE `__EFMigrationsHistory` (
+    `MigrationId` varchar(95) NOT NULL,
+    `ProductVersion` varchar(32) NOT NULL,
+    CONSTRAINT `PK___EFMigrationsHistory` PRIMARY KEY (`MigrationId`)
+);
+
+CREATE TABLE `ActivityStatus` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_ActivityStatus` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `AssignmentStatus` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_AssignmentStatus` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `BusinessUnit` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_BusinessUnit` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `COS` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_COS` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `Country` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `CountryName` longtext NULL,
+    CONSTRAINT `PK_Country` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `FamilyStatus` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_FamilyStatus` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `HomeCompany` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_HomeCompany` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `LocalPlus` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_LocalPlus` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `Location` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_Location` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `OrganisationUnit` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_OrganisationUnit` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `ParentPosition` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_ParentPosition` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `Position` (
+    `ID` varchar(255) NOT NULL,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_Position` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `ProfessionalArea` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_ProfessionalArea` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `Project` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_Project` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `ReportsTo` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_ReportsTo` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `StaffTypology` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_StaffTypology` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `StandardEmployeeCategory` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_StandardEmployeeCategory` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `TypeOfVISA` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_TypeOfVISA` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `WorkingCostCentre` (
+    `ID` varchar(255) NOT NULL,
+    `Description` longtext NULL,
+    CONSTRAINT `PK_WorkingCostCentre` PRIMARY KEY (`ID`)
+);
+
+CREATE TABLE `City` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `CityName` longtext NULL,
+    `CityCountryID` int NULL,
+    CONSTRAINT `PK_City` PRIMARY KEY (`ID`),
+    CONSTRAINT `FK_City_Country_CityCountryID` FOREIGN KEY (`CityCountryID`) REFERENCES `Country` (`ID`) ON DELETE NO ACTION
+);
+
+CREATE TABLE `Employees` (
+    `EmployeeID` bigint NOT NULL AUTO_INCREMENT,
+    `Name` longtext NULL,
+    `Surname` longtext NULL,
+    `LocalPlusID` int NULL,
+    `staffTypologyID` int NULL,
+    `standardEmployeeCategoryID` int NULL,
+    `locationID` int NULL,
+    `HRECode` bigint NULL,
+    `Secretary` longtext NULL,
+    `businessUnitID` int NULL,
+    `WorkingComapny` longtext NULL,
+    `organisationUnitID` int NULL,
+    `workingCostCentreID` varchar(255) NULL,
+    `positionID` varchar(255) NULL,
+    `parentPositionID` int NULL,
+    `cosID` int NULL,
+    `projectID` int NULL,
+    `familyStatusID` int NULL,
+    `activityStatusID` int NULL,
+    `professionalAreaID` int NULL,
+    `SuperVisor` longtext NULL,
+    `ReportsToID` int NULL,
+    `CompanyHiringDate` datetime(6) NULL,
+    `homeCompanyID` int NULL,
+    `GenderString` longtext NULL,
+    `BirthDate` datetime(6) NULL,
+    `CountryofBirthID` int NULL,
+    `NationalityID` int NULL,
+    `cityID` int NULL,
+    `assignmentStatusID` int NULL,
+    `FollowingPartner` bit NULL,
+    `FollowingChildren` int NOT NULL,
+    `SpouseNationalityID` int NULL,
+    `SpouseName` longtext NULL,
+    `SpouseDateofBirth` datetime(6) NULL,
+    `typeOfVISAID` int NULL,
+    `VISAExpirayDate` datetime(6) NULL,
+    `EmailAddress` longtext NULL,
+    `UserId` longtext NULL,
+    CONSTRAINT `PK_Employees` PRIMARY KEY (`EmployeeID`),
+    CONSTRAINT `FK_Employees_Country_CountryofBirthID` FOREIGN KEY (`CountryofBirthID`) REFERENCES `Country` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_LocalPlus_LocalPlusID` FOREIGN KEY (`LocalPlusID`) REFERENCES `LocalPlus` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_Country_NationalityID` FOREIGN KEY (`NationalityID`) REFERENCES `Country` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_ReportsTo_ReportsToID` FOREIGN KEY (`ReportsToID`) REFERENCES `ReportsTo` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_Country_SpouseNationalityID` FOREIGN KEY (`SpouseNationalityID`) REFERENCES `Country` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_ActivityStatus_activityStatusID` FOREIGN KEY (`activityStatusID`) REFERENCES `ActivityStatus` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_AssignmentStatus_assignmentStatusID` FOREIGN KEY (`assignmentStatusID`) REFERENCES `AssignmentStatus` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_BusinessUnit_businessUnitID` FOREIGN KEY (`businessUnitID`) REFERENCES `BusinessUnit` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_City_cityID` FOREIGN KEY (`cityID`) REFERENCES `City` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_COS_cosID` FOREIGN KEY (`cosID`) REFERENCES `COS` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_FamilyStatus_familyStatusID` FOREIGN KEY (`familyStatusID`) REFERENCES `FamilyStatus` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_HomeCompany_homeCompanyID` FOREIGN KEY (`homeCompanyID`) REFERENCES `HomeCompany` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_Location_locationID` FOREIGN KEY (`locationID`) REFERENCES `Location` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_OrganisationUnit_organisationUnitID` FOREIGN KEY (`organisationUnitID`) REFERENCES `OrganisationUnit` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_ParentPosition_parentPositionID` FOREIGN KEY (`parentPositionID`) REFERENCES `ParentPosition` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_Position_positionID` FOREIGN KEY (`positionID`) REFERENCES `Position` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_ProfessionalArea_professionalAreaID` FOREIGN KEY (`professionalAreaID`) REFERENCES `ProfessionalArea` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_Project_projectID` FOREIGN KEY (`projectID`) REFERENCES `Project` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_StaffTypology_staffTypologyID` FOREIGN KEY (`staffTypologyID`) REFERENCES `StaffTypology` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_StandardEmployeeCategory_standardEmployeeCategoryID` FOREIGN KEY (`standardEmployeeCategoryID`) REFERENCES `StandardEmployeeCategory` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_TypeOfVISA_typeOfVISAID` FOREIGN KEY (`typeOfVISAID`) REFERENCES `TypeOfVISA` (`ID`) ON DELETE NO ACTION,
+    CONSTRAINT `FK_Employees_WorkingCostCentre_workingCostCentreID` FOREIGN KEY (`workingCostCentreID`) REFERENCES `WorkingCostCentre` (`ID`) ON DELETE NO ACTION
+);
+
+CREATE TABLE `Assignments` (
+    `EmployeeID` bigint NOT NULL,
+    `StartDate` datetime(6) NULL,
+    `EndDate` datetime(6) NULL,
+    CONSTRAINT `PK_Assignments` PRIMARY KEY (`EmployeeID`),
+    CONSTRAINT `FK_Assignments_Employees_EmployeeID` FOREIGN KEY (`EmployeeID`) REFERENCES `Employees` (`EmployeeID`) ON DELETE CASCADE
+);
+
+CREATE TABLE `Child` (
+    `ID` int NOT NULL AUTO_INCREMENT,
+    `ChildName` longtext NULL,
+    `DateofBirth` datetime(6) NULL,
+    `EmployeeID` bigint NULL,
+    CONSTRAINT `PK_Child` PRIMARY KEY (`ID`),
+    CONSTRAINT `FK_Child_Employees_EmployeeID` FOREIGN KEY (`EmployeeID`) REFERENCES `Employees` (`EmployeeID`) ON DELETE NO ACTION
+);
+
+CREATE TABLE `Housing` (
+    `HousingID` bigint NOT NULL AUTO_INCREMENT,
+    `EmployeeID` bigint NULL,
+    `HomeAddressUK` longtext NULL,
+    `EntitledNumberofBedrooms` int NULL,
+    `ActualNumberofBedrooms` int NULL,
+    `TypeOfProperty` longtext NULL,
+    `RentDueDate` int NULL,
+    `TenancyAgreementStartDate` datetime(6) NULL,
+    `TenancyAgreementEndDate` datetime(6) NULL,
+    `MonthNoticePeriod` longtext NULL,
+    `InitialHouseContractRent` decimal(65, 30) NULL,
+    `CurrentHouseRental` decimal(65, 30) NULL,
+    `EntitledUnFurnishedAllowanceWeek` decimal(65, 30) NULL,
+    `TotalAllowance` decimal(65, 30) NULL,
+    `Furniture` decimal(65, 30) NULL,
+    `ActualHousingCosts` decimal(65, 30) NULL,
+    `HousingComments` longtext NULL,
+    CONSTRAINT `PK_Housing` PRIMARY KEY (`HousingID`),
+    CONSTRAINT `FK_Housing_Employees_EmployeeID` FOREIGN KEY (`EmployeeID`) REFERENCES `Employees` (`EmployeeID`) ON DELETE NO ACTION
+);
+
+CREATE INDEX `IX_Child_EmployeeID` ON `Child` (`EmployeeID`);
+
+CREATE INDEX `IX_City_CityCountryID` ON `City` (`CityCountryID`);
+
+CREATE INDEX `IX_Employees_CountryofBirthID` ON `Employees` (`CountryofBirthID`);
+
+CREATE INDEX `IX_Employees_LocalPlusID` ON `Employees` (`LocalPlusID`);
+
+CREATE INDEX `IX_Employees_NationalityID` ON `Employees` (`NationalityID`);
+
+CREATE INDEX `IX_Employees_ReportsToID` ON `Employees` (`ReportsToID`);
+
+CREATE INDEX `IX_Employees_SpouseNationalityID` ON `Employees` (`SpouseNationalityID`);
+
+CREATE INDEX `IX_Employees_activityStatusID` ON `Employees` (`activityStatusID`);
+
+CREATE INDEX `IX_Employees_assignmentStatusID` ON `Employees` (`assignmentStatusID`);
+
+CREATE INDEX `IX_Employees_businessUnitID` ON `Employees` (`businessUnitID`);
+
+CREATE INDEX `IX_Employees_cityID` ON `Employees` (`cityID`);
+
+CREATE INDEX `IX_Employees_cosID` ON `Employees` (`cosID`);
+
+CREATE INDEX `IX_Employees_familyStatusID` ON `Employees` (`familyStatusID`);
+
+CREATE INDEX `IX_Employees_homeCompanyID` ON `Employees` (`homeCompanyID`);
+
+CREATE INDEX `IX_Employees_locationID` ON `Employees` (`locationID`);
+
+CREATE INDEX `IX_Employees_organisationUnitID` ON `Employees` (`organisationUnitID`);
+
+CREATE INDEX `IX_Employees_parentPositionID` ON `Employees` (`parentPositionID`);
+
+CREATE INDEX `IX_Employees_positionID` ON `Employees` (`positionID`);
+
+CREATE INDEX `IX_Employees_professionalAreaID` ON `Employees` (`professionalAreaID`);
+
+CREATE INDEX `IX_Employees_projectID` ON `Employees` (`projectID`);
+
+CREATE INDEX `IX_Employees_staffTypologyID` ON `Employees` (`staffTypologyID`);
+
+CREATE INDEX `IX_Employees_standardEmployeeCategoryID` ON `Employees` (`standardEmployeeCategoryID`);
+
+CREATE INDEX `IX_Employees_typeOfVISAID` ON `Employees` (`typeOfVISAID`);
+
+CREATE INDEX `IX_Employees_workingCostCentreID` ON `Employees` (`workingCostCentreID`);
+
+CREATE INDEX `IX_Housing_EmployeeID` ON `Housing` (`EmployeeID`);
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20180920175454_MyDBContext-initial', '2.1.2-rtm-30932');
+
+CREATE TABLE `Leaves` (
     `LeaveID` bigint NOT NULL AUTO_INCREMENT,
     `EmployeeID` bigint NOT NULL,
     `FromDate` datetime(6) NOT NULL,
@@ -20,4 +305,26 @@ ALTER TABLE `Leaves` ADD `RegisteredDataTime` datetime(6) NOT NULL DEFAULT '0001
 
 INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
 VALUES ('20180921113144_MyDBContext-leave-2', '2.1.2-rtm-30932');
+
+ALTER TABLE `Housing` ADD `ActualFurnitureCosts` decimal(65, 30) NULL;
+
+ALTER TABLE `Housing` ADD `DifferenceAllowanceMonthlyCostsPaid` decimal(65, 30) NULL;
+
+ALTER TABLE `Housing` ADD `FurnishedUnFurnished` longtext NULL;
+
+ALTER TABLE `Housing` ADD `FurnitureAllowance` decimal(65, 30) NULL;
+
+ALTER TABLE `Housing` ADD `ParkingCharges` decimal(65, 30) NULL;
+
+ALTER TABLE `Housing` ADD `RegularPayrollDeduction` decimal(65, 30) NULL;
+
+ALTER TABLE `Housing` ADD `UtilitiesIncluded` bit NULL;
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20181018101704_MyDBContext-housingchanges', '2.1.2-rtm-30932');
+
+ALTER TABLE `Housing` MODIFY COLUMN `UtilitiesIncluded` longtext NULL;
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20181018123454_MyDBContext-housingchanges2', '2.1.2-rtm-30932');
 

@@ -23,6 +23,17 @@ export class Housing {
     initialRent : number;
     currentRental : number;
     unfurnishedAllowanceWeek : number;
+
+
+    differenceAllowanceMonthlyCostsPaid  : number;
+    furnitureAllowance : number;
+    actualFurnitureCosts : number;
+    parkingCharges : number;
+    regularPayrollDeduction : number;
+    utilitiesIncluded : string;
+    furnishedUnFurnished : string;
+
+
     housingComments : string;
     }
     

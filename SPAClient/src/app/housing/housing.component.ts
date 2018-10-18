@@ -47,7 +47,10 @@ export class HousingComponent implements OnInit {
                                 ,'activityStatus','homeAddress','entitledBedrooms','actualBedrooms','typeofProperty'
                                 ,'rentDueDate','tenancyStartDate','tenancyEndDate','monthRemaining','monthNoticePeriod'
                                 ,'initialRent','currentRental','unfurnishedAllowanceWeek','unfurnishedAllowanceMonth'
-                                ,'furnishedAllowanceWeek','furnishedAllowanceMonth','housingComments'
+                                ,'furnishedAllowanceWeek','furnishedAllowanceMonth',
+                                'differenceAllowanceMonthlyCostsPaid','furnitureAllowance','actualFurnitureCosts',
+                                'parkingCharges','regularPayrollDeduction','utilitiesIncluded','furnishedUnFurnished',
+                                'housingComments'
                                 ];
 
 

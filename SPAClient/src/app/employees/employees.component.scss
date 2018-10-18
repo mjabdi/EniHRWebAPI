@@ -1,12 +1,17 @@
 table {
     width: 100%;
+  
   }
 
-  mat-table {
+  .mat-table-employees {
     height: calc(100vh - 330px);
-    min-width: calc((27 * 160px) + 160px);
-    /* overflow: scroll; */
-    
+    min-width: calc((30 * 160px) + 160px);
+    overflow: scroll;   
+}
+
+
+.text-table-count{
+  font-weight: bold !important;
 }
 
 
@@ -66,14 +71,14 @@ table {
 
 
 mat-header-row {
-    position: sticky;
-    position: -webkit-sticky;
-    top: -.5px;
-    z-index: 100;
-    background-color: inherit;
-    white-space: nowrap;
-    text-align: center;
-    align-items: center;
+    position: sticky !important;
+    position: -webkit-sticky !important;
+    top: -.5px !important;
+    z-index: 100 !important;
+    background-color: inherit !important;
+    white-space: nowrap !important;
+    text-align: center !important;
+    align-items: center !important;
 }
 
 

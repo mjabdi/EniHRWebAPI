@@ -51,8 +51,6 @@ namespace EniHRWebAPI.Models
             }
         }
 
-
-
         public string MonthNoticePeriod { get; set; }
 
         [DataType(DataType.Currency)]
@@ -81,7 +79,6 @@ namespace EniHRWebAPI.Models
         }
 
 
-
         [DataType(DataType.Currency)]
         [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         public decimal? EntitledFurnishedAllowanceWeek {
@@ -92,49 +89,6 @@ namespace EniHRWebAPI.Models
                 else
                     return (EntitledUnFurnishedAllowanceWeek * new decimal(1.1));
             }
-        }
-
-        public void UpdateFromHousingViewModel(MyDBContext context, HousingViewModel housing)
-        {
-            this.HomeAddressUK = housing.homeAddress;
-            this.EntitledNumberofBedrooms = housing.entitledBedrooms;
-            this.ActualNumberofBedrooms = housing.actualBedrooms;
-            this.TypeOfProperty = housing.typeofProperty;
-            this.RentDueDate = housing.rentDueDate;
-            this.TenancyAgreementStartDate = housing.tenancyStartDate;
-            this.TenancyAgreementEndDate = housing.tenancyEndDate;
-            this.MonthNoticePeriod = housing.monthNoticePeriod;
-            this.InitialHouseContractRent = housing.initialRent;
-            this.CurrentHouseRental = housing.currentRental;
-            this.EntitledUnFurnishedAllowanceWeek = housing.unfurnishedAllowanceWeek;
-            this.HousingComments = housing.housingComments;
-        }
-
-        public void UpdateFromHousingViewModel(MyDBContext context, JToken housing)
-        {
-            this.HomeAddressUK = (string)housing["homeAddress"];
-
-            this.EntitledNumberofBedrooms = (int?)housing["entitledBedrooms"];
-
-            this.ActualNumberofBedrooms = (int?)housing["actualBedrooms"];
-
-            this.TypeOfProperty = (string)housing["typeofProperty"];
-
-            this.RentDueDate = (int?)housing["rentDueDate"];
-
-            this.TenancyAgreementStartDate = (DateTime?)housing["tenancyStartDate"];
-
-            this.TenancyAgreementEndDate = (DateTime?)housing["tenancyEndDate"];
-
-            this.MonthNoticePeriod = (string)housing["monthNoticePeriod"];
-
-            this.InitialHouseContractRent = (decimal?)housing["initialRent"];
-
-            this.CurrentHouseRental = (decimal?)housing["currentRental"];
-
-            this.EntitledUnFurnishedAllowanceWeek = (decimal?)housing["unfurnishedAllowanceWeek"];
-
-            this.HousingComments = (string)housing["housingComments"];
         }
 
 
@@ -167,11 +121,102 @@ namespace EniHRWebAPI.Models
         [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         public decimal? Furniture { get; set; }
 
+
+
         [DataType(DataType.Currency)]
         [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         public decimal? ActualHousingCosts { get; set; }
 
+        // new changes *************************
+
+        [DataType(DataType.Currency)]
+        [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
+        public decimal? DifferenceAllowanceMonthlyCostsPaid { get; set; }
+
+
+        [DataType(DataType.Currency)]
+        [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
+        public decimal? FurnitureAllowance { get; set; }
+
+        [DataType(DataType.Currency)]
+        [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
+        public decimal? ActualFurnitureCosts { get; set; }
+
+        [DataType(DataType.Currency)]
+        [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
+        public decimal? ParkingCharges { get; set; }
+
+        [DataType(DataType.Currency)]
+        [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
+        public decimal? RegularPayrollDeduction { get; set; }
+
+        public string UtilitiesIncluded { get; set; }
+
+        public string FurnishedUnFurnished { get; set; }
+
+        // end of new changed *********************************
+
         public string HousingComments { get; set; }
+
+
+        public void UpdateFromHousingViewModel(MyDBContext context, JToken housing)
+        {
+            this.HomeAddressUK = (string)housing["homeAddress"];
+
+            this.EntitledNumberofBedrooms = (int?)housing["entitledBedrooms"];
+
+            this.ActualNumberofBedrooms = (int?)housing["actualBedrooms"];
+
+            this.TypeOfProperty = (string)housing["typeofProperty"];
+
+            this.RentDueDate = (int?)housing["rentDueDate"];
+
+            this.TenancyAgreementStartDate = (DateTime?)housing["tenancyStartDate"];
+
+            this.TenancyAgreementEndDate = (DateTime?)housing["tenancyEndDate"];
+
+            this.MonthNoticePeriod = (string)housing["monthNoticePeriod"];
+
+            this.InitialHouseContractRent = (decimal?)housing["initialRent"];
+
+            this.CurrentHouseRental = (decimal?)housing["currentRental"];
+
+            this.EntitledUnFurnishedAllowanceWeek = (decimal?)housing["unfurnishedAllowanceWeek"];
+
+            this.DifferenceAllowanceMonthlyCostsPaid = (decimal?)housing["differenceAllowanceMonthlyCostsPaid"];
+
+            this.FurnitureAllowance = (decimal?)housing["furnitureAllowance"];
+
+            this.ActualFurnitureCosts = (decimal?)housing["actualFurnitureCosts"];
+
+            this.ParkingCharges = (decimal?)housing["parkingCharges"];
+
+            this.RegularPayrollDeduction = (decimal?)housing["regularPayrollDeduction"];
+
+            this.UtilitiesIncluded = (string)housing["utilitiesIncluded"];
+
+            this.FurnishedUnFurnished = (string)housing["furnishedUnFurnished"];
+
+            this.HousingComments = (string)housing["housingComments"];
+        }
+
+        //public void UpdateFromHousingViewModel(MyDBContext context, HousingViewModel housing)
+        //{
+        //    this.HomeAddressUK = housing.homeAddress;
+        //    this.EntitledNumberofBedrooms = housing.entitledBedrooms;
+        //    this.ActualNumberofBedrooms = housing.actualBedrooms;
+        //    this.TypeOfProperty = housing.typeofProperty;
+        //    this.RentDueDate = housing.rentDueDate;
+        //    this.TenancyAgreementStartDate = housing.tenancyStartDate;
+        //    this.TenancyAgreementEndDate = housing.tenancyEndDate;
+        //    this.MonthNoticePeriod = housing.monthNoticePeriod;
+        //    this.InitialHouseContractRent = housing.initialRent;
+        //    this.CurrentHouseRental = housing.currentRental;
+        //    this.EntitledUnFurnishedAllowanceWeek = housing.unfurnishedAllowanceWeek;
+        //    this.HousingComments = housing.housingComments;
+        //}
+
+
 
 
     }

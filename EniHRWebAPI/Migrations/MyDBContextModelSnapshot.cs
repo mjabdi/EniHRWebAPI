@@ -283,11 +283,15 @@ namespace EniHRWebAPI.Migrations
                     b.Property<long>("HousingID")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<decimal?>("ActualFurnitureCosts");
+
                     b.Property<decimal?>("ActualHousingCosts");
 
                     b.Property<int?>("ActualNumberofBedrooms");
 
                     b.Property<decimal?>("CurrentHouseRental");
+
+                    b.Property<decimal?>("DifferenceAllowanceMonthlyCostsPaid");
 
                     b.Property<long?>("EmployeeID");
 
@@ -295,7 +299,11 @@ namespace EniHRWebAPI.Migrations
 
                     b.Property<decimal?>("EntitledUnFurnishedAllowanceWeek");
 
+                    b.Property<string>("FurnishedUnFurnished");
+
                     b.Property<decimal?>("Furniture");
+
+                    b.Property<decimal?>("FurnitureAllowance");
 
                     b.Property<string>("HomeAddressUK");
 
@@ -304,6 +312,10 @@ namespace EniHRWebAPI.Migrations
                     b.Property<decimal?>("InitialHouseContractRent");
 
                     b.Property<string>("MonthNoticePeriod");
+
+                    b.Property<decimal?>("ParkingCharges");
+
+                    b.Property<decimal?>("RegularPayrollDeduction");
 
                     b.Property<int?>("RentDueDate");
 
@@ -314,6 +326,8 @@ namespace EniHRWebAPI.Migrations
                     b.Property<decimal?>("TotalAllowance");
 
                     b.Property<string>("TypeOfProperty");
+
+                    b.Property<string>("UtilitiesIncluded");
 
                     b.HasKey("HousingID");
 

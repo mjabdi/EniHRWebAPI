@@ -35,6 +35,8 @@ export class HousingDialogComponent implements OnInit {
 
     housing : Housing;
 
+    furnishedList : string[];
+
     
     imageUrl;
 
@@ -49,6 +51,15 @@ export class HousingDialogComponent implements OnInit {
     initialRentControl = new FormControl();
     currentRentalControl = new FormControl();
     unfurnishedAllowanceWeekControl = new FormControl();
+
+    differenceAllowanceMonthlyCostsPaidControl = new FormControl();
+    furnitureAllowanceControl = new FormControl();
+    actualFurnitureCostsControl = new FormControl();
+    parkingChargesControl = new FormControl();
+    regularPayrollDeductionControl = new FormControl();
+    utilitiesIncludedControl = new FormControl();
+    furnishedUnFurnishedControl = new FormControl();
+
     housingCommentsControl = new FormControl();
 
     constructor(
@@ -79,10 +90,12 @@ export class HousingDialogComponent implements OnInit {
          this.setupFilters();
          this.LoadFormValues();
          this.isLoaded = true;
+
     }
 
     setupFilters()
     {
+        this.furnishedList = ['Furnished' , 'Unfurnished' , 'N/A'];
     }
 
     LoadFormValues()
@@ -99,6 +112,15 @@ export class HousingDialogComponent implements OnInit {
         this.currentRentalControl.setValue(this.housing.currentRental);
         this.unfurnishedAllowanceWeekControl.setValue(this.housing.unfurnishedAllowanceWeek);
         this.housingCommentsControl.setValue(this.housing.housingComments);
+
+        this.differenceAllowanceMonthlyCostsPaidControl.setValue(this.housing.differenceAllowanceMonthlyCostsPaid);
+        this.furnitureAllowanceControl.setValue(this.housing.furnitureAllowance);
+        this.actualFurnitureCostsControl.setValue(this.housing.actualFurnitureCosts);
+        this.parkingChargesControl.setValue(this.housing.parkingCharges);
+        this.regularPayrollDeductionControl.setValue(this.housing.regularPayrollDeduction);
+        this.utilitiesIncludedControl.setValue(this.housing.utilitiesIncluded);
+        this.furnishedUnFurnishedControl.setValue(this.housing.furnishedUnFurnished);
+
     }
 
 
@@ -140,6 +162,15 @@ export class HousingDialogComponent implements OnInit {
         ho1.currentRental = ho2.currentRental;
         ho1.unfurnishedAllowanceWeek = ho2.unfurnishedAllowanceWeek;
         ho1.housingComments = ho2.housingComments;
+
+        ho1.differenceAllowanceMonthlyCostsPaid = ho2.differenceAllowanceMonthlyCostsPaid;
+        ho1.furnitureAllowance = ho2.furnitureAllowance;
+        ho1.actualFurnitureCosts = ho2.actualFurnitureCosts;
+        ho1.parkingCharges = ho2.parkingCharges;
+        ho1.regularPayrollDeduction = ho2.regularPayrollDeduction;
+        ho1.utilitiesIncluded = ho2.utilitiesIncluded;
+        ho1.furnishedUnFurnished = ho2.furnishedUnFurnished;
+
     }
 
      buildHousingfromForm() : Housing
@@ -170,7 +201,16 @@ export class HousingDialogComponent implements OnInit {
         newHousing.initialRent = this.initialRentControl.value;
         newHousing.currentRental = this.currentRentalControl.value;
         newHousing.unfurnishedAllowanceWeek = this.unfurnishedAllowanceWeekControl.value;
-        newHousing.housingComments = this.housingCommentsControl.value;       
+        newHousing.housingComments = this.housingCommentsControl.value;      
+        
+        newHousing.differenceAllowanceMonthlyCostsPaid = this.differenceAllowanceMonthlyCostsPaidControl.value;      
+        newHousing.furnitureAllowance = this.furnitureAllowanceControl.value;      
+        newHousing.actualFurnitureCosts = this.actualFurnitureCostsControl.value;      
+        newHousing.parkingCharges = this.parkingChargesControl.value;      
+        newHousing.regularPayrollDeduction = this.regularPayrollDeductionControl.value;      
+        newHousing.utilitiesIncluded = this.utilitiesIncludedControl.value;      
+        newHousing.furnishedUnFurnished = this.furnishedUnFurnishedControl.value;      
+
         return newHousing;        
     }
 

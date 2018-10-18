@@ -2,13 +2,22 @@ table {
     width: 100%;
   }
 
-  mat-table {
-    height: calc(100vh - 330px);
-    min-width: calc((30 * 160px) + 160px);
-    // overflow: scroll;
+  .mat-table-housing {
+    height: calc(100vh - 330px) !important;
+    min-width: calc((45 * 160px) + 160px) !important;
+    overflow: scroll !important;
     
 }
 
+div.mat-sort-header-container
+{
+  font-weight: bold !important;
+  font-size: 14px;
+}
+
+.text-table-count{
+  font-weight: bold !important;
+}
 
 
 .mat-cell
@@ -82,7 +91,9 @@ mat-header-cell {
 
 mat-cell,
 mat-header-cell {
-  // min-width: 160px;
+  // min-width: 300px;
+  margin-left : 5px;
+  margin-right : 5px;
   text-align: left;
   align-items: center;
   align-content: center;
