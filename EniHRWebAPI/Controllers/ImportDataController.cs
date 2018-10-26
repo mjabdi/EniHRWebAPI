@@ -31,7 +31,7 @@ namespace EniHRWebAPI.Controllers
             try
             {
 
-                if (data[0].Length != 66)
+                if (data[0].Length != 71)
                 {
                     throw new Exception("Wrong Columns!");
                 }
@@ -45,10 +45,49 @@ namespace EniHRWebAPI.Controllers
                 if (data[0][2].ToString().ToLower() != "name")
                     throw new Exception("Wrong Columns!");
 
-                if (data[0][65].ToString().ToLower() != "child 4 age")
+                if (data[0][70].ToString().ToLower() != "current  rent")
                     throw new Exception("Wrong Columns!");
 
                 List<ValidationResponse> response = new List<ValidationResponse>();
+
+                List<Employee> employeeList = await context.Employees
+                    .Include(e => e.LocalPlus)
+                    .Include(e => e.standardEmployeeCategory)
+                    .Include(e => e.location)
+                    .Include(e => e.businessUnit)
+                    .Include(e => e.organisationUnit)
+                    .Include(e => e.workingCostCentre)
+                    .Include(e => e.position)
+                    .Include(e => e.professionalArea)
+                    .Include(e => e.homeCompany)
+                    .Include(e => e.CountryofBirth)
+                    .Include(e => e.Nationality)
+                    .Include(e => e.SpouseNationality)
+                    .Include(e => e.city)
+                    .Include(e => e.typeOfVISA)
+                    .Include(e => e.assignmentStatus)
+                    .Include(e => e.Children)
+                    .Include(e => e.familyStatus)
+                    .Include(e => e.activityStatus)
+                    //.Where(e => e.activityStatus.Description.ToLower().Trim() != "leaver")
+                                                           .ToListAsync();
+
+                Dictionary<long, Employee> employeeDic = new Dictionary<long, Employee>();
+                foreach (Employee emp in employeeList)
+                {
+                    employeeDic.Add(emp.EmployeeID, emp);
+                }
+
+
+                List<Housing> housingList = await context.Housing.ToListAsync();
+                Dictionary<long, Housing> housingDic = new Dictionary<long, Housing>();
+                foreach(Housing house in housingList)
+                {
+                    housingDic.Add(house.HousingID, house);
+                }
+
+
+
 
                 for (int i = 1; i < data.Length; i++)
                 {
@@ -204,49 +243,49 @@ namespace EniHRWebAPI.Controllers
                         decimal? diffAllowanceMonthlyPaid = null;
                         try
                         {
-                            diffAllowanceMonthlyPaid = decimal.Parse(data[i][36].ToString());
+                            diffAllowanceMonthlyPaid = decimal.Parse(data[i][35].ToString());
                         }
                         catch (Exception) { }
 
                         decimal? furnitureAllowance = null;
                         try
                         {
-                            furnitureAllowance = decimal.Parse(data[i][39].ToString());
+                            furnitureAllowance = decimal.Parse(data[i][36].ToString());
                         }
                         catch (Exception) { }
 
                         decimal? actualFurnitureCosts = null;
                         try
                         {
-                            actualFurnitureCosts = decimal.Parse(data[i][40].ToString());
+                            actualFurnitureCosts = decimal.Parse(data[i][37].ToString());
                         }
                         catch (Exception) { }
 
                         decimal? parkingCharges = null;
                         try
                         {
-                            parkingCharges = decimal.Parse(data[i][41].ToString());
+                            parkingCharges = decimal.Parse(data[i][38].ToString());
                         }
                         catch (Exception) { }
 
                         decimal? regularPayrollDeduction = null;
                         try
                         {
-                            regularPayrollDeduction = decimal.Parse(data[i][42].ToString());
+                            regularPayrollDeduction = decimal.Parse(data[i][39].ToString());
                         }
                         catch (Exception) { }
 
                         var utilitiesIncuded = "";
                         try
                         {
-                            utilitiesIncuded = data[i][43]?.ToString().ToLower().Trim();
+                            utilitiesIncuded = data[i][40]?.ToString().ToLower().Trim();
                         }
                         catch (Exception) { }
 
                         var furnishedUnfurnished = "";
                         try
                         {
-                            furnishedUnfurnished = data[i][44]?.ToString().ToLower().Trim();
+                            furnishedUnfurnished = data[i][41]?.ToString().ToLower().Trim();
                         }
                         catch (Exception) { }
 
@@ -255,36 +294,118 @@ namespace EniHRWebAPI.Controllers
                         var housingComments = "";
                         try
                         {
-                            housingComments = data[i][47]?.ToString().ToLower().Trim();
+                            housingComments = data[i][42]?.ToString().ToLower().Trim();
+                        }
+                        catch (Exception) { }
+
+                        //new changes ****************************
+
+
+                        int? entitledBedrroms = null;
+                        try
+                        {
+                            entitledBedrroms = int.Parse(data[i][61]?.ToString().Trim());
+                        }catch(Exception){}
+
+                        int? actualBedrroms = null;
+                        try
+                        {
+                            actualBedrroms = int.Parse(data[i][62]?.ToString().Trim());
+                        }
+                        catch (Exception) { }
+
+                        string typeofProperty = "";
+                        try
+                        {
+                            typeofProperty = data[i][63]?.ToString().ToLower().Trim();
+                            if (typeofProperty.Length <= 1)
+                                typeofProperty = "";
+                        }
+                        catch (Exception) { }
+
+                        int? rentDueDate = null;
+                        try
+                        {
+                            rentDueDate = int.Parse(data[i][64]?.ToString().Trim());
                         }
                         catch (Exception) { }
 
 
+                        DateTime? tenancyStartDate = null;
+                        try
+                        {
+                            var dateStr = data[i][65]?.ToString().ToLower().Trim();
+                            tenancyStartDate = DateTime.FromOADate(double.Parse(dateStr));
+                        }
+                        catch(Exception){}
+
+                        DateTime? tenancyEndDate = null;
+                        try
+                        {
+                            var dateStr = data[i][66]?.ToString().ToLower().Trim();
+                            tenancyEndDate = DateTime.FromOADate(double.Parse(dateStr));
+                        }
+                        catch (Exception) { }
+
+                        string monthNoticePeriod = "";
+                        try
+                        {
+                            monthNoticePeriod = data[i][68]?.ToString().ToLower().Trim();
+                        }
+                        catch (Exception) { }
+
+                        decimal? initialRent = null;
+                        try
+                        {
+                            initialRent = decimal.Parse(data[i][69].ToString());
+                        }catch (Exception) { }
+
+                        decimal? currentRent = null;
+                        try
+                        {
+                            currentRent = decimal.Parse(data[i][70].ToString());
+                        }catch (Exception) { }
 
 
+                        DateTime? companyHiringDate = null;
+                        try
+                        {
+                            var dateStr = data[i][20]?.ToString().ToLower().Trim();
+                            companyHiringDate = DateTime.FromOADate(double.Parse(dateStr));
+                        }
+                        catch (Exception) { }
 
+                        DateTime? birthDate = null;
+                        try
+                        {
+                            var dateStr = data[i][17]?.ToString().ToLower().Trim();
+                            birthDate = DateTime.FromOADate(double.Parse(dateStr));
+                        }
+                        catch (Exception) { }
 
-                        Employee employee = await context.Employees
-                    .Include(e => e.LocalPlus)
-                    .Include(e => e.standardEmployeeCategory)
-                    .Include(e => e.location)
-                    .Include(e => e.businessUnit)
-                    .Include(e => e.organisationUnit)
-                    .Include(e => e.workingCostCentre)
-                    .Include(e => e.position)
-                    .Include(e => e.professionalArea)
-                    .Include(e => e.homeCompany)
-                    .Include(e => e.CountryofBirth)
-                    .Include(e => e.Nationality)
-                    .Include(e => e.SpouseNationality)
-                    .Include(e => e.city)
-                    .Include(e => e.typeOfVISA)
-                    .Include(e => e.assignmentStatus)
-                    .Include(e => e.Children)
-                    .Include(e => e.familyStatus)
-                    .Include(e => e.activityStatus)
-                    //.Where(e => e.activityStatus.Description.ToLower().Trim() != "leaver")
-                     .SingleOrDefaultAsync(e => e.EmployeeID == employeeNo);
+                        //    Employee employee = await context.Employees
+                        //.Include(e => e.LocalPlus)
+                        //.Include(e => e.standardEmployeeCategory)
+                        //.Include(e => e.location)
+                        //.Include(e => e.businessUnit)
+                        //.Include(e => e.organisationUnit)
+                        //.Include(e => e.workingCostCentre)
+                        //.Include(e => e.position)
+                        //.Include(e => e.professionalArea)
+                        //.Include(e => e.homeCompany)
+                        //.Include(e => e.CountryofBirth)
+                        //.Include(e => e.Nationality)
+                        //.Include(e => e.SpouseNationality)
+                        //.Include(e => e.city)
+                        //.Include(e => e.typeOfVISA)
+                        //.Include(e => e.assignmentStatus)
+                        //.Include(e => e.Children)
+                        //.Include(e => e.familyStatus)
+                        //.Include(e => e.activityStatus)
+                        ////.Where(e => e.activityStatus.Description.ToLower().Trim() != "leaver")
+                        //.FirstOrDefaultAsync(e => e.EmployeeID == employeeNo);
+
+                        Employee employee = employeeDic[employeeNo];
 
                         if (employee == null)
                         {
@@ -294,7 +415,9 @@ namespace EniHRWebAPI.Controllers
                         }
                         else
                         {
-                            Housing housing = context.Housing.Find(employeeNo);
+                            //Housing housing = context.Housing.Find(employeeNo);
+
+                            Housing housing = housingDic[employeeNo];
 
                             if (!string.IsNullOrEmpty(name) && employee.Name.ToLower() != name.ToLower())
                             {
@@ -465,7 +588,7 @@ namespace EniHRWebAPI.Controllers
                             if (!string.IsNullOrEmpty(housingComments) && housing.HousingComments?.Trim().ToLower() != housingComments.ToLower())
                             {
                                 ChangeColumn cc = new ChangeColumn();
-                                cc.colIndex = 47;
+                                cc.colIndex = 42;
                                 cc.currentValue = housing.HousingComments;
                                 cc.newValue = housingComments;
                                 res.changedColumns.Add(cc);
@@ -490,7 +613,7 @@ namespace EniHRWebAPI.Controllers
                             if (diffAllowanceMonthlyPaid.HasValue && housing.DifferenceAllowanceMonthlyCostsPaid.HasValue && Math.Abs(housing.DifferenceAllowanceMonthlyCostsPaid.Value - diffAllowanceMonthlyPaid.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
                             {
                                 ChangeColumn cc = new ChangeColumn();
-                                cc.colIndex = 36;
+                                cc.colIndex = 35;
                                 cc.currentValue = housing.DifferenceAllowanceMonthlyCostsPaid.ToString();
                                 cc.newValue = diffAllowanceMonthlyPaid.ToString();
                                 res.changedColumns.Add(cc);
@@ -498,7 +621,7 @@ namespace EniHRWebAPI.Controllers
                             else if (diffAllowanceMonthlyPaid.HasValue && !housing.DifferenceAllowanceMonthlyCostsPaid.HasValue)
                             {
                                 ChangeColumn cc = new ChangeColumn();
-                                cc.colIndex = 36;
+                                cc.colIndex = 35;
                                 cc.currentValue = "";
                                 cc.newValue = diffAllowanceMonthlyPaid.ToString();
                                 res.changedColumns.Add(cc);
@@ -507,7 +630,7 @@ namespace EniHRWebAPI.Controllers
                             if (furnitureAllowance.HasValue && housing.FurnitureAllowance.HasValue && Math.Abs(housing.FurnitureAllowance.Value - furnitureAllowance.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
                             {
                                 ChangeColumn cc = new ChangeColumn();
-                                cc.colIndex = 39;
+                                cc.colIndex = 36;
                                 cc.currentValue = housing.FurnitureAllowance.ToString();
                                 cc.newValue = furnitureAllowance.ToString();
                                 res.changedColumns.Add(cc);
@@ -515,7 +638,7 @@ namespace EniHRWebAPI.Controllers
                             else if (furnitureAllowance.HasValue && !housing.FurnitureAllowance.HasValue)
                             {
                                 ChangeColumn cc = new ChangeColumn();
-                                cc.colIndex = 39;
+                                cc.colIndex = 36;
                                 cc.currentValue = "";
                                 cc.newValue = furnitureAllowance.ToString();
                                 res.changedColumns.Add(cc);
@@ -524,7 +647,7 @@ namespace EniHRWebAPI.Controllers
                             if (actualFurnitureCosts.HasValue && housing.ActualFurnitureCosts.HasValue && Math.Abs(housing.ActualFurnitureCosts.Value - actualFurnitureCosts.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
                             {
                                 ChangeColumn cc = new ChangeColumn();
-                                cc.colIndex = 40;
+                                cc.colIndex = 37;
                                 cc.currentValue = housing.ActualFurnitureCosts.ToString();
                                 cc.newValue = actualFurnitureCosts.ToString();
                                 res.changedColumns.Add(cc);
@@ -532,7 +655,7 @@ namespace EniHRWebAPI.Controllers
                             else if (actualFurnitureCosts.HasValue && !housing.ActualFurnitureCosts.HasValue)
                             {
                                 ChangeColumn cc = new ChangeColumn();
-                                cc.colIndex = 40;
+                                cc.colIndex = 37;
                                 cc.currentValue = "";
                                 cc.newValue = actualFurnitureCosts.ToString();
                                 res.changedColumns.Add(cc);
@@ -541,7 +664,7 @@ namespace EniHRWebAPI.Controllers
                             if (parkingCharges.HasValue && housing.ParkingCharges.HasValue && Math.Abs(housing.ParkingCharges.Value - parkingCharges.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
                             {
                                 ChangeColumn cc = new ChangeColumn();
-                                cc.colIndex = 41;
+                                cc.colIndex = 38;
                                 cc.currentValue = housing.ParkingCharges.ToString();
                                 cc.newValue = parkingCharges.ToString();
                                 res.changedColumns.Add(cc);
@@ -549,7 +672,7 @@ namespace EniHRWebAPI.Controllers
                             else if (parkingCharges.HasValue && !housing.ParkingCharges.HasValue)
                             {
                                 ChangeColumn cc = new ChangeColumn();
-                                cc.colIndex = 41;
+                                cc.colIndex = 38;
                                 cc.currentValue = "";
                                 cc.newValue = parkingCharges.ToString();
                                 res.changedColumns.Add(cc);
@@ -558,7 +681,7 @@ namespace EniHRWebAPI.Controllers
                             if (regularPayrollDeduction.HasValue && housing.RegularPayrollDeduction.HasValue && Math.Abs(housing.RegularPayrollDeduction.Value - regularPayrollDeduction.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
                             {
                                 ChangeColumn cc = new ChangeColumn();
-                                cc.colIndex = 42;
+                                cc.colIndex = 39;
                                 cc.currentValue = housing.RegularPayrollDeduction.ToString();
                                 cc.newValue = regularPayrollDeduction.ToString();
                                 res.changedColumns.Add(cc);
@@ -566,7 +689,7 @@ namespace EniHRWebAPI.Controllers
                             else if (regularPayrollDeduction.HasValue && !housing.RegularPayrollDeduction.HasValue)
                             {
                                 ChangeColumn cc = new ChangeColumn();
-                                cc.colIndex = 42;
+                                cc.colIndex = 39;
                                 cc.currentValue = "";
                                 cc.newValue = regularPayrollDeduction.ToString();
                                 res.changedColumns.Add(cc);
@@ -575,7 +698,7 @@ namespace EniHRWebAPI.Controllers
                             if (!string.IsNullOrEmpty(utilitiesIncuded) && housing.UtilitiesIncluded?.Trim().ToLower() != utilitiesIncuded.ToLower())
                             {
                                 ChangeColumn cc = new ChangeColumn();
-                                cc.colIndex = 43;
+                                cc.colIndex = 40;
                                 cc.currentValue = housing.UtilitiesIncluded;
                                 cc.newValue = utilitiesIncuded;
                                 res.changedColumns.Add(cc);
@@ -584,12 +707,188 @@ namespace EniHRWebAPI.Controllers
                             if (!string.IsNullOrEmpty(furnishedUnfurnished) && housing.FurnishedUnFurnished?.Trim().ToLower() != furnishedUnfurnished.ToLower())
                             {
                                 ChangeColumn cc = new ChangeColumn();
-                                cc.colIndex = 44;
+                                cc.colIndex = 41;
                                 cc.currentValue = housing.FurnishedUnFurnished;
                                 cc.newValue = furnishedUnfurnished;
                                 res.changedColumns.Add(cc);
                             }
 
+
+
+                            if (entitledBedrroms.HasValue && housing.EntitledNumberofBedrooms.HasValue && entitledBedrroms.Value !=housing.EntitledNumberofBedrooms.Value)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 61;
+                                cc.currentValue = housing.EntitledNumberofBedrooms.Value.ToString();
+                                cc.newValue = entitledBedrroms.Value.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+                            else if (entitledBedrroms.HasValue && !housing.EntitledNumberofBedrooms.HasValue)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 61;
+                                cc.currentValue = "";
+                                cc.newValue = entitledBedrroms.Value.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+
+
+                            if (actualBedrroms.HasValue && housing.ActualNumberofBedrooms.HasValue && actualBedrroms.Value != housing.ActualNumberofBedrooms.Value)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 62;
+                                cc.currentValue = housing.ActualNumberofBedrooms.Value.ToString();
+                                cc.newValue = actualBedrroms.Value.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+                            else if (actualBedrroms.HasValue && !housing.ActualNumberofBedrooms.HasValue)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 62;
+                                cc.currentValue = "";
+                                cc.newValue = actualBedrroms.Value.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+
+                            if (!string.IsNullOrEmpty(typeofProperty) && housing.TypeOfProperty?.Trim().ToLower() != typeofProperty.ToLower())
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 63;
+                                cc.currentValue = housing.TypeOfProperty;
+                                cc.newValue = typeofProperty;
+                                res.changedColumns.Add(cc);
+                            }
+
+                            if (rentDueDate.HasValue && housing.RentDueDate.HasValue && rentDueDate.Value != housing.RentDueDate.Value)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 64;
+                                cc.currentValue = housing.RentDueDate.Value.ToString();
+                                cc.newValue = rentDueDate.Value.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+                            else if (rentDueDate.HasValue && !housing.RentDueDate.HasValue)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 64;
+                                cc.currentValue = "";
+                                cc.newValue = rentDueDate.Value.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+
+                            if (tenancyStartDate.HasValue && housing.TenancyAgreementStartDate.HasValue && tenancyStartDate.Value.Date != housing.TenancyAgreementStartDate.Value.Date)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 65;
+                                cc.currentValue = housing.TenancyAgreementStartDate.Value.Date.ToString("dd'/'MM'/'yyyy");
+                                cc.newValue = tenancyStartDate.Value.Date.ToString("dd'/'MM'/'yyyy");
+                                res.changedColumns.Add(cc);
+                            }
+                            else if (tenancyStartDate.HasValue && !housing.TenancyAgreementStartDate.HasValue)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 65;
+                                cc.currentValue = "";
+                                cc.newValue = tenancyStartDate.Value.Date.ToString("dd'/'MM'/'yyyy");
+                                res.changedColumns.Add(cc);
+                            }
+
+                            if (tenancyEndDate.HasValue && housing.TenancyAgreementEndDate.HasValue && tenancyEndDate.Value.Date != housing.TenancyAgreementEndDate.Value.Date)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 66;
+                                cc.currentValue = housing.TenancyAgreementEndDate.Value.Date.ToString("dd'/'MM'/'yyyy");
+                                cc.newValue = tenancyEndDate.Value.Date.ToString("dd'/'MM'/'yyyy");
+                                res.changedColumns.Add(cc);
+                            }
+                            else if (tenancyEndDate.HasValue && !housing.TenancyAgreementEndDate.HasValue)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 66;
+                                cc.currentValue = "";
+                                cc.newValue = tenancyEndDate.Value.Date.ToString("dd'/'MM'/'yyyy");
+                                res.changedColumns.Add(cc);
+                            }
+
+
+                            if (!string.IsNullOrEmpty(monthNoticePeriod) && housing.MonthNoticePeriod?.Trim().ToLower() != monthNoticePeriod.ToLower())
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 68;
+                                cc.currentValue = housing.MonthNoticePeriod;
+                                cc.newValue = monthNoticePeriod;
+                                res.changedColumns.Add(cc);
+                            }
+
+                            if (initialRent.HasValue && housing.InitialHouseContractRent.HasValue && Math.Abs(housing.InitialHouseContractRent.Value - initialRent.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 69;
+                                cc.currentValue = housing.InitialHouseContractRent.ToString();
+                                cc.newValue = initialRent.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+                            else if (initialRent.HasValue && !housing.InitialHouseContractRent.HasValue)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 69;
+                                cc.currentValue = "";
+                                cc.newValue = initialRent.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+
+                            if (currentRent.HasValue && housing.CurrentHouseRental.HasValue && Math.Abs(housing.CurrentHouseRental.Value - currentRent.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 70;
+                                cc.currentValue = housing.CurrentHouseRental.ToString();
+                                cc.newValue = currentRent.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+                            else if (currentRent.HasValue && !housing.CurrentHouseRental.HasValue)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 70;
+                                cc.currentValue = "";
+                                cc.newValue = currentRent.ToString();
+                                res.changedColumns.Add(cc);
+                            }
+
+
+                            if (companyHiringDate.HasValue && employee.CompanyHiringDate.HasValue && companyHiringDate.Value.Date != employee.CompanyHiringDate.Value.Date)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 20;
+                                cc.currentValue = employee.CompanyHiringDate.Value.Date.ToString("dd'/'MM'/'yyyy");
+                                cc.newValue = companyHiringDate.Value.Date.ToString("dd'/'MM'/'yyyy");
+                                res.changedColumns.Add(cc);
+                            }
+                            else if (companyHiringDate.HasValue && !employee.CompanyHiringDate.HasValue)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 20;
+                                cc.currentValue = "";
+                                cc.newValue = companyHiringDate.Value.Date.ToString("dd'/'MM'/'yyyy");
+                                res.changedColumns.Add(cc);
+                            }
+
+
+                            if (birthDate.HasValue && employee.BirthDate.HasValue && birthDate.Value.Date != employee.BirthDate.Value.Date)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 17;
+                                cc.currentValue = employee.BirthDate.Value.Date.ToString("dd'/'MM'/'yyyy");
+                                cc.newValue = birthDate.Value.Date.ToString("dd'/'MM'/'yyyy");
+                                res.changedColumns.Add(cc);
+                            }
+                            else if (birthDate.HasValue && !employee.BirthDate.HasValue)
+                            {
+                                ChangeColumn cc = new ChangeColumn();
+                                cc.colIndex = 17;
+                                cc.currentValue = "";
+                                cc.newValue = birthDate.Value.Date.ToString("dd'/'MM'/'yyyy");
+                                res.changedColumns.Add(cc);
+                            }
 
                             res.isChanged = res.changedColumns.Count > 0;
                             response.Add(res);
@@ -618,6 +917,47 @@ namespace EniHRWebAPI.Controllers
         {
             try
             {
+
+                     List<Employee> employeeList = await context.Employees
+                    .Include(e => e.LocalPlus)
+                    .Include(e => e.standardEmployeeCategory)
+                    .Include(e => e.location)
+                    .Include(e => e.businessUnit)
+                    .Include(e => e.organisationUnit)
+                    .Include(e => e.workingCostCentre)
+                    .Include(e => e.position)
+                    .Include(e => e.professionalArea)
+                    .Include(e => e.homeCompany)
+                    .Include(e => e.CountryofBirth)
+                    .Include(e => e.Nationality)
+                    .Include(e => e.SpouseNationality)
+                    .Include(e => e.city)
+                    .Include(e => e.typeOfVISA)
+                    .Include(e => e.assignmentStatus)
+                    .Include(e => e.Children)
+                    .Include(e => e.familyStatus)
+                    .Include(e => e.activityStatus)
+                    //.Where(e => e.activityStatus.Description.ToLower().Trim() != "leaver")
+                                                           .ToListAsync();
+
+                Dictionary<long, Employee> employeeDic = new Dictionary<long, Employee>();
+                foreach (Employee emp in employeeList)
+                {
+                    employeeDic.Add(emp.EmployeeID, emp);
+                }
+
+
+                List<Housing> housingList = await context.Housing.ToListAsync();
+                Dictionary<long, Housing> housingDic = new Dictionary<long, Housing>();
+                foreach(Housing house in housingList)
+                {
+                    housingDic.Add(house.HousingID, house);
+                }
+
+
+
+
+
                 for (int i = 0; i < data.Length; i++)
                 {
                     try
@@ -780,49 +1120,49 @@ namespace EniHRWebAPI.Controllers
                         decimal? diffAllowanceMonthlyPaid = null;
                         try
                         {
-                            diffAllowanceMonthlyPaid = decimal.Parse(data[i][36].ToString());
+                            diffAllowanceMonthlyPaid = decimal.Parse(data[i][35].ToString());
                         }
                         catch (Exception) { }
 
                         decimal? furnitureAllowance = null;
                         try
                         {
-                            furnitureAllowance = decimal.Parse(data[i][39].ToString());
+                            furnitureAllowance = decimal.Parse(data[i][36].ToString());
                         }
                         catch (Exception) { }
 
                         decimal? actualFurnitureCosts = null;
                         try
                         {
-                            actualFurnitureCosts = decimal.Parse(data[i][40].ToString());
+                            actualFurnitureCosts = decimal.Parse(data[i][37].ToString());
                         }
                         catch (Exception) { }
 
                         decimal? parkingCharges = null;
                         try
                         {
-                            parkingCharges = decimal.Parse(data[i][41].ToString());
+                            parkingCharges = decimal.Parse(data[i][38].ToString());
                         }
                         catch (Exception) { }
 
                         decimal? regularPayrollDeduction = null;
                         try
                         {
-                            regularPayrollDeduction = decimal.Parse(data[i][42].ToString());
+                            regularPayrollDeduction = decimal.Parse(data[i][39].ToString());
                         }
                         catch (Exception) { }
 
                         var utilitiesIncuded = "";
                         try
                         {
-                            utilitiesIncuded = data[i][43]?.ToString().ToLower().Trim();
+                            utilitiesIncuded = data[i][40]?.ToString().ToLower().Trim();
                         }
                         catch (Exception) { }
 
                         var furnishedUnfurnished = "";
                         try
                         {
-                            furnishedUnfurnished = data[i][44]?.ToString().ToLower().Trim();
+                            furnishedUnfurnished = data[i][41]?.ToString().ToLower().Trim();
                         }
                         catch (Exception) { }
 
@@ -832,32 +1172,127 @@ namespace EniHRWebAPI.Controllers
                         var housingComments = "";
                         try
                         {
-                            housingComments = data[i][47]?.ToString().ToLower().Trim();
+                            housingComments = data[i][42]?.ToString().ToLower().Trim();
                         }
                         catch (Exception) { }
 
 
-                        Employee employee = await context.Employees
-                    .Include(e => e.LocalPlus)
-                    .Include(e => e.standardEmployeeCategory)
-                    .Include(e => e.location)
-                    .Include(e => e.businessUnit)
-                    .Include(e => e.organisationUnit)
-                    .Include(e => e.workingCostCentre)
-                    .Include(e => e.position)
-                    .Include(e => e.professionalArea)
-                    .Include(e => e.homeCompany)
-                    .Include(e => e.CountryofBirth)
-                    .Include(e => e.Nationality)
-                    .Include(e => e.SpouseNationality)
-                    .Include(e => e.city)
-                    .Include(e => e.typeOfVISA)
-                    .Include(e => e.assignmentStatus)
-                    .Include(e => e.Children)
-                    .Include(e => e.familyStatus)
-                    .Include(e => e.activityStatus)
-                    //.Where(e => e.activityStatus.Description.ToLower().Trim() != "leaver")
-                         .SingleOrDefaultAsync(e => e.EmployeeID == employeeNo);
+
+                        //new changes ****************************
+
+
+                        int? entitledBedrroms = null;
+                        try
+                        {
+                            entitledBedrroms = int.Parse(data[i][61]?.ToString().Trim());
+                        }
+                        catch (Exception) { }
+
+                        int? actualBedrroms = null;
+                        try
+                        {
+                            actualBedrroms = int.Parse(data[i][62]?.ToString().Trim());
+                        }
+                        catch (Exception) { }
+
+                        string typeofProperty = "";
+                        try
+                        {
+                            typeofProperty = data[i][63]?.ToString().ToLower().Trim();
+                            if (typeofProperty.Length <= 1)
+                                typeofProperty = "";
+
+                        }
+                        catch (Exception) { }
+
+                        int? rentDueDate = null;
+                        try
+                        {
+                            rentDueDate = int.Parse(data[i][64]?.ToString().Trim());
+                        }
+                        catch (Exception) { }
+
+
+                        DateTime? tenancyStartDate = null;
+                        try
+                        {
+                            var dateStr = data[i][65]?.ToString().ToLower().Trim();
+                            tenancyStartDate = DateTime.FromOADate(double.Parse(dateStr));
+                        }
+                        catch (Exception) { }
+
+                        DateTime? tenancyEndDate = null;
+                        try
+                        {
+                            var dateStr = data[i][66]?.ToString().ToLower().Trim();
+                            tenancyEndDate = DateTime.FromOADate(double.Parse(dateStr));
+                        }
+                        catch (Exception) { }
+
+                        string monthNoticePeriod = "";
+                        try
+                        {
+                            monthNoticePeriod = data[i][68]?.ToString().ToLower().Trim();
+                        }
+                        catch (Exception) { }
+
+                        decimal? initialRent = null;
+                        try
+                        {
+                            initialRent = decimal.Parse(data[i][69].ToString());
+                        }
+                        catch (Exception) { }
+
+                        decimal? currentRent = null;
+                        try
+                        {
+                            currentRent = decimal.Parse(data[i][70].ToString());
+                        }
+                        catch (Exception) { }
+
+
+                        DateTime? companyHiringDate = null;
+                        try
+                        {
+                            var dateStr = data[i][20]?.ToString().ToLower().Trim();
+                            companyHiringDate = DateTime.FromOADate(double.Parse(dateStr));
+                        }
+                        catch (Exception) { }
+
+                        DateTime? birthDate = null;
+                        try
+                        {
+                            var dateStr = data[i][17]?.ToString().ToLower().Trim();
+                            birthDate = DateTime.FromOADate(double.Parse(dateStr));
+                        }
+                        catch (Exception) { }
+
+
+
+
+                        //    Employee employee = await context.Employees
+                        //.Include(e => e.LocalPlus)
+                        //.Include(e => e.standardEmployeeCategory)
+                        //.Include(e => e.location)
+                        //.Include(e => e.businessUnit)
+                        //.Include(e => e.organisationUnit)
+                        //.Include(e => e.workingCostCentre)
+                        //.Include(e => e.position)
+                        //.Include(e => e.professionalArea)
+                        //.Include(e => e.homeCompany)
+                        //.Include(e => e.CountryofBirth)
+                        //.Include(e => e.Nationality)
+                        //.Include(e => e.SpouseNationality)
+                        //.Include(e => e.city)
+                        //.Include(e => e.typeOfVISA)
+                        //.Include(e => e.assignmentStatus)
+                        //.Include(e => e.Children)
+                        //.Include(e => e.familyStatus)
+                        //.Include(e => e.activityStatus)
+                        ////.Where(e => e.activityStatus.Description.ToLower().Trim() != "leaver")
+                        //.SingleOrDefaultAsync(e => e.EmployeeID == employeeNo);
+
+                        Employee employee = employeeDic[employeeNo];
 
                         if (employee == null)
                         {
@@ -915,7 +1350,8 @@ namespace EniHRWebAPI.Controllers
                         }
                         else
                         {
-                            Housing housing = context.Housing.Find(employeeNo);
+                            //Housing housing = context.Housing.Find(employeeNo);
+                            Housing housing = housingDic[employeeNo];
 
                             EmployeeViewModel employeeVM = new EmployeeViewModel(employee);
 
@@ -1073,10 +1509,104 @@ namespace EniHRWebAPI.Controllers
                                 housing.FurnishedUnFurnished = furnishedUnfurnished;
                             }
 
+
+
+                            if (entitledBedrroms.HasValue && housing.EntitledNumberofBedrooms.HasValue && entitledBedrroms.Value != housing.EntitledNumberofBedrooms.Value)
+                            {
+                                housing.EntitledNumberofBedrooms = entitledBedrroms;
+                            }
+                            else if (entitledBedrroms.HasValue && !housing.EntitledNumberofBedrooms.HasValue)
+                            {
+                                housing.EntitledNumberofBedrooms = entitledBedrroms;
+                            }
+
+
+                            if (actualBedrroms.HasValue && housing.ActualNumberofBedrooms.HasValue && actualBedrroms.Value != housing.ActualNumberofBedrooms.Value)
+                            {
+                                housing.ActualNumberofBedrooms = actualBedrroms;
+                            }
+                            else if (actualBedrroms.HasValue && !housing.ActualNumberofBedrooms.HasValue)
+                            {
+                                housing.ActualNumberofBedrooms = actualBedrroms;
+                            }
+
+                            if (!string.IsNullOrEmpty(typeofProperty) && housing.TypeOfProperty?.Trim().ToLower() != typeofProperty.ToLower())
+                            {
+                                housing.TypeOfProperty = typeofProperty;
+                            }
+
+                            if (rentDueDate.HasValue && housing.RentDueDate.HasValue && rentDueDate.Value != housing.RentDueDate.Value)
+                            {
+                                housing.RentDueDate = rentDueDate;
+                            }
+                            else if (rentDueDate.HasValue && !housing.RentDueDate.HasValue)
+                            {
+                                housing.RentDueDate = rentDueDate;
+                            }
+
+                            if (tenancyStartDate.HasValue && housing.TenancyAgreementStartDate.HasValue && tenancyStartDate.Value.Date != housing.TenancyAgreementStartDate.Value.Date)
+                            {
+                                housing.TenancyAgreementStartDate = tenancyStartDate;
+                            }
+                            else if (tenancyStartDate.HasValue && !housing.TenancyAgreementStartDate.HasValue)
+                            {
+                                housing.TenancyAgreementStartDate = tenancyStartDate;
+                            }
+
+                            if (tenancyEndDate.HasValue && housing.TenancyAgreementEndDate.HasValue && tenancyEndDate.Value.Date != housing.TenancyAgreementEndDate.Value.Date)
+                            {
+                                housing.TenancyAgreementEndDate = tenancyEndDate;
+                            }
+                            else if (tenancyEndDate.HasValue && !housing.TenancyAgreementEndDate.HasValue)
+                            {
+                                housing.TenancyAgreementEndDate = tenancyEndDate;
+                            }
+
+
+                            if (!string.IsNullOrEmpty(monthNoticePeriod) && housing.MonthNoticePeriod?.Trim().ToLower() != monthNoticePeriod.ToLower())
+                            {
+                                housing.MonthNoticePeriod = monthNoticePeriod;
+                            }
+
+                            if (initialRent.HasValue && housing.InitialHouseContractRent.HasValue && Math.Abs(housing.InitialHouseContractRent.Value - initialRent.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
+                            {
+                                housing.InitialHouseContractRent = initialRent;
+                            }
+                            else if (initialRent.HasValue && !housing.InitialHouseContractRent.HasValue)
+                            {
+                                housing.InitialHouseContractRent = initialRent;
+                            }
+
+                            if (currentRent.HasValue && housing.CurrentHouseRental.HasValue && Math.Abs(housing.CurrentHouseRental.Value - currentRent.Value).CompareTo(DIFFERENCEAMOUNT) > 0)
+                            {
+                                housing.CurrentHouseRental = currentRent;
+                            }
+                            else if (currentRent.HasValue && !housing.CurrentHouseRental.HasValue)
+                            {
+                                housing.CurrentHouseRental = currentRent;
+                            }
+
+
+                            if (companyHiringDate.HasValue && employee.CompanyHiringDate.HasValue && companyHiringDate.Value.Date != employee.CompanyHiringDate.Value.Date)
+                            {
+                                employeeVM.companyHiringDate = companyHiringDate;
+                            }
+                            else if (companyHiringDate.HasValue && !employee.CompanyHiringDate.HasValue)
+                            {
+                                employeeVM.companyHiringDate = companyHiringDate;
+                            }
+
+                            if (birthDate.HasValue && employee.BirthDate.HasValue && birthDate.Value.Date != employee.BirthDate.Value.Date)
+                            {
+                                employeeVM.birthDate = birthDate;
+                            }
+                            else if (birthDate.HasValue && !employee.BirthDate.HasValue)
+                            {
+                                employeeVM.birthDate = birthDate;
+                            }
+
                             employee.UpdateFromEmployeeViewModel(this.context,employeeVM);
                         }
-
-                         this.context.SaveChanges();
                     }
                     catch (Exception ex)
                     {
@@ -1084,7 +1614,7 @@ namespace EniHRWebAPI.Controllers
                     }
                 }
 
-                this.context.SaveChanges();
+                await this.context.SaveChangesAsync();
                 return Ok();
             }
             catch (Exception ex)

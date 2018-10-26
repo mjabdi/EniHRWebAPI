@@ -23,6 +23,9 @@ export class Housing {
     initialRent : number;
     currentRental : number;
     unfurnishedAllowanceWeek : number;
+    deposit : number;
+
+    currency : string;
 
 
     differenceAllowanceMonthlyCostsPaid  : number;
@@ -32,6 +35,8 @@ export class Housing {
     regularPayrollDeduction : number;
     utilitiesIncluded : string;
     furnishedUnFurnished : string;
+
+    hrApproval : number;
 
 
     housingComments : string;

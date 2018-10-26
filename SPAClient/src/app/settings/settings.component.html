@@ -1,0 +1,142 @@
+<div class="main-content">
+    <div class="container-fluid">
+
+            <div class="card">
+                    <div class="card-header card-header-danger">
+                          <mat-icon class="icon-employees" aria-label="archive" >build</mat-icon>
+                           <h4 style="display: inline-block;font-weight: bold" class="card-title ">Settings</h4>
+                    </div>
+      
+                       <div class="card-body">
+
+
+        <div style="margin-top: 10px; margin-left: 10px; width: 100%">
+
+        <mat-tab-group color="accent" [selectedIndex]="selectedIndex">
+
+
+                <mat-tab>
+                        <ng-template mat-tab-label>
+                                <mat-icon class="example-tab-icon">info</mat-icon>
+                                <span style="vertical-align: top; margin-left:2px"> Info </span> 
+                        </ng-template>
+    
+                    <div class="content-settings">
+
+                        <div class="row">
+                            <div class="col-8">
+                                    <ul style="margin-top : 50px; ">
+                                            <li style="margin-bottom:20px;" >
+                                                To change the base-info tables go to <a class="tab-link" (click)="one()" >Base Info Tables</a>  tab.    
+                                            </li>
+                                            <li>
+                                                To import the data from an Excel file go to <a class="tab-link" (click)="two()">Import Data</a> tab.    
+                                            </li>
+                                        </ul>                    
+                            </div>
+                            <div class="col-4">
+                                    <img class="img-settings fadeIn" src="../../assets/img/settings.png">
+                            </div>
+                        </div>
+                    </div>    
+                </mat-tab>
+
+
+            <mat-tab label="one">
+                    <ng-template mat-tab-label>
+                            <mat-icon  class="example-tab-icon">assignment</mat-icon>
+                            <span style="vertical-align: top; margin-left:2px" >Base Info Tables</span> 
+                    </ng-template>
+                        
+
+
+                <div class="content-baseinfo">
+                      
+
+                        <app-dynamictable  [displayname]="'Staff Typology'"
+                                            [data]="this.stafftypology"
+                                            (saveitem)="savestafftypology($event)">
+                        </app-dynamictable>
+
+                         <app-dynamictable  [displayname]="'Working Location'"
+                                            [data]="this.workinglocation"
+                                            (saveitem)="saveworkinglocation($event)">
+                        </app-dynamictable>                       
+
+                         <app-dynamictable  [displayname]="'Employee Category'"
+                                            [data]="this.employeeCategory"
+                                            (saveitem)="saveEmployeeCategory($event)">
+                        </app-dynamictable>                       
+
+                         <app-dynamictable  [displayname]="'Organization Unit'"
+                                            [data]="this.organizationUnit"
+                                            (saveitem)="saveOrganizationUnit($event)">
+                        </app-dynamictable>                       
+
+                         <app-dynamictable  [displayname]="'Working Cost Centre'"
+                                            [data]="this.costCentre"
+                                            (saveitem)="saveCostCentre($event)">
+                        </app-dynamictable>                       
+
+                         <app-dynamictable  [displayname]="'Position'"
+                                            [data]="this.position"
+                                            (saveitem)="savePosition($event)">
+                        </app-dynamictable>                       
+
+                         <app-dynamictable  [displayname]="'Professional Area'"
+                                            [data]="this.professionalArea"
+                                            (saveitem)="saveProfessionalArea($event)">
+                        </app-dynamictable>                       
+
+                         <app-dynamictable  [displayname]="'Home Company'"
+                                            [data]="this.homeCompany"
+                                            (saveitem)="saveHomeCompany($event)">
+                        </app-dynamictable>                       
+
+                         <app-dynamictable  [displayname]="'Country Names'"
+                                            [data]="this.country"
+                                            (saveitem)="saveCountry($event)">
+                        </app-dynamictable>                       
+
+                         <app-dynamictable  [displayname]="'Family Status'"
+                                            [data]="this.familyStatus"
+                                            (saveitem)="saveFamilyStatus($event)">
+                        </app-dynamictable>                       
+
+                         <app-dynamictable  [displayname]="'Type of VISA'"
+                                            [data]="this.typeofVisa"
+                                            (saveitem)="saveTypeofVisa($event)">
+                        </app-dynamictable>                       
+
+
+                         <app-dynamictable  [displayname]="'Activity Status'"
+                                            [data]="this.activityStatus"
+                                            (saveitem)="saveActivityStatus($event)">
+                        </app-dynamictable>     
+
+
+                    </div>
+
+            </mat-tab>
+
+            <mat-tab label="two">
+                    <ng-template mat-tab-label>
+                            <mat-icon class="example-tab-icon">archive</mat-icon>
+                            <span style="vertical-align: top; margin-left:2px"> Import Data </span> 
+                    </ng-template>
+
+                <div class="content-importdata">
+                        <app-importdata></app-importdata>
+                </div>
+
+            </mat-tab>
+
+
+        </mat-tab-group>
+
+
+        </div>
+
+    </div>
+</div>
+</div>

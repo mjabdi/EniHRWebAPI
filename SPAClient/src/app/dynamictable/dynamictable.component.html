@@ -1,0 +1,51 @@
+<div class="card">
+                <div class="card-header card-header-light">
+                       <span style="display: inline-block;font-weight: bold;" class="card-title "> {{displayName}}</span>
+                </div>
+  
+   <div class="card-body">
+
+
+
+    <div class="row row-header">
+
+            <div class="col-4 cell-header"> 
+                Code
+            </div>
+            <div class="col-4 cell-header"> 
+                Description
+            </div>
+            <div class="col-4"> 
+                    
+            </div>
+    </div>
+
+<div class="fixed-height">
+
+                <div class="row" *ngFor="let item of mydata">
+                        <div class="col-4 cell-item">
+                                {{item.id}}
+                        </div>
+                        <div *ngIf="editItem != item"  class="col-4 cell-item">
+                                {{item.description}}
+                        </div>
+                        <div *ngIf="editItem == item" class="col-4 cell-item"> 
+                                <input [class.text-edit]="editItem == item" type="text" matInput (change)="newDesc = $event.target.value" [value]="item.description">
+                        </div>
+                        <div *ngIf="editItem != item"  class="col-4"> 
+                                <button class="btn btn-outline-warning btn-sm" (click)="goEdit(item)">
+                                        Edit
+                                </button>
+                        </div>
+                        <div *ngIf="editItem == item"  class="col-4"> 
+                                <button class="btn btn-outline-success btn-sm" (click)="goSave(item)">
+                                        Save
+                                </button>
+                                <button class="btn btn-outline-default btn-sm" (click)="goCancel(item)">
+                                        Cancel
+                                </button>
+                        </div>
+                </div>
+        </div>
+    </div>
+</div>

@@ -1,6 +1,50 @@
-  .my-table {
+ 
+.text-header
+{
+    font-size : 18px !important;
+    color : rgb(230, 76, 55) !important;
+    vertical-align: top !important;
+    font-weight: bold !important;
+    font-family: Helvetica, sans-serif !important;
+    border: 2px solid rgb(230, 76, 55) !important;
+    padding: 5px !important;
+    //width : 150px !important;
+}
+
+
+.fix-height
+{
+    height: calc(100vh - 300px) !important;
+}
+
+
+.icon-employees
+{
+    color : white;
+    font-weight: normal;
+    display: inline-block;
+    margin-right : 5px;
+    vertical-align: top;
+}
+
+.example-loading-shade {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 56px;
+    right: 0;
+    z-index: 99999 !important ;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+
+
+ 
+ .my-table {
     width: 100% !important;
-    height:  400px !important;
+    height: 250px !important;
     overflow: scroll !important; 
     margin-top: 5px !important;
     margin-bottom: 5px !important;

@@ -42,6 +42,7 @@ type AOA = any[][];
 
     }
 
+
     onFileChange(evt: any) {
         /* wire up file reader */
         this.isLoading = true;
@@ -370,6 +371,21 @@ type AOA = any[][];
         }
         return ""; 
     }
+
+    getNewCellValue(row,col) : string
+    {
+        if (!this.validate)
+        return "";
+
+        for (let i=0 ; i<this.valiationResponse[row].changedColumns.length; i++)
+        {
+            if (this.valiationResponse[row].changedColumns[i].colIndex == col)
+                return this.valiationResponse[row].changedColumns[i].newValue;
+        }
+        return ""; 
+    }
+
+
     
     fromCharCode(val : number) : string
     {

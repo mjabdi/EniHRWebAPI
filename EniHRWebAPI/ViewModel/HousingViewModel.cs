@@ -38,6 +38,10 @@ namespace EniHRWebAPI.ViewModel
             regularPayrollDeduction = housing.RegularPayrollDeduction;
             utilitiesIncluded = housing.UtilitiesIncluded;
             furnishedUnFurnished = housing.FurnishedUnFurnished;
+            hrApproval = housing.HRApproval;
+
+            deposit = housing.Deposit;
+            currency = housing.Currency;
 
             housingComments = housing.HousingComments;
         }
@@ -72,8 +76,14 @@ namespace EniHRWebAPI.ViewModel
         public decimal? actualFurnitureCosts { get; set; }
         public decimal? parkingCharges { get; set; }
         public decimal? regularPayrollDeduction { get; set; }
+        public decimal? deposit { get; set; }
+        public decimal? hrApproval { get; set; }
+
+
         public string utilitiesIncluded { get; set; }
         public string furnishedUnFurnished { get; set; }
+
+        public string currency { get; set; }
 
         public string housingComments { get; set; }
     }

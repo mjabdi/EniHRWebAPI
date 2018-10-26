@@ -24,6 +24,8 @@ import {LeaveDialogComponent} from '../../leave-dialog/leave-dialog.component'
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatMomentDateModule,MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/material-moment-adapter'
 import {ImportDataComponent} from '../../importdata/importdata.component';
+import { SettingsComponent } from 'app/settings/settings.component';
+import { DynamicTableComponent } from 'app/dynamictable/dynamictable.component';
 
 
 @NgModule({
@@ -46,7 +48,9 @@ import {ImportDataComponent} from '../../importdata/importdata.component';
     EmployeeDialogComponent,
     HousingDialogComponent,
     LeaveDialogComponent,
-    ImportDataComponent
+    ImportDataComponent,
+    SettingsComponent,
+    DynamicTableComponent
   ],
   providers: [AuthenticationService,{ provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }],
   entryComponents: [EmployeeDialogComponent,HousingDialogComponent,LeaveDialogComponent]

@@ -1,0 +1,48 @@
+.com-body
+{
+    text-align: center !important;
+}
+
+.fixed-height
+{
+    margin-top : 10px !important;
+    max-height: 400px !important;
+    overflow-y: scroll !important;
+}
+
+.row-header
+{
+    font-weight: bold !important;
+   
+}
+
+.cell-item {
+    margin-top : 10px !important;
+}
+
+.cell-header
+{
+    border-bottom: 1px solid rgb(196, 196, 196) !important; 
+}
+
+.card-header-light
+{
+    background: linear-gradient(45deg,rgb(172, 23, 139), rgb(173, 11, 100)) !important;
+    border : 1px solid rgb(235, 212, 202) !important;
+    color : black !important;
+    box-shadow: 5px 5px 5px rgb(160, 160, 160)!important;
+
+}
+
+// .text-edit
+// {
+//     border: 1px solid orange !important;
+//     transition: 1s all ease-in !important;
+// }
+   
+  .text-edit{
+    box-shadow: 0 0 5px orange !important;
+    border: 1px solid orange !important;
+    width: 100% !important;
+  }
+

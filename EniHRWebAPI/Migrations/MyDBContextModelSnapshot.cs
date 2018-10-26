@@ -289,7 +289,11 @@ namespace EniHRWebAPI.Migrations
 
                     b.Property<int?>("ActualNumberofBedrooms");
 
+                    b.Property<string>("Currency");
+
                     b.Property<decimal?>("CurrentHouseRental");
+
+                    b.Property<decimal?>("Deposit");
 
                     b.Property<decimal?>("DifferenceAllowanceMonthlyCostsPaid");
 
@@ -301,9 +305,9 @@ namespace EniHRWebAPI.Migrations
 
                     b.Property<string>("FurnishedUnFurnished");
 
-                    b.Property<decimal?>("Furniture");
-
                     b.Property<decimal?>("FurnitureAllowance");
+
+                    b.Property<decimal?>("HRApproval");
 
                     b.Property<string>("HomeAddressUK");
 

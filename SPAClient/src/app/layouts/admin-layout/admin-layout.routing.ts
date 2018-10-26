@@ -7,6 +7,7 @@ import {HousingComponent } from '../../housing/housing.component'
 import { HomeComponent } from '../../home/home.component';
 import { LeaveComponent } from '../../leave/leave.component';
 import {ImportDataComponent} from '../../importdata/importdata.component';
+import { SettingsComponent } from 'app/settings/settings.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -17,7 +18,5 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'leave',        component: LeaveComponent },
     { path: 'home',        component: HomeComponent },
     { path: 'importdata',        component: ImportDataComponent },
-
-
-
+    { path: 'settings',        component: SettingsComponent },
 ];

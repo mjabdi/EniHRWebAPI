@@ -110,7 +110,7 @@
             </ng-container>
             <ng-container matColumnDef="companyHiringDate">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Company Hiring Date</mat-header-cell>
-                    <mat-cell *matCellDef="let employee"> {{employee.companyHiringDate | date}} </mat-cell>
+                    <mat-cell *matCellDef="let employee"> {{employee.companyHiringDate | date : 'dd/MM/yyyy'}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="homeCompany">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Home Company </mat-header-cell>
@@ -126,7 +126,7 @@
             </ng-container>
             <ng-container matColumnDef="birthDate">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Birth Date </mat-header-cell>
-                    <mat-cell *matCellDef="let employee"> {{employee.birthDate | date }} </mat-cell>
+                    <mat-cell *matCellDef="let employee"> {{employee.birthDate | date : 'dd/MM/yyyy' }} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="age">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Age</mat-header-cell>
@@ -172,7 +172,7 @@
             </ng-container>
             <ng-container matColumnDef="visaExpiryDate">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Visa Expiry Date </mat-header-cell>
-                    <mat-cell *matCellDef="let employee"> {{employee.visaExpiryDate}} </mat-cell>
+                    <mat-cell *matCellDef="let employee"> {{employee.visaExpiryDate | date : 'dd/MM/yyyy'}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="emailAddress">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Email Address </mat-header-cell>

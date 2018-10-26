@@ -3,7 +3,6 @@
 /Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/bin/Debug/netcoreapp2.1/EniHRWebAPI.runtimeconfig.dev.json
 /Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/bin/Debug/netcoreapp2.1/EniHRWebAPI.dll
 /Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/bin/Debug/netcoreapp2.1/EniHRWebAPI.pdb
-/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/obj/Debug/netcoreapp2.1/EniHRWebAPI.csprojAssemblyReference.cache
 /Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/obj/Debug/netcoreapp2.1/EniHRWebAPI.csproj.CoreCompileInputs.cache
 /Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/obj/Debug/netcoreapp2.1/EniHRWebAPI.RazorAssemblyInfo.cache
 /Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/obj/Debug/netcoreapp2.1/EniHRWebAPI.RazorAssemblyInfo.cs

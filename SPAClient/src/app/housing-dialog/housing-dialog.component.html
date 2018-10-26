@@ -96,12 +96,12 @@
 
         <div class="row" style="margin-top: 10px">
 
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <mat-form-field class="example-full-width">
                     <input matInput autocomplete="off" type="number" [formControl]="this.entitledBedroomsControl" placeholder="Entitled Bedrooms">
                 </mat-form-field>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <mat-form-field class="example-full-width">
                     <input matInput autocomplete="off" type="number" [formControl]="this.actualBedroomsControl" placeholder="Actual Bedrooms">
                 </mat-form-field>
@@ -116,15 +116,72 @@
                     <input matInput autocomplete="off" type="number" [formControl]="this.rentDueDateControl" placeholder="Rent Due Date">
                 </mat-form-field>
             </div>
-            <div class="col-md-2">
+        </div>
+
+        <div class="row" style="margin-top: 10px">
+
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <mat-select #currency (valueChange)="this.currencyString=currency.value" [formControl]="currencyControl" placeholder="Currency">
+                            <mat-option *ngFor="let item of currencyList" [value]="item">
+                              {{item}}
+                            </mat-option>
+                    </mat-select>                      
+                  </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput 
+                     autocomplete="off"  type="number" [formControl]="this.initialRentControl" placeholder="Initial Rent">
+                </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
                 <mat-form-field class="example-full-width">
                     <input matInput autocomplete="off" type="number" [formControl]="this.currentRentalControl" placeholder="Current Rental">
                 </mat-form-field>
             </div>
+
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" type="number" [formControl]="this.depositControl" placeholder="Deposit">
+                </mat-form-field>
+            </div>
+
         </div>
 
         <div class="row" style="margin-top: 10px">
-            <div class="col-md-2">
+
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <mat-select [formControl]="furnishedUnFurnishedControl" placeholder="Furnished/Unfurnished">
+                            <mat-option *ngFor="let item of furnishedList" [value]="item">
+                              {{item}}
+                            </mat-option>
+                    </mat-select>                      
+                  </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" #unfurnished (keyup)="unfurnished_value = $event.target.value" type="number" [formControl]="this.unfurnishedAllowanceWeekControl" placeholder="Allowance (PCW)">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" type="text" disabled placeholder="Allowance (PCM)" [value]="unfurnished_value * 4.333 | currency: this.currencyString  :'symbol':'1.0-2'" >
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" type="number" [formControl]="this.hrApprovalControl" placeholder="HR Approval (PCM)">
+                </mat-form-field>
+            </div>            
+        </div>
+
+        
+        <div class="row" style="margin-top: 10px">
+            <div class="col-md-3">
                 <mat-form-field class="example-full-width">
                         <input matInput autocomplete="off"  #startDate [formControl]="this.tenancyStartDateControl"  [matDatepicker]="myDatepicker"
                         placeholder="Tenancy Start Date">
@@ -135,7 +192,7 @@
                 </mat-form-field>
             </div>
 
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <mat-form-field class="example-full-width">
                         <input matInput autocomplete="off" #endDate [formControl]="this.tenancyEndDateControl"  [matDatepicker]="myDatepicker2"
                         placeholder="Tenancy End Date">
@@ -145,92 +202,55 @@
                     <mat-datepicker #myDatepicker2></mat-datepicker>
                 </mat-form-field>
             </div>
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <mat-form-field class="example-full-width">
-                    <input matInput autocomplete="off" disabled type="number"  placeholder="Month Remaining" [value] = "endDate.value  | amDifference: startDate.value :'month' : true | number : '1.0-0'" >
+                    <input matInput autocomplete="off" disabled type="number"  placeholder="Month Remaining" [value] = "endDate.value  | amDifference: today :'month' : true | number : '1.0-0'" >
                 </mat-form-field>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <mat-form-field class="example-full-width">
                     <input matInput autocomplete="off" [formControl]="this.monthNoticePeriodControl" placeholder="Month Notice Period">
                 </mat-form-field>
             </div>
+        </div>
 
-            <div class="col-md-2">
-                <mat-form-field class="example-full-width">
-                    <input matInput autocomplete="off" type="number" [formControl]="this.initialRentControl" placeholder="Initial Rent">
-                </mat-form-field>
-            </div>
-        </div>
-        
-        <div class="row" style="margin-top: 10px">
-            <div class="col-md-3">
-                <mat-form-field class="example-full-width">
-                    <input matInput autocomplete="off" #unfurnished type="number" [formControl]="this.unfurnishedAllowanceWeekControl" placeholder="Unfurnished Allowance/Week">
-                </mat-form-field>
-            </div>
-            <div class="col-md-3">
-                <mat-form-field class="example-full-width">
-                    <input matInput autocomplete="off" type="text" disabled placeholder="Unfurnished Allowance/Month" [value]="unfurnished.value * 4.333 | currency:'GBP':'symbol':'1.0-2'" >
-                </mat-form-field>
-            </div>
-            <div class="col-md-3">
-                <mat-form-field class="example-full-width">
-                    <input matInput autocomplete="off" type="text" disabled placeholder="Furnished Allowance/Week" [value]="unfurnished.value * 1.1 | currency:'GBP':'symbol':'1.0-2'" >
-                </mat-form-field>
-            </div>
-            <div class="col-md-3">
-                <mat-form-field class="example-full-width">
-                    <input matInput autocomplete="off" type="text" disabled placeholder="Furnished Allowance/Month" [value]="unfurnished.value * 4.333 * 1.1 | currency:'GBP':'symbol':'1.0-2'" >
-                </mat-form-field>
-            </div>
-        </div>
+
 
 
         <div class="row" style="margin-top: 10px">
             <div class="col-md-3">
                 <mat-form-field class="example-full-width">
-                    <input matInput autocomplete="off" #unfurnished type="number" [formControl]="this.differenceAllowanceMonthlyCostsPaidControl" placeholder="Diff Allowance & Monthly Costs">
+                    <input matInput autocomplete="off"  type="number" [formControl]="this.differenceAllowanceMonthlyCostsPaidControl" placeholder="Diff Allowance & Monthly Costs">
                 </mat-form-field>
             </div>
             <div class="col-md-3">
                 <mat-form-field class="example-full-width">
-                    <input matInput autocomplete="off" #unfurnished type="number" [formControl]="this.furnitureAllowanceControl" placeholder="Furniture Allowance (Japon)">
+                    <input matInput autocomplete="off"  type="number" [formControl]="this.furnitureAllowanceControl" placeholder="Furniture Hire Allowance">
                 </mat-form-field>
             </div>
             <div class="col-md-3">
                 <mat-form-field class="example-full-width">
-                    <input matInput autocomplete="off" #unfurnished type="number" [formControl]="this.actualFurnitureCostsControl" placeholder="Actual Furniture Costs (Japon)">
+                    <input matInput autocomplete="off"  type="number" [formControl]="this.actualFurnitureCostsControl" placeholder="Actual Furniture Costs">
                 </mat-form-field>
             </div>
             <div class="col-md-3">
                 <mat-form-field class="example-full-width">
-                    <input matInput autocomplete="off" #unfurnished type="number" [formControl]="this.differenceAllowanceMonthlyCostsPaidControl" placeholder="Parking Charges (Paris)">
+                    <input matInput autocomplete="off"  type="number" [formControl]="this.parkingChargesControl" placeholder="Parking Charges">
                 </mat-form-field>
             </div>
         </div>
 
         <div class="row" style="margin-top: 10px">
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <mat-form-field class="example-full-width">
-                    <input matInput autocomplete="off" #unfurnished type="number" [formControl]="this.regularPayrollDeductionControl" placeholder="Regular Payroll Deduction">
+                    <input matInput autocomplete="off" type="number" [formControl]="this.regularPayrollDeductionControl" placeholder="Employee Contribution (PCM)">
                 </mat-form-field>
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <mat-form-field class="example-full-width">
-                    <input matInput autocomplete="off" [formControl]="this.utilitiesIncludedControl" placeholder="Utilities Included?">
+                    <input matInput autocomplete="off" [formControl]="this.utilitiesIncludedControl" placeholder="Utilities Included">
                 </mat-form-field>
-            </div>
-
-            <div class="col-md-4">
-                <mat-form-field class="example-full-width">
-                    <mat-select [formControl]="furnishedUnFurnishedControl" placeholder="Furnished/Unfurnished">
-                            <mat-option *ngFor="let item of furnishedList" [value]="item">
-                              {{item}}
-                            </mat-option>
-                    </mat-select>                      
-                  </mat-form-field>
             </div>
         </div>
 

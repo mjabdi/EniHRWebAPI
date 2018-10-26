@@ -60,7 +60,7 @@ export class EmployeesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getAllEmployees(); 
+      this.getAllEmployees(); 
   }
 
   doubleClick(row : Employee)

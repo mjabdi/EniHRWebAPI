@@ -75,38 +75,47 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
                 <mat-cell *matCellDef="let housing"> {{housing.name}} </mat-cell>
         </ng-container>
+
         <ng-container matColumnDef="surname">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Surname </mat-header-cell>
                 <mat-cell *matCellDef="let housing"> {{housing.surname}} </mat-cell>
         </ng-container>
+
         <ng-container matColumnDef="localPlus">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Staff Typology </mat-header-cell>
                 <mat-cell *matCellDef="let housing"> {{housing.localPlus}} </mat-cell>
         </ng-container>
+
         <ng-container matColumnDef="workingLocation">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Working Location </mat-header-cell>
                 <mat-cell *matCellDef="let housing"> {{housing.workingLocation}} </mat-cell>
         </ng-container>
+
         <ng-container matColumnDef="employeeCategory">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Employee Cat. </mat-header-cell>
                 <mat-cell *matCellDef="let housing"> {{housing.employeeCategory}} </mat-cell>
         </ng-container>
+
         <ng-container matColumnDef="costCentre">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Cost Centre</mat-header-cell>
                 <mat-cell *matCellDef="let housing"> {{housing.costCentre}} </mat-cell>
         </ng-container>
+
         <ng-container matColumnDef="familyStatus">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Family Status </mat-header-cell>
                 <mat-cell *matCellDef="let housing"> {{housing.familyStatus}} </mat-cell>
         </ng-container>
+
         <ng-container matColumnDef="followingPartner">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Following Partner </mat-header-cell>
                 <mat-cell *matCellDef="let housing"> {{housing.followingPartner? 'Yes' : 'No' }}  </mat-cell>
         </ng-container>
+
         <ng-container matColumnDef="followingChildren">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Following Children </mat-header-cell>
                 <mat-cell *matCellDef="let housing"> {{housing.followingChildren}} </mat-cell>
         </ng-container>
+
         <ng-container matColumnDef="activityStatus">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> Activity Status </mat-header-cell>
                 <mat-cell *matCellDef="let housing">  {{ housing.activityStatus}} </mat-cell>
@@ -134,15 +143,15 @@
     </ng-container>
     <ng-container matColumnDef="tenancyStartDate">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Tenancy Start Date </mat-header-cell>
-        <mat-cell *matCellDef="let housing"> {{housing.tenancyStartDate | date}} </mat-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.tenancyStartDate | date : 'dd/MM/yyyy'}} </mat-cell>
     </ng-container>
     <ng-container matColumnDef="tenancyEndDate">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Tenancy End Date </mat-header-cell>
-        <mat-cell *matCellDef="let housing"> {{housing.tenancyEndDate | date}} </mat-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.tenancyEndDate | date : 'dd/MM/yyyy'}} </mat-cell>
     </ng-container>
     <ng-container matColumnDef="monthRemaining">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Month Remaining</mat-header-cell>
-        <mat-cell *matCellDef="let housing"> {{housing.tenancyEndDate  | amDifference: housing.tenancyStartDate :'month' : true | number : '1.0-0'}} </mat-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.tenancyEndDate  | amDifference: today :'month' : true | number : '1.0-0'}} </mat-cell>
     </ng-container>
     <ng-container matColumnDef="monthNoticePeriod">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Month Notice Period </mat-header-cell>
@@ -150,57 +159,64 @@
     </ng-container>
     <ng-container matColumnDef="initialRent">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Initial Rent </mat-header-cell>
-        <mat-cell *matCellDef="let housing"> {{housing.initialRent | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.initialRent | currency: this.getCurrency(housing.currency) :'symbol':'1.0-2'}} </mat-cell>
     </ng-container>
     <ng-container matColumnDef="currentRental">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Current Rental </mat-header-cell>
-        <mat-cell *matCellDef="let housing"> {{housing.currentRental | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="unfurnishedAllowanceWeek">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Unfurnished Allowance/Week </mat-header-cell>
-        <mat-cell *matCellDef="let housing"> {{housing.unfurnishedAllowanceWeek | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="unfurnishedAllowanceMonth">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Unfurnished Allowance/Month </mat-header-cell>
-        <mat-cell *matCellDef="let housing"> {{housing.unfurnishedAllowanceWeek * 4.333 | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="furnishedAllowanceWeek">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Furnished Allowance/Week </mat-header-cell>
-        <mat-cell *matCellDef="let housing"> {{housing.unfurnishedAllowanceWeek * 1.1 | currency:'GBP':'symbol':'1.0-2'}}  </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="furnishedAllowanceMonth">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Furnished Allowance/Month </mat-header-cell>
-        <mat-cell *matCellDef="let housing"> {{housing.unfurnishedAllowanceWeek * 1.1 * 4.333 | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
-    </ng-container>
-
-    <ng-container matColumnDef="differenceAllowanceMonthlyCostsPaid">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Diff Allowance & Monthly Costs </mat-header-cell>
-        <mat-cell *matCellDef="let housing"> {{housing.differenceAllowanceMonthlyCostsPaid | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="furnitureAllowance">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Furniture Allowance(Japon) </mat-header-cell>
-        <mat-cell *matCellDef="let housing"> {{housing.furnitureAllowance | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="actualFurnitureCosts">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Actual Furniture Costs(Japon)  </mat-header-cell>
-        <mat-cell *matCellDef="let housing"> {{housing.actualFurnitureCosts | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="parkingCharges">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Parking Charges(Paris)</mat-header-cell>
-        <mat-cell *matCellDef="let housing"> {{housing.parkingCharges | currency:'GBP':'symbol':'1.0-2'}}  </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="regularPayrollDeduction">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Regular Payroll Deduction</mat-header-cell>
-        <mat-cell *matCellDef="let housing"> {{housing.regularPayrollDeduction | currency:'GBP':'symbol':'1.0-2'}} </mat-cell>
-    </ng-container>
-    <ng-container matColumnDef="utilitiesIncluded">
-        <mat-header-cell *matHeaderCellDef mat-sort-header> Utilities Included? </mat-header-cell>
-        <mat-cell *matCellDef="let housing"> {{housing.utilitiesIncluded}} </mat-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.currentRental | currency: this.getCurrency(housing.currency) :'symbol':'1.0-2'}} </mat-cell>
     </ng-container>
     <ng-container matColumnDef="furnishedUnFurnished">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Furnished/Unfurnished </mat-header-cell>
         <mat-cell *matCellDef="let housing"> {{housing.furnishedUnFurnished}} </mat-cell>
     </ng-container>
+    <ng-container matColumnDef="unfurnishedAllowanceWeek">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>  Allowance (PCW) </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.unfurnishedAllowanceWeek | currency: this.getCurrency(housing.currency) :'symbol':'1.0-2'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="unfurnishedAllowanceMonth">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Allowance (PCM) </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.unfurnishedAllowanceWeek * 4.333 | currency: this.getCurrency(housing.currency) :'symbol':'1.0-2'}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="hrApproval">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> HR Approval (PCM) </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.hrApproval | currency: this.getCurrency(housing.currency) :'symbol':'1.0-2'}} </mat-cell>
+    </ng-container>
+
+    <!-- <ng-container matColumnDef="furnishedAllowanceWeek">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Furnished Allowance/Week </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.unfurnishedAllowanceWeek * 1.1 | currency: this.getCurrency(housing.currency) :'symbol':'1.0-2'}}  </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="furnishedAllowanceMonth">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Furnished Allowance/Month </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.unfurnishedAllowanceWeek * 1.1 * 4.333 | currency: this.getCurrency(housing.currency) :'symbol':'1.0-2'}} </mat-cell>
+    </ng-container> -->
+
+    <ng-container matColumnDef="differenceAllowanceMonthlyCostsPaid">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Diff Allowance & Monthly Costs </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.differenceAllowanceMonthlyCostsPaid | currency: this.getCurrency(housing.currency) :'symbol':'1.0-2'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="furnitureAllowance">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Furniture Hire Allowance </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.furnitureAllowance | currency: this.getCurrency(housing.currency) :'symbol':'1.0-2'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="actualFurnitureCosts">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Actual Furniture Costs </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.actualFurnitureCosts | currency: this.getCurrency(housing.currency) :'symbol':'1.0-2'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="parkingCharges">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Parking Charges</mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.parkingCharges | currency: this.getCurrency(housing.currency) :'symbol':'1.0-2'}}  </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="regularPayrollDeduction">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Employee Contribution (PCM) </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.regularPayrollDeduction | currency: this.getCurrency(housing.currency) :'symbol':'1.0-2'}} </mat-cell>
+    </ng-container>
+    <ng-container matColumnDef="utilitiesIncluded">
+        <mat-header-cell *matHeaderCellDef mat-sort-header> Utilities Included </mat-header-cell>
+        <mat-cell *matCellDef="let housing"> {{housing.utilitiesIncluded}} </mat-cell>
+    </ng-container>
+    
 
 
 

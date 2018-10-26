@@ -53,6 +53,8 @@ namespace EniHRWebAPI.Models
 
         public string MonthNoticePeriod { get; set; }
 
+        public string Currency { get; set; }
+
         [DataType(DataType.Currency)]
         [DisplayFormat(NullDisplayText ="N/A",DataFormatString = "{0:0.00}",ApplyFormatInEditMode =true)]
         public decimal? InitialHouseContractRent { get; set; }
@@ -67,61 +69,7 @@ namespace EniHRWebAPI.Models
 
         [DataType(DataType.Currency)]
         [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
-        public decimal? EntitledUnFurnishedAllowanceMonth
-        {
-            get
-            {
-                if (EntitledUnFurnishedAllowanceWeek == null)
-                    return null;
-                else
-                    return (EntitledUnFurnishedAllowanceWeek * 52 / 12);
-            }
-        }
-
-
-        [DataType(DataType.Currency)]
-        [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
-        public decimal? EntitledFurnishedAllowanceWeek {
-            get
-            {
-                if (EntitledUnFurnishedAllowanceWeek == null)
-                    return null;
-                else
-                    return (EntitledUnFurnishedAllowanceWeek * new decimal(1.1));
-            }
-        }
-
-
-        [DataType(DataType.Currency)]
-        [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
-        public decimal? EntitledFurnishedAllowanceMonth
-        {
-            get
-            {
-                return (EntitledFurnishedAllowanceWeek * 52 / 12);
-            }
-        }
-
-        [DataType(DataType.Currency)]
-        [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
-        public decimal? DifferenceBetweenAllowanceMonthlyRate
-        {
-            get
-            {
-                return (EntitledFurnishedAllowanceMonth - CurrentHouseRental);
-            }
-        }
-
-        [DataType(DataType.Currency)]
-        [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         public decimal? TotalAllowance { get; set; }
-
-
-        [DataType(DataType.Currency)]
-        [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
-        public decimal? Furniture { get; set; }
-
-
 
         [DataType(DataType.Currency)]
         [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
@@ -131,8 +79,12 @@ namespace EniHRWebAPI.Models
 
         [DataType(DataType.Currency)]
         [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
-        public decimal? DifferenceAllowanceMonthlyCostsPaid { get; set; }
+        public decimal? Deposit { get; set; }
 
+
+        [DataType(DataType.Currency)]
+        [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
+        public decimal? DifferenceAllowanceMonthlyCostsPaid { get; set; }
 
         [DataType(DataType.Currency)]
         [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
@@ -150,7 +102,12 @@ namespace EniHRWebAPI.Models
         [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
         public decimal? RegularPayrollDeduction { get; set; }
 
-        public string UtilitiesIncluded { get; set; }
+        [DataType(DataType.Currency)]
+        [DisplayFormat(NullDisplayText = "N/A", DataFormatString = "{0:0.00}", ApplyFormatInEditMode = true)]
+        public decimal? HRApproval { get; set; }
+
+
+        public string  UtilitiesIncluded { get; set; }
 
         public string FurnishedUnFurnished { get; set; }
 
@@ -177,27 +134,65 @@ namespace EniHRWebAPI.Models
 
             this.MonthNoticePeriod = (string)housing["monthNoticePeriod"];
 
-            this.InitialHouseContractRent = (decimal?)housing["initialRent"];
+            try
+            {
+                this.InitialHouseContractRent = (decimal?)housing["initialRent"];
+            }catch (Exception){}
 
-            this.CurrentHouseRental = (decimal?)housing["currentRental"];
+            try
+            {
+                this.CurrentHouseRental = (decimal?)housing["currentRental"];
+            }catch(Exception){}
 
-            this.EntitledUnFurnishedAllowanceWeek = (decimal?)housing["unfurnishedAllowanceWeek"];
 
-            this.DifferenceAllowanceMonthlyCostsPaid = (decimal?)housing["differenceAllowanceMonthlyCostsPaid"];
+            try
+            {
+                this.EntitledUnFurnishedAllowanceWeek = (decimal?)housing["unfurnishedAllowanceWeek"];
+            }catch(Exception){}
 
-            this.FurnitureAllowance = (decimal?)housing["furnitureAllowance"];
 
-            this.ActualFurnitureCosts = (decimal?)housing["actualFurnitureCosts"];
+            try
+            {
+                this.DifferenceAllowanceMonthlyCostsPaid = (decimal?)housing["differenceAllowanceMonthlyCostsPaid"];
+            }catch(Exception){}
 
-            this.ParkingCharges = (decimal?)housing["parkingCharges"];
+            try
+            {
+                this.FurnitureAllowance = (decimal?)housing["furnitureAllowance"];
+            }catch(Exception){}
 
-            this.RegularPayrollDeduction = (decimal?)housing["regularPayrollDeduction"];
+            try
+            {
+                this.ActualFurnitureCosts = (decimal?)housing["actualFurnitureCosts"];
+            }catch(Exception){}
+
+            try
+            {
+                this.ParkingCharges = (decimal?)housing["parkingCharges"];
+            }catch(Exception){}
+
+            try
+            {
+                this.RegularPayrollDeduction = (decimal?)housing["regularPayrollDeduction"];
+            }catch(Exception){}
 
             this.UtilitiesIncluded = (string)housing["utilitiesIncluded"];
 
             this.FurnishedUnFurnished = (string)housing["furnishedUnFurnished"];
 
+            try
+            {
+                this.Deposit = (decimal?)housing["deposit"];
+            }catch(Exception){}
+
+            this.Currency = (string)housing["currency"];
+
             this.HousingComments = (string)housing["housingComments"];
+
+            try
+            {
+                this.HRApproval = (decimal?)housing["hrApproval"];
+            }catch(Exception){}
         }
 
         //public void UpdateFromHousingViewModel(MyDBContext context, HousingViewModel housing)

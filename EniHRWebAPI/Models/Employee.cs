@@ -266,7 +266,7 @@ namespace EniHRWebAPI.Models
                 LocalPlus _localPlus;
                 try
                 {
-                    _localPlus = _context.LocalPlus.FirstOrDefault(l => l.Description == _employee.localPlus);
+                    _localPlus = _context.LocalPlus.FirstOrDefault(l => l.Description.Trim().ToLower() == _employee.localPlus.Trim().ToLower());
                 }
                 catch (Exception)
                 {
@@ -275,14 +275,14 @@ namespace EniHRWebAPI.Models
 
                 if (_localPlus == null && !String.IsNullOrWhiteSpace(_employee.localPlus))
                 {
-                    _localPlus = new LocalPlus { Description = _employee.localPlus };
+                    _localPlus = new LocalPlus { Description = _employee.localPlus.Trim() };
                 }
                 this.LocalPlus = _localPlus;
 
                 Location _location;
                 try
                 {
-                    _location = _context.Location.FirstOrDefault(l => l.Description == _employee.workingLocation);
+                    _location = _context.Location.FirstOrDefault(l => l.Description.Trim().ToLower() == _employee.workingLocation.Trim().ToLower());
                 }
                 catch (Exception)
                 {
@@ -290,7 +290,7 @@ namespace EniHRWebAPI.Models
                 }
                 if (location == null && !String.IsNullOrWhiteSpace(_employee.workingLocation))
                 {
-                    _location = new Location { Description = _employee.workingLocation };
+                    _location = new Location { Description = _employee.workingLocation.Trim() };
                 }
                 this.location = _location;
 
@@ -298,7 +298,7 @@ namespace EniHRWebAPI.Models
                 StandardEmployeeCategory _standardEmployeeCategory;
                 try
                 {
-                    _standardEmployeeCategory = _context.StandardEmployeeCategory.FirstOrDefault(l => l.Description == _employee.employeeCategory);
+                    _standardEmployeeCategory = _context.StandardEmployeeCategory.FirstOrDefault(l => l.Description.Trim().ToLower() == _employee.employeeCategory.Trim().ToLower());
                 }
                 catch (Exception)
                 {
@@ -306,7 +306,7 @@ namespace EniHRWebAPI.Models
                 }
                 if (_standardEmployeeCategory == null && !String.IsNullOrWhiteSpace(_employee.employeeCategory))
                 {
-                    _standardEmployeeCategory = new StandardEmployeeCategory { Description = _employee.employeeCategory };
+                    _standardEmployeeCategory = new StandardEmployeeCategory { Description = _employee.employeeCategory.Trim() };
                 }
                 this.standardEmployeeCategory = _standardEmployeeCategory;
 
@@ -314,7 +314,7 @@ namespace EniHRWebAPI.Models
                 OrganisationUnit _organisationUnit;
                 try
                 {
-                    _organisationUnit = _context.OrganisationUnit.FirstOrDefault(l => l.Description == _employee.organizationUnit);
+                    _organisationUnit = _context.OrganisationUnit.FirstOrDefault(l => l.Description.Trim().ToLower() == _employee.organizationUnit.Trim().ToLower());
                 }
                 catch (InvalidOperationException)
                 {
@@ -322,11 +322,11 @@ namespace EniHRWebAPI.Models
                 }
                 if (_organisationUnit == null && !String.IsNullOrWhiteSpace(_employee.organizationUnit))
                 {
-                    _organisationUnit = new OrganisationUnit { Description = _employee.organizationUnit };
+                    _organisationUnit = new OrganisationUnit { Description = _employee.organizationUnit.Trim() };
                 }
                 this.organisationUnit = _organisationUnit;
 
-                string[] cost_parts = _employee.costCentre?.Split("|".ToCharArray());
+                string[] cost_parts = _employee.costCentre?.Split("|".ToCharArray(),StringSplitOptions.RemoveEmptyEntries);
                 if (cost_parts?.Length == 2)
                 {
                     string costCode = cost_parts[0].Trim();
@@ -343,7 +343,7 @@ namespace EniHRWebAPI.Models
                     }
                     if (_workingCostCentre == null)
                     {
-                        _workingCostCentre = new WorkingCostCentre { ID = costCode, Description = costDesc };
+                        _workingCostCentre = new WorkingCostCentre { ID = costCode, Description = costDesc.Trim() };
                         _context.WorkingCostCentre.Add(_workingCostCentre);
                     }
                     this.workingCostCentre = _workingCostCentre;
@@ -352,7 +352,7 @@ namespace EniHRWebAPI.Models
                 Position _position;
                 try
                 {
-                    _position = _context.Position.FirstOrDefault(l => l.Description == _employee.position);
+                    _position = _context.Position.FirstOrDefault(l => l.Description.Trim().ToLower() == _employee.position.Trim().ToLower());
                 }
                 catch (Exception)
                 {
@@ -381,7 +381,7 @@ namespace EniHRWebAPI.Models
                 ProfessionalArea _professionalArea;
                 try
                 {
-                    _professionalArea = _context.ProfessionalArea.FirstOrDefault(l => l.Description == _employee.professionalArea);
+                    _professionalArea = _context.ProfessionalArea.FirstOrDefault(l => l.Description.Trim().ToLower() == _employee.professionalArea.Trim().ToLower());
                 }
                 catch (Exception)
                 {
@@ -389,7 +389,7 @@ namespace EniHRWebAPI.Models
                 }
                 if (_professionalArea == null && !String.IsNullOrWhiteSpace(_employee.professionalArea))
                 {
-                    _professionalArea = new ProfessionalArea { Description = _employee.professionalArea };
+                    _professionalArea = new ProfessionalArea { Description = _employee.professionalArea.Trim() };
                 }
                 this.professionalArea = _professionalArea;
 
@@ -398,7 +398,7 @@ namespace EniHRWebAPI.Models
                 HomeCompany _homeCompany;
                 try
                 {
-                    _homeCompany = _context.HomeCompany.FirstOrDefault(l => l.Description == _employee.homeCompany);
+                    _homeCompany = _context.HomeCompany.FirstOrDefault(l => l.Description.Trim().ToLower() == _employee.homeCompany.Trim().ToLower());
                 }
                 catch (Exception)
                 {
@@ -406,7 +406,7 @@ namespace EniHRWebAPI.Models
                 }
                 if (_homeCompany == null && !String.IsNullOrWhiteSpace(_employee.homeCompany))
                 {
-                    _homeCompany = new HomeCompany { Description = _employee.homeCompany };
+                    _homeCompany = new HomeCompany { Description = _employee.homeCompany.Trim() };
                 }
                 this.homeCompany = _homeCompany;
 
@@ -418,7 +418,7 @@ namespace EniHRWebAPI.Models
                 Country _countryofBirth = null;
                 try
                 {
-                    _countryofBirth = _context.Country.FirstOrDefault(l => l.CountryName.ToUpper() == _employee.countryOfBirth);
+                    _countryofBirth = _context.Country.FirstOrDefault(l => l.CountryName.Trim().ToLower() == _employee.countryOfBirth.Trim().ToLower());
                 }
                 catch (Exception)
                 {
@@ -426,14 +426,14 @@ namespace EniHRWebAPI.Models
                 }
                 if (_countryofBirth == null && !String.IsNullOrWhiteSpace(_employee.countryOfBirth))
                 {
-                    _countryofBirth = new Country { CountryName = _employee.countryOfBirth };
+                    _countryofBirth = new Country { CountryName = _employee.countryOfBirth.Trim() };
                 }
                 this.CountryofBirth = _countryofBirth;
 
                 Country _nationality = null;
                 try
                 {
-                    _nationality = _context.Country.FirstOrDefault(l => l.CountryName.ToUpper() == _employee.nationality);
+                    _nationality = _context.Country.FirstOrDefault(l => l.CountryName.Trim().ToLower() == _employee.nationality.Trim().ToLower());
                 }
                 catch (Exception)
                 {
@@ -441,7 +441,7 @@ namespace EniHRWebAPI.Models
                 }
                 if (_nationality == null && !String.IsNullOrWhiteSpace(_employee.nationality))
                 {
-                    _nationality = new Country { CountryName = _employee.nationality };
+                    _nationality = new Country { CountryName = _employee.nationality.Trim() };
                 }
                 this.Nationality = _nationality;
 
@@ -449,7 +449,7 @@ namespace EniHRWebAPI.Models
                 Country _spousenationality = null;
                 try
                 {
-                    _spousenationality = _context.Country.FirstOrDefault(l => l.CountryName.ToUpper() == _employee.spouseNationality);
+                    _spousenationality = _context.Country.FirstOrDefault(l => l.CountryName.Trim().ToLower() == _employee.spouseNationality.Trim().ToLower());
                 }
                 catch (Exception)
                 {
@@ -457,14 +457,14 @@ namespace EniHRWebAPI.Models
                 }
                 if (_spousenationality == null && !String.IsNullOrWhiteSpace(_employee.spouseNationality))
                 {
-                    _spousenationality = new Country { CountryName = _employee.spouseNationality };
+                    _spousenationality = new Country { CountryName = _employee.spouseNationality.Trim() };
                 }
                 this.SpouseNationality = _spousenationality;
 
                 FamilyStatus _familyStatus;
                 try
                 {
-                    _familyStatus = _context.FamilyStatus.FirstOrDefault(l => l.Description == _employee.familyStatus);
+                    _familyStatus = _context.FamilyStatus.FirstOrDefault(l => l.Description.Trim().ToLower() == _employee.familyStatus.Trim().ToLower());
                 }
                 catch (Exception)
                 {
@@ -472,7 +472,7 @@ namespace EniHRWebAPI.Models
                 }
                 if (_familyStatus == null && !String.IsNullOrWhiteSpace(_employee.familyStatus))
                 {
-                    _familyStatus = new FamilyStatus { Description = _employee.familyStatus };
+                    _familyStatus = new FamilyStatus { Description = _employee.familyStatus.Trim() };
                 }
                 this.familyStatus = _familyStatus;
 
@@ -483,7 +483,7 @@ namespace EniHRWebAPI.Models
                 TypeOfVISA _typeOfVISA;
                 try
                 {
-                    _typeOfVISA = _context.TypeOfVISA.FirstOrDefault(l => l.Description == _employee.typeOfVisa);
+                    _typeOfVISA = _context.TypeOfVISA.FirstOrDefault(l => l.Description.Trim().ToLower() == _employee.typeOfVisa.Trim().ToLower());
                 }
                 catch (Exception)
                 {
@@ -491,7 +491,7 @@ namespace EniHRWebAPI.Models
                 }
                 if (_typeOfVISA == null && !String.IsNullOrWhiteSpace(_employee.typeOfVisa))
                 {
-                    _typeOfVISA = new TypeOfVISA { Description = _employee.typeOfVisa };
+                    _typeOfVISA = new TypeOfVISA { Description = _employee.typeOfVisa.Trim() };
                 }
                 this.typeOfVISA = _typeOfVISA;
 
@@ -501,7 +501,7 @@ namespace EniHRWebAPI.Models
                 ActivityStatus _activityStatus;
                 try
                 {
-                    _activityStatus = _context.ActivityStatus.FirstOrDefault(l => l.Description == _employee.activityStatus);
+                    _activityStatus = _context.ActivityStatus.FirstOrDefault(l => l.Description.Trim().ToLower() == _employee.activityStatus.Trim().ToLower());
                 }
                 catch (Exception)
                 {
@@ -509,7 +509,7 @@ namespace EniHRWebAPI.Models
                 }
                 if (_activityStatus == null && !String.IsNullOrWhiteSpace(_employee.activityStatus))
                 {
-                    _activityStatus = new ActivityStatus { Description = _employee.activityStatus };
+                    _activityStatus = new ActivityStatus { Description = _employee.activityStatus.Trim() };
                 }
                 this.activityStatus = _activityStatus;
             }catch (Exception ex)

@@ -1,10 +1,37 @@
+<!-- <div class="main-content">
+    <div class="container-fluid">
 
-<input style="margin-top:80px" type="file"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="onFileChange($event)" multiple="false" />
+        <div class="card">
+              <div class="card-header card-header-danger">
+                        <div class="row">
 
-<!-- <div class="example-loading-shade"
-*ngIf="this.isLoading && !data">
-<mat-spinner color="warn" width="40px"></mat-spinner>
-</div> -->
+                              <div class="col-3 text-left">
+                                        <mat-icon class="icon-employees" aria-label="archive" >archive</mat-icon>
+                                        <h4 style="display: inline-block;font-weight: bold" class="card-title ">Import Data</h4>
+                              </div>
+
+                              <div class="col-6">
+
+                             </div>
+
+                    
+                              <div class="col-3 text-right">
+                               </div>
+                    
+                            </div>
+                 </div>
+
+                 <div class="card-body"> -->
+
+
+
+
+<input style="margin-top:2px;" type="file"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="onFileChange($event)" multiple="false" />
+
+<div class="example-loading-shade"
+        *ngIf="isLoading && !data">
+        <mat-spinner color="warn"></mat-spinner>
+</div>
 
 <div class="my-table">
 <table *ngIf="data" class="ExcelTable2007">
@@ -12,8 +39,8 @@
     <tr>
             <td class="heading"></td>
             <th *ngFor="let val of data[0];let rowIndex=index">
-                {{this.rowIndex}}
-                <!-- {{this.fromCharCode(rowIndex)}} -->
+                <!-- {{this.rowIndex}} -->
+                {{this.fromCharCode(rowIndex)}}
              </th>
     </tr>
     <tr>
@@ -41,27 +68,13 @@
 
             <td *ngFor="let val of row;let colIndex=index" >
                         <span style="width: 100%" [class]="getCellClass(rowIndex,colIndex)">
-                          {{val}}
+                                {{getNewCellValue(rowIndex,colIndex) ? getNewCellValue(rowIndex,colIndex) : val }}
                           <span class="text-prev-value">
                                   <br>
                                   {{getCurrentCellValue(rowIndex,colIndex)}}
                           </span>
                         </span>
              </td>
-
-
-            <!-- <td *ngFor="let val of row;let colIndex=index" >
-                        <span [style.color]="getCellColor(rowIndex,colIndex)" [style.background]="getCellBackGround(rowIndex,colIndex)"  [matTooltip]="getCurrentCellValue(rowIndex,colIndex)">
-                          {{val}}
-                        </span>
-             </td> -->
-
-        <!-- <td *ngFor="let val of row;let colIndex=index"  [ngClass]="{'row-checked' : this.rowChecked[rowIndex],'bg-new-record' : IsNewRow(rowIndex) , 'bg-changed-record' : IsChangedRow(rowIndex), 'bg-changed-cell' : isChangedCell(rowIndex,colIndex)}">
-                <span style="cursor:pointer" [matTooltip]="getCurrentCellValue(rowIndex,colIndex)">
-                  {{val}}
-                </span>
-        </td> -->
-
     </tr>
 </table>
 </div>
@@ -102,8 +115,6 @@
                     <div *ngIf="changing" >
                        Applying changes in progress! Please wait...<mat-spinner color="warn" diameter="30"></mat-spinner>
                      </div>
-            
-
             </div>
     </div>
 
@@ -123,6 +134,9 @@
 
 </div>
 
+<!-- 
+</div>
+</div>
 
-
-
+</div>
+</div> -->

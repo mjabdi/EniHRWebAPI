@@ -230,9 +230,13 @@ import { LeaveDialogComponent } from '../leave-dialog/leave-dialog.component';
   calcTotalDays() : number
   {
     var total = 0;
-    this.leaves.forEach( item => {
-      total = total + item.countedDays;
-    } );
+    if (this.leaves)
+    {
+          this.leaves.forEach( item => {
+            total = total + item.countedDays;
+          } );
+    }
+    
     return total;
   }
 

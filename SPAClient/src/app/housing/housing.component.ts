@@ -47,7 +47,7 @@ export class HousingComponent implements OnInit {
                                 ,'activityStatus','homeAddress','entitledBedrooms','actualBedrooms','typeofProperty'
                                 ,'rentDueDate','tenancyStartDate','tenancyEndDate','monthRemaining','monthNoticePeriod'
                                 ,'initialRent','currentRental','unfurnishedAllowanceWeek','unfurnishedAllowanceMonth'
-                                ,'furnishedAllowanceWeek','furnishedAllowanceMonth',
+                                ,'hrApproval',
                                 'differenceAllowanceMonthlyCostsPaid','furnitureAllowance','actualFurnitureCosts',
                                 'parkingCharges','regularPayrollDeduction','utilitiesIncluded','furnishedUnFurnished',
                                 'housingComments'
@@ -115,6 +115,14 @@ export class HousingComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  getCurrency(val) : string
+  {
+      if (!val)
+          return 'GBP';
+      else
+          return val;    
   }
 }
 

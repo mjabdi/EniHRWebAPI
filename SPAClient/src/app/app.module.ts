@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { HashLocationStrategy, LocationStrategy, CurrencyPipe } from '@angular/common';
 
 import { HttpClientModule } from '@angular/common/http'; 
 
@@ -41,7 +41,19 @@ import { ToastrModule } from 'ngx-toastr';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import {AuthInterceptor} from './http-interceptors/auth-interceptor'
-
+import { CurrencyMaskModule } from "ng2-currency-mask";
+import { CurrencyMaskConfig, CURRENCY_MASK_CONFIG } from "ng2-currency-mask/src/currency-mask.config";
+import { MAT_DATE_LOCALE } from '@angular/material';
+ 
+export const CustomCurrencyMaskConfig: CurrencyMaskConfig = {
+    align: "right",
+    allowNegative: true,
+    decimal: ",",
+    precision: 2,
+    prefix: "R$ ",
+    suffix: "",
+    thousands: "."
+};
 
 @NgModule({
    imports: [
@@ -55,6 +67,7 @@ import {AuthInterceptor} from './http-interceptors/auth-interceptor'
       AppRoutingModule,
       MaterialModule,
       MomentModule,
+      CurrencyMaskModule,
       ToastrModule.forRoot()
       ],
    declarations: [
@@ -63,8 +76,12 @@ import {AuthInterceptor} from './http-interceptors/auth-interceptor'
       LoginComponent
   ],
   providers: [
+
+    { provide: CURRENCY_MASK_CONFIG, useValue: CustomCurrencyMaskConfig },
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     {provide: LocationStrategy, useClass: HashLocationStrategy},
+    CurrencyPipe,
     AuthGuard,
     UserService,
     HttpErrorHandler,

@@ -15,7 +15,10 @@ import {map, startWith} from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
 import {MatDialog, MatDialogConfig} from "@angular/material";
+import { DecimalPipe, formatNumber, formatCurrency } from '@angular/common';
 
+import {CurrencyPipe} from '@angular/common'
+import { isNumber } from 'util';
 
 //import {DifferencePipe} from 'angular2-moment';
 
@@ -36,7 +39,11 @@ export class HousingDialogComponent implements OnInit {
     housing : Housing;
 
     furnishedList : string[];
+    currencyList : string[];
 
+    currencyString = "GBP";
+
+    unfurnished_value = 0;
     
     imageUrl;
 
@@ -51,6 +58,9 @@ export class HousingDialogComponent implements OnInit {
     initialRentControl = new FormControl();
     currentRentalControl = new FormControl();
     unfurnishedAllowanceWeekControl = new FormControl();
+    depositControl = new FormControl();
+    currencyControl = new FormControl();
+
 
     differenceAllowanceMonthlyCostsPaidControl = new FormControl();
     furnitureAllowanceControl = new FormControl();
@@ -60,11 +70,14 @@ export class HousingDialogComponent implements OnInit {
     utilitiesIncludedControl = new FormControl();
     furnishedUnFurnishedControl = new FormControl();
 
+    hrApprovalControl = new FormControl();
+
     housingCommentsControl = new FormControl();
 
     constructor(
-        public dialog: MatDialog,
-        public snackBar: MatSnackBar,
+        private cp: CurrencyPipe,
+        private dialog: MatDialog,
+        private snackBar: MatSnackBar,
         private baseInfoService : BaseInfoService,
         private housingService : HousingService,
         private toastrService : ToastrService,
@@ -95,11 +108,22 @@ export class HousingDialogComponent implements OnInit {
 
     setupFilters()
     {
-        this.furnishedList = ['Furnished' , 'Unfurnished' , 'N/A'];
+        this.furnishedList = ['Furnished' , 'Partially Furnished' , 'Unfurnished'  , 'N/A'];
+        this.currencyList = ['GBP' , 'EUR' , 'JPY' , 'KRW' , 'MZN' , 'NOK' , 'SGD' , 'USD' ];
+
     }
 
     LoadFormValues()
     {
+
+        var curr = "GBP";
+        if (this.housing.currency)
+        {
+            curr = this.housing.currency;
+        }
+
+        this.currencyControl.setValue(curr);
+
         this.homeAddressControl.setValue(this.housing.homeAddress);
         this.entitledBedroomsControl.setValue(this.housing.entitledBedrooms);
         this.actualBedroomsControl.setValue(this.housing.actualBedrooms);
@@ -108,19 +132,27 @@ export class HousingDialogComponent implements OnInit {
         this.tenancyStartDateControl.setValue(this.housing.tenancyStartDate);
         this.tenancyEndDateControl.setValue(this.housing.tenancyEndDate);
         this.monthNoticePeriodControl.setValue(this.housing.monthNoticePeriod);
+
+        // this.initialRentControl.setValue(formatCurrency(this.housing.initialRent, 'en-GB', curr ,'1.0-2'));
         this.initialRentControl.setValue(this.housing.initialRent);
         this.currentRentalControl.setValue(this.housing.currentRental);
         this.unfurnishedAllowanceWeekControl.setValue(this.housing.unfurnishedAllowanceWeek);
         this.housingCommentsControl.setValue(this.housing.housingComments);
 
+       
         this.differenceAllowanceMonthlyCostsPaidControl.setValue(this.housing.differenceAllowanceMonthlyCostsPaid);
+
         this.furnitureAllowanceControl.setValue(this.housing.furnitureAllowance);
         this.actualFurnitureCostsControl.setValue(this.housing.actualFurnitureCosts);
         this.parkingChargesControl.setValue(this.housing.parkingCharges);
         this.regularPayrollDeductionControl.setValue(this.housing.regularPayrollDeduction);
         this.utilitiesIncludedControl.setValue(this.housing.utilitiesIncluded);
         this.furnishedUnFurnishedControl.setValue(this.housing.furnishedUnFurnished);
+        this.depositControl.setValue(this.housing.deposit);
 
+        this.unfurnished_value = this.housing.unfurnishedAllowanceWeek;
+
+        this.hrApprovalControl.setValue(this.housing.hrApproval);
     }
 
 
@@ -148,8 +180,15 @@ export class HousingDialogComponent implements OnInit {
     }
 
 
+
+
     CopyHousing(ho1 : Housing, ho2 : Housing)
     {
+
+
+        ho1.currency = ho2.currency;
+
+
         ho1.homeAddress = ho2.homeAddress;
         ho1.entitledBedrooms = ho2.entitledBedrooms;
         ho1.actualBedrooms = ho2.actualBedrooms;
@@ -170,6 +209,9 @@ export class HousingDialogComponent implements OnInit {
         ho1.regularPayrollDeduction = ho2.regularPayrollDeduction;
         ho1.utilitiesIncluded = ho2.utilitiesIncluded;
         ho1.furnishedUnFurnished = ho2.furnishedUnFurnished;
+
+        ho1.deposit = ho2.deposit;
+        ho1.hrApproval = ho2.hrApproval;
 
     }
 
@@ -209,7 +251,12 @@ export class HousingDialogComponent implements OnInit {
         newHousing.parkingCharges = this.parkingChargesControl.value;      
         newHousing.regularPayrollDeduction = this.regularPayrollDeductionControl.value;      
         newHousing.utilitiesIncluded = this.utilitiesIncludedControl.value;      
-        newHousing.furnishedUnFurnished = this.furnishedUnFurnishedControl.value;      
+        newHousing.furnishedUnFurnished = this.furnishedUnFurnishedControl.value;    
+        
+        newHousing.deposit = this.depositControl.value;
+        newHousing.currency = this.currencyString;
+
+        newHousing.hrApproval = this.hrApprovalControl.value;
 
         return newHousing;        
     }
