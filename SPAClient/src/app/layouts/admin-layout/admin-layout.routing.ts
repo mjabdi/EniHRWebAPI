@@ -8,6 +8,8 @@ import { HomeComponent } from '../../home/home.component';
 import { LeaveComponent } from '../../leave/leave.component';
 import {ImportDataComponent} from '../../importdata/importdata.component';
 import { SettingsComponent } from 'app/settings/settings.component';
+import { ChangepasswordComponent } from 'app/changepassword/changepassword.component';
+import { ICTComponent } from 'app/ict/ict.component';
 
 
 export const AdminLayoutRoutes: Routes = [
@@ -16,7 +18,9 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'users',        component: UsersComponent },
     { path: 'housing',        component: HousingComponent },
     { path: 'leave',        component: LeaveComponent },
+    { path: 'ict',        component: ICTComponent },
     { path: 'home',        component: HomeComponent },
     { path: 'importdata',        component: ImportDataComponent },
     { path: 'settings',        component: SettingsComponent },
+    {path : 'changepassword' , component: ChangepasswordComponent}
 ];

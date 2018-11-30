@@ -26,6 +26,11 @@ import {MatMomentDateModule,MAT_MOMENT_DATE_ADAPTER_OPTIONS} from '@angular/mate
 import {ImportDataComponent} from '../../importdata/importdata.component';
 import { SettingsComponent } from 'app/settings/settings.component';
 import { DynamicTableComponent } from 'app/dynamictable/dynamictable.component';
+import { ChangepasswordComponent } from 'app/changepassword/changepassword.component';
+import { ICTComponent } from 'app/ict/ict.component';
+import { ImportDataICTComponent } from 'app/importdata-ict/importdata-ict.component';
+import { ICTDialogComponent } from 'app/ict-dialog/ict-dialog.component';
+
 
 
 @NgModule({
@@ -49,11 +54,15 @@ import { DynamicTableComponent } from 'app/dynamictable/dynamictable.component';
     HousingDialogComponent,
     LeaveDialogComponent,
     ImportDataComponent,
+    ImportDataICTComponent,
     SettingsComponent,
-    DynamicTableComponent
+    DynamicTableComponent,
+    ChangepasswordComponent,
+    ICTComponent,
+    ICTDialogComponent
   ],
   providers: [AuthenticationService,{ provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }],
-  entryComponents: [EmployeeDialogComponent,HousingDialogComponent,LeaveDialogComponent]
+  entryComponents: [EmployeeDialogComponent,HousingDialogComponent,LeaveDialogComponent,ICTDialogComponent]
 })
 
 export class AdminLayoutModule {}

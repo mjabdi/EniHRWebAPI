@@ -17,6 +17,9 @@ import {LeaveSearch} from './leavesearch';
 
 import { LeaveDialogComponent } from '../leave-dialog/leave-dialog.component';
 
+import * as XLSX from 'xlsx';
+import { DatePipe } from '@angular/common';
+
 
 @Component({
     selector: 'app-leave',
@@ -79,6 +82,63 @@ import { LeaveDialogComponent } from '../leave-dialog/leave-dialog.component';
      this.getAllLeave(); 
    }
  
+   export(): void {
+    /* generate worksheet */
+
+    var datePipe = new DatePipe("en-GB");
+
+    var tt = datePipe.transform(Date(), 'dd-MM-yyyy');
+
+    var fileName = "leave-" + tt +   ".xlsx";;
+    
+    var data = new Array<any[]>();
+
+    
+    data.push(this.displayedColumns);
+
+    for (var i=0;i<this.dataSource.filteredData.length;i++)
+    {
+      data.push(this.makeArrayFromEmployee(i+1 , this.dataSource.filteredData[i]));
+    }
+
+		const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(data);
+
+		/* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+		XLSX.utils.book_append_sheet(wb, ws, 'Leave');
+
+		/* save to file */
+    XLSX.writeFile(wb, fileName);
+    
+    }
+
+    makeArrayFromEmployee(index : number, leave : Leave) : any[]
+    {
+        var arr = new Array<any>();
+
+        arr.push(leave.employeeID);
+        arr.push(leave.name);
+        arr.push(leave.surname);
+        arr.push(leave.localPlus);
+        arr.push(leave.workingLocation);
+        arr.push(leave.employeeCategory);
+        arr.push(leave.costCentre);
+        arr.push(leave.familyStatus);
+        arr.push(leave.followingPartner);
+        arr.push(leave.followingChildren);
+        arr.push(leave.activityStatus);
+        arr.push(leave.fromDate);
+        arr.push(leave.untilDate);
+        arr.push(leave.countedDays);
+        arr.push(leave.leaveType);
+        arr.push(leave.comment);
+        arr.push(leave.registeredDateTime);
+
+        return arr;
+    }
+
+
+
    doubleClick(row : Leave)
    {
  

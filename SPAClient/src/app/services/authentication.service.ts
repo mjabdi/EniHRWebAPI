@@ -6,11 +6,18 @@ import { environment } from 'environments/environment';
 
 const baseUrl :string = environment.apiUrl;
 
+const httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+      'Accept':  'application/json'
+    })
+  };
 
 @Injectable()
 export class AuthenticationService {
 
     loginUrl = baseUrl + '/api/auth/login';
+    changePasswordlUrl = baseUrl + '/api/auth/changepassword';
 
     constructor(private http: HttpClient) {
     }
@@ -29,6 +36,15 @@ export class AuthenticationService {
             )
         );
     }
+
+    changePassword(username : string,_oldPassword : string,_newPassword : string)
+    {
+        var oldPassword =  _oldPassword;
+        var newPassword =  _newPassword;
+
+        return this.http.post<any>(this.changePasswordlUrl, {username,oldPassword,newPassword},httpOptions);
+    }  
+
 
     logout() {
         sessionStorage.clear();

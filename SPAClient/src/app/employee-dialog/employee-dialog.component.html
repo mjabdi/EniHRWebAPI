@@ -130,7 +130,7 @@
                     </div>
                     <div class="col-md-2">
                         <mat-form-field class="example-full-width">
-                            <input matInput placeholder="Years in Eni"  [value]="today | amDifference: comapnyhiringdate.value :'years' : true | number : '1.0-0'" disabled >
+                            <input matInput placeholder="Years in Eni"  [value]="today | amDifference: CorrectDateFormat(comapnyhiringdate.value) :'years' : true | number : '1.0-0'" disabled >
                           </mat-form-field>
                       </div>
                     <div class="col-md-3">
@@ -172,7 +172,7 @@
                     </div>
                     <div class="col-md-1">
                             <mat-form-field class="example-full-width">
-                              <input matInput autocomplete="off" placeholder="Age" [value]="today | amDifference: birthdate.value :'years' : true | number : '1.0-0'"  disabled>
+                              <input matInput autocomplete="off" placeholder="Age" [value]="today | amDifference: CorrectDateFormat(birthdate.value) :'years' : true | number : '1.0-0'"  disabled>
                             </mat-form-field>
                      </div>
                      <div class="col-md-2">
@@ -207,12 +207,10 @@
                             </mat-form-field>
                         </div>
                         <div class="col-md-2" style="margin-top : 0px;">
-                             
                                 <div align = "center">
                                          <div class="mat-form-field" style="color:#4caf50" > Following Partner </div>  
                                          <mat-slide-toggle [formControl]="followingPartnerControl" labelPosition="before" [checked]="employee.followingPartner"></mat-slide-toggle>
                                 </div>
-                            <!-- <mat-checkbox [formControl]="followingPartnerControl"  labelPosition="before" [checked]="employee.followingPartner">Following Partner</mat-checkbox> -->
                         </div>
              </div>
 

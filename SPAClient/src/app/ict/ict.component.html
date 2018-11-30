@@ -1,0 +1,192 @@
+
+
+<div class="main-content">
+    <div class="container-fluid">
+
+        <div class="row" style="margin-top:10px;">
+                <div class="col-md-12">
+                <mat-form-field>
+                        <input matInput autocomplete="off" (keyup)="applyFilter($event.target.value)" placeholder="Smart Search...">
+                </mat-form-field>
+                </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+
+                        <div class="row">
+                                <div class="col-3">
+                                        <mat-icon class="icon-employees" aria-label="Housing table"> desktop_mac </mat-icon>
+                                        <h4 style="display: inline-block;font-weight: bold" class="card-title"> ICT </h4>
+                                        <a matTooltip="Refresh Data" (click)="ngOnInit()" >
+                                        <mat-icon class="btn-refresh" aria-label="refresh" >refresh</mat-icon>
+                                        </a>
+                                </div>
+                                <div class="col-6">
+
+                                </div>
+                                <div class="col-3" style="text-align: right">
+                                    <span *ngIf="ICTs" class="text-table-count fadeIn animated">
+                                        <img matTooltip="Export to Excel" class="icon-excel" src = "http://icons.iconarchive.com/icons/ncrow/mega-pack-1/128/Excel-icon.png" (click)="export()"> 
+                                    </span>  
+
+                                    <span *ngIf="ICTs" class="text-table-count fadeIn animated">
+                                       {{this.dataSource.filteredData.length}} Rows   
+                                    </span>  
+                                </div>
+                            </div>    
+                        </div>
+
+
+                            <div class="example-loading-shade"
+                                 *ngIf="this.isLoading">
+                              <mat-spinner color="warn"></mat-spinner>
+                             </div>
+
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+
+
+      <mat-table class="mat-table-housing" [dataSource]="dataSource" matSort>
+
+
+            <ng-container matColumnDef="ID">
+                    <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
+                    <mat-cell *matCellDef="let rowIndex=index;let ict"> 
+                        <img *ngIf="ict.technicalID && ict.technicalID.length > 1" style="margin-right:20px;" width="64px" [src]="this.imageUrl +  ict.technicalID + '.jpg'">     
+                           {{rowIndex+1}} 
+                    </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="employeeID">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Employee No. </mat-header-cell>
+                <mat-cell *matCellDef="let ict"> {{ict.employeeID}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Name </mat-header-cell>
+                <mat-cell *matCellDef="let ict"> {{ict.name}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="surname">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Surname </mat-header-cell>
+                <mat-cell *matCellDef="let ict"> {{ict.surname}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="activeDirAccount">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Active Dir Account </mat-header-cell>
+                <mat-cell *matCellDef="let ict">  {{ ict.activeDirAccount}} </mat-cell>
+             </ng-container>
+    
+             <ng-container matColumnDef="workstaionNumber">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Worksation No. </mat-header-cell>
+                <mat-cell *matCellDef="let ict">  {{ ict.workstaionNumber}} </mat-cell>
+             </ng-container>
+    
+
+        <ng-container matColumnDef="localPlus">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Staff Typology </mat-header-cell>
+                <mat-cell *matCellDef="let ict"> {{ict.localPlus}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="workingLocation">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Working Location </mat-header-cell>
+                <mat-cell *matCellDef="let ict"> {{ict.workingLocation}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="employeeCategory">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Employee Cat. </mat-header-cell>
+                <mat-cell *matCellDef="let ict"> {{ict.employeeCategory}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="costCentre">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Cost Centre</mat-header-cell>
+                <mat-cell *matCellDef="let ict"> {{ict.costCentre}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="activityStatus">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Activity Status </mat-header-cell>
+                <mat-cell *matCellDef="let ict">  {{ ict.activityStatus}} </mat-cell>
+        </ng-container>
+
+         <ng-container matColumnDef="approvalLevel1">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Approval Level I </mat-header-cell>
+            <mat-cell *matCellDef="let ict">  {{ ict.approvalLevel1}} </mat-cell>
+         </ng-container>
+
+         <ng-container matColumnDef="approvalLevel2">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Approval Level II </mat-header-cell>
+            <mat-cell *matCellDef="let ict">  {{ ict.approvalLevel2}} </mat-cell>
+         </ng-container>
+
+         <ng-container matColumnDef="macroAggregation">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Macro Aggregation</mat-header-cell>
+            <mat-cell *matCellDef="let ict">  {{ ict.macroAggregation}} </mat-cell>
+         </ng-container>
+
+         <ng-container matColumnDef="deskPhoneNumber">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Desk Phone No.</mat-header-cell>
+            <mat-cell *matCellDef="let ict">  {{ ict.deskPhoneNumber}} </mat-cell>
+         </ng-container>
+
+         <ng-container matColumnDef="mobileNumber">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Mobile No.</mat-header-cell>
+            <mat-cell *matCellDef="let ict">  {{ ict.mobileNumber}} </mat-cell>
+         </ng-container>
+
+         <ng-container matColumnDef="advancedLyncProfile">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Advanced Skype Profile</mat-header-cell>
+            <mat-cell *matCellDef="let ict">  {{ ict.advancedLyncProfile ? 'Yes' : 'No'}} </mat-cell>
+         </ng-container>
+
+         <ng-container matColumnDef="sap">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> SAP </mat-header-cell>
+            <mat-cell *matCellDef="let ict">  {{ ict.sap ? 'Yes' : 'No'}} </mat-cell>
+         </ng-container>
+
+         <ng-container matColumnDef="linkToAttachment">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Link to Attachment</mat-header-cell>
+            <mat-cell *matCellDef="let ict"> 
+                <a [href]="'http://epww.eni.com/sites/eme/ict/attachment/' + ict.linkToAttachment + '.pdf'" target="_blank">
+                    {{ ict.linkToAttachment}} 
+                </a>
+                </mat-cell>
+         </ng-container>
+
+         <ng-container matColumnDef="emailAddress">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Email Address</mat-header-cell>
+                <mat-cell *matCellDef="let ict">  {{ ict.emailAddress}} </mat-cell>
+         </ng-container>
+    
+
+         <ng-container matColumnDef="note">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Note </mat-header-cell>
+            <mat-cell *matCellDef="let ict">  {{ ict.note}} </mat-cell>
+         </ng-container>
+
+        <ng-container matColumnDef="startMoveDate">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Start/Move Date </mat-header-cell>
+            <mat-cell *matCellDef="let ict"> {{ict.startMoveDate | date : 'dd/MM/yyyy'}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns" 
+        matRipple
+        class="element-row"
+        (click)="selectedICT = row"
+        (dblclick) = "doubleClick(row)"
+        [class.selected]="selectedICT == row"
+        [class.deleted] = "row.activityStatus == 'Leaver'" 
+        [matTooltip] = "row.activityStatus == 'Leaver' ? row.name + ' has left the company!' : ''"
+        matTooltipPosition = "left" >
+        </mat-row>
+
+    </mat-table>
+   
+      </div>
+    </div>
+  </div>
+</div>

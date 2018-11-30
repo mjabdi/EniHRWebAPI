@@ -53,26 +53,10 @@
        <div fxLayout='column'>
         <mat-form-field class="login-full-width">
           <input matInput required type="text" #username id="username"  placeholder="Username" [disabled]="isSubmit">
-          <mat-error *ngIf="username.invalid && (username.dirty || username.touched || isSubmit)">
-            <span *ngIf="username.errors.required">
-              Please enter Username
-            </span>
-          </mat-error>
         </mat-form-field>
         <mat-form-field class="login-full-width">
           <input matInput  #password id="password" [type]="hide ? 'password' : 'text'" name="password" placeholder="Password" required [disabled]="isSubmit">
           <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-          <mat-error *ngIf="password.invalid && (password.dirty || password.touched || isSubmit)">
-            <span *ngIf="password.errors.required">
-              Please enter a Email
-            </span>
-            <span *ngIf="password.errors.maxlength">
-              Please enter a Email no more than 16 characters.
-            </span>
-            <span *ngIf="password.errors.minlength">
-              Please enter a password at least 6 characters.
-            </span>
-          </mat-error>
         </mat-form-field>
         <div fxLayout='row' fxLayoutGap="10px">
           <button mat-raised-button color="warn" type="submit" [disabled]="isSubmit" mat-raised-button >Login</button>

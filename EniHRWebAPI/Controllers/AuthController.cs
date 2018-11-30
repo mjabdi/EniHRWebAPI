@@ -29,7 +29,7 @@ namespace EniHRWebAPI.Controllers
             this.configuration = config;
         }
 
-        // POST: /api/auth
+        // POST: /api/auth/login
         [HttpPost]
         [Route("login")]    
         public IActionResult Login([FromBody]LoginModel user)
@@ -84,6 +84,33 @@ namespace EniHRWebAPI.Controllers
                 return Unauthorized();
             }
         }
+
+
+
+        // POST: /api/auth/changepassword
+        [HttpPost]
+        [Route("changepassword")]
+        public IActionResult ChangePassword([FromBody]ChangePasswordDTO info)
+        {
+            if (info == null)
+                return NotFound();
+
+
+            User user = contextUsers.Users.Find(info.username);
+
+            if (user == null)
+                return NotFound();
+
+            if (user.Password != info.oldPassword)
+                return BadRequest("WrongPassword");
+
+            user.Password = info.newPassword;
+
+            contextUsers.SaveChanges();
+
+            return Ok();
+        }
+
 
 
         public static string CurrentUserName(HttpRequest request)

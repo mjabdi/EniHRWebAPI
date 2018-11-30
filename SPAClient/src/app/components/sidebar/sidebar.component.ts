@@ -38,8 +38,10 @@ export class SidebarComponent implements OnInit {
                 { path: '/employees', title: 'Employees',  icon: 'people', class: '' },
                 { path: '/housing', title: 'Housing',  icon: 'account_balance', class: '' },
                 { path: '/leave', title: 'Leave',  icon: 'transfer_within_a_station', class: '' },
-                // { path: '/importdata', title: 'Import Data',  icon: 'archive', class: '' },
-                { path: '/settings', title: 'Settings',  icon: 'build', class: '' }
+                { path: '/ict', title: 'ICT',  icon: 'desktop_mac', class: '' },
+                { path: '/settings', title: 'Settings',  icon: 'build', class: '' },
+                { path: '/changepassword', title: 'Change Password',  icon: 'lock', class: '' }
+
 
             ];
         }

@@ -453,6 +453,20 @@ export class EmployeeDialogComponent implements OnInit {
         return newEmployee;        
     }
 
+    CorrectDateFormat(val : string)
+    {
+        if (!val)
+          return '';
+
+        var split =  val.split('/');
+
+        if (split.length != 3)
+          return val;
+
+       return split[1] + "/" + split[0] + "/" + split[2];   
+    }
+
+
 
 
     close() {

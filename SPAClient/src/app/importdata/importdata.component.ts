@@ -57,11 +57,13 @@ type AOA = any[][];
 			const wb: XLSX.WorkBook = XLSX.read(bstr, {type: 'binary'});
 
 			/* grab first sheet */
-			const wsname: string = wb.SheetNames[0];
+            const wsname: string = wb.SheetNames[0];
 			const ws: XLSX.WorkSheet = wb.Sheets[wsname];
 
-			/* save data */
+            /* save data */
+
             this.data = <AOA>(XLSX.utils.sheet_to_json(ws, {header: 1}));
+
             for (let i =0;i<this.data.length;i++)
             {
                 if (!this.data[i][0])
@@ -197,7 +199,14 @@ type AOA = any[][];
 
                 if (changedRecords.length > 0)
                 {
-                    this.toastrService.success(changedRecords.length +  " records updated successfully!","Database Updatad");
+                    var str = "record";
+
+                    if (changedRecords.length > 1)
+                    {
+                        str = "records";
+                    }
+
+                    this.toastrService.success(changedRecords.length + " "  + str + " updated successfully!","Database Updatad");
                     for (let i=0 ; i < changedRecords.length; i++)
                     {
                         this.valiationResponse[changedRecords[i]].isChanged = false;    

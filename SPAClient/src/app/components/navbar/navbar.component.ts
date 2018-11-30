@@ -59,9 +59,13 @@ export class NavbarComponent implements OnInit {
             {
                 this.ROUTES = [
                     { path: '/home', title: 'Dashboard',  icon: 'dashboard', class: '' },
-                    { path: '/employees', title: 'Employees',  icon: 'person', class: '' },
-                    { path: '/housing', title: 'Housing',  icon: 'home', class: '' }
-                ];
+                    { path: '/employees', title: 'Employees',  icon: 'people', class: '' },
+                    { path: '/housing', title: 'Housing',  icon: 'account_balance', class: '' },
+                    { path: '/leave', title: 'Leave',  icon: 'transfer_within_a_station', class: '' },
+                    { path: '/ict', title: 'ICT',  icon: 'desktop_mac', class: '' },
+                    { path: '/settings', title: 'Settings',  icon: 'build', class: '' },
+                    { path: '/changepassword', title: 'Change Password',  icon: 'lock', class: '' }
+                    ];
             }
         }
 

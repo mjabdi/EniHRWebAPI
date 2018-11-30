@@ -454,6 +454,10 @@ two()
     this.selectedIndex = 2;
 }
 
+three()
+{
+    this.selectedIndex = 3;
+}
 
   }
 

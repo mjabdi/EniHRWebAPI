@@ -9,6 +9,8 @@ import { Observable, of } from 'rxjs';
 import {MatDialog, MatDialogConfig} from "@angular/material";
 import {EmployeeDialogComponent} from '../employee-dialog/employee-dialog.component';
 import { ViewEncapsulation } from '@angular/core';
+import * as XLSX from 'xlsx';
+import { DatePipe } from '@angular/common';
 
 import {
   Overlay,
@@ -63,6 +65,85 @@ export class HousingComponent implements OnInit {
   ngOnInit() {
     this.getAllHousing(); 
   }
+
+  export(): void {
+    /* generate worksheet */
+    var datePipe = new DatePipe("en-GB");
+
+    var tt = datePipe.transform(Date(), 'dd-MM-yyyy');
+
+    var fileName = "housing-" + tt +   ".xlsx";;
+    
+    var data = new Array<any[]>();
+
+    
+    data.push(this.displayedColumns);
+
+    for (var i=0;i<this.dataSource.filteredData.length;i++)
+    {
+      data.push(this.makeArrayFromEmployee(i+1 , this.dataSource.filteredData[i]));
+    }
+
+		const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(data);
+
+		/* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+		XLSX.utils.book_append_sheet(wb, ws, 'Housing');
+
+		/* save to file */
+    XLSX.writeFile(wb, fileName);
+    
+    }
+
+    makeArrayFromEmployee(index : number, housing : Housing) : any[]
+    {
+        var arr = new Array<any>();
+
+        arr.push(index);
+        arr.push(housing.employeeID);
+        arr.push(housing.name);
+        arr.push(housing.surname);
+        arr.push(housing.localPlus);
+        arr.push(housing.workingLocation);
+        arr.push(housing.employeeCategory);
+        arr.push(housing.costCentre);
+        arr.push(housing.familyStatus);
+        arr.push(housing.followingPartner);
+        arr.push(housing.followingChildren);
+        arr.push(housing.activityStatus);
+        arr.push(housing.homeAddress);
+        arr.push(housing.entitledBedrooms);
+        arr.push(housing.actualBedrooms);
+        arr.push(housing.typeofProperty);
+        arr.push(housing.rentDueDate);
+        arr.push(housing.tenancyStartDate);
+        arr.push(housing.tenancyEndDate);
+        //arr.push('month remaining');
+        arr.push('');
+
+        arr.push(housing.monthNoticePeriod);
+        arr.push(housing.initialRent);
+        arr.push(housing.currentRental);
+        arr.push(housing.unfurnishedAllowanceWeek);
+        arr.push(housing.unfurnishedAllowanceWeek * 4.333);
+        arr.push(housing.hrApproval)
+        arr.push(housing.differenceAllowanceMonthlyCostsPaid);
+        arr.push(housing.furnitureAllowance);
+        arr.push(housing.actualFurnitureCosts);
+        arr.push(housing.parkingCharges);
+        arr.push(housing.regularPayrollDeduction);
+        arr.push(housing.utilitiesIncluded);
+        arr.push(housing.furnishedUnFurnished);
+        arr.push(housing.housingComments);
+
+        return arr;
+    }
+
+
+
+
+
+
 
   doubleClick(row : Housing)
   {

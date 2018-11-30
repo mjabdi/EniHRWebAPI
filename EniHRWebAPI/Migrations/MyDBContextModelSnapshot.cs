@@ -340,6 +340,44 @@ namespace EniHRWebAPI.Migrations
                     b.ToTable("Housing");
                 });
 
+            modelBuilder.Entity("EniHRWebAPI.Models.ICT", b =>
+                {
+                    b.Property<long>("ICTID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("ActiveDirAccount");
+
+                    b.Property<bool>("AdvancedLyncProfile");
+
+                    b.Property<string>("ApprovalLevel1");
+
+                    b.Property<string>("ApprovalLevel2");
+
+                    b.Property<string>("DeskPhoneNumber");
+
+                    b.Property<long?>("EmployeeID");
+
+                    b.Property<string>("LinkToAttachment");
+
+                    b.Property<string>("MacroAggregation");
+
+                    b.Property<string>("MobileNumber");
+
+                    b.Property<string>("Note");
+
+                    b.Property<bool>("SAP");
+
+                    b.Property<DateTime?>("StartMoveDate");
+
+                    b.Property<string>("WorkstaionNumber");
+
+                    b.HasKey("ICTID");
+
+                    b.HasIndex("EmployeeID");
+
+                    b.ToTable("ICTs");
+                });
+
             modelBuilder.Entity("EniHRWebAPI.Models.Leave", b =>
                 {
                     b.Property<long>("LeaveID")
@@ -624,6 +662,13 @@ namespace EniHRWebAPI.Migrations
                 });
 
             modelBuilder.Entity("EniHRWebAPI.Models.Housing", b =>
+                {
+                    b.HasOne("EniHRWebAPI.Models.Employee", "employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeID");
+                });
+
+            modelBuilder.Entity("EniHRWebAPI.Models.ICT", b =>
                 {
                     b.HasOne("EniHRWebAPI.Models.Employee", "employee")
                         .WithMany()

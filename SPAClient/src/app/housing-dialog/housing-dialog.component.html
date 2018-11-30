@@ -204,7 +204,7 @@
             </div>
             <div class="col-md-3">
                 <mat-form-field class="example-full-width">
-                    <input matInput autocomplete="off" disabled type="number"  placeholder="Month Remaining" [value] = "endDate.value  | amDifference: today :'month' : true | number : '1.0-0'" >
+                    <input matInput autocomplete="off" disabled type="number"  placeholder="Month Remaining" [value] = "CorrectDateFormat(endDate.value)  | amDifference: today :'month' : true | number : '1.0-0'" >
                 </mat-form-field>
             </div>
 
@@ -214,9 +214,6 @@
                 </mat-form-field>
             </div>
         </div>
-
-
-
 
         <div class="row" style="margin-top: 10px">
             <div class="col-md-3">

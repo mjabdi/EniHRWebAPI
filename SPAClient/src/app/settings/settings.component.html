@@ -29,9 +29,13 @@
                                             <li style="margin-bottom:20px;" >
                                                 To change the base-info tables go to <a class="tab-link" (click)="one()" >Base Info Tables</a>  tab.    
                                             </li>
-                                            <li>
-                                                To import the data from an Excel file go to <a class="tab-link" (click)="two()">Import Data</a> tab.    
+                                            <li style="margin-bottom:20px;">
+                                                To import HR data from an Excel file go to <a class="tab-link" (click)="two()">Import Data (HR)</a> tab.    
                                             </li>
+                                            <li>
+                                                To import ICT data from an Excel file go to <a class="tab-link" (click)="three()">Import Data (ICT)</a> tab.    
+                                            </li>
+
                                         </ul>                    
                             </div>
                             <div class="col-4">
@@ -122,7 +126,7 @@
             <mat-tab label="two">
                     <ng-template mat-tab-label>
                             <mat-icon class="example-tab-icon">archive</mat-icon>
-                            <span style="vertical-align: top; margin-left:2px"> Import Data </span> 
+                            <span style="vertical-align: top; margin-left:2px"> Import Data (HR)</span> 
                     </ng-template>
 
                 <div class="content-importdata">
@@ -130,6 +134,18 @@
                 </div>
 
             </mat-tab>
+
+            <mat-tab label="three">
+                <ng-template mat-tab-label>
+                        <mat-icon class="example-tab-icon">archive</mat-icon>
+                        <span style="vertical-align: top; margin-left:2px"> Import Data (ICT)</span> 
+                </ng-template>
+
+            <div class="content-importdata">
+                    <app-importdata-ict></app-importdata-ict>
+            </div>
+
+        </mat-tab>
 
 
         </mat-tab-group>

@@ -1,0 +1,174 @@
+
+    <div align="center" *ngIf="!isloaded()">
+        <mat-spinner color="warn" diameter="50"></mat-spinner>
+    </div> 
+
+
+    <mat-progress-bar mode="query"  color="warn" style="padding:0 ; margin-left:0; margin-right:0 ; margin-top: 0; margin-bottom:10px ;width: 100%" *ngIf="isSubmit" ></mat-progress-bar>
+
+    <form *ngIf="isloaded()" (keydown.enter)="$event.preventDefault()">
+
+    <mat-dialog-content>
+
+        <div class="row">
+
+            <div class="col-md-2">
+                    <img class="img" [src]="this.imageUrl" class="image-cover"/>
+            </div>
+    
+            <div class="col-md-2" style="margin-top: 50px">
+                <mat-form-field class="example-full-width">
+                 <input matInput autocomplete="off"  placeholder="Employee #" disabled  [value]="ict.employeeID">
+                 </mat-form-field>
+             </div>
+
+            <div class="col-md-3" style="margin-top: 50px" >
+              <mat-form-field class="example-full-width">
+                  <input  matInput  autocomplete="off" placeholder="Name" disabled [value]="ict.name">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3" style="margin-top: 50px">
+                <mat-form-field class="example-full-width">
+                  <input  matInput autocomplete="off" placeholder="Surname" disabled  [value]="ict.surname">
+                </mat-form-field>
+            </div>
+            <div class="col-md-2" style="margin-top: 50px">
+                <mat-form-field class="example-full-width">
+                  <input matInput  autocomplete="off" placeholder="Staff Typology" disabled  [value]="ict.localPlus">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px">
+
+
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autocomplete="off"  placeholder="Working Location" disabled [value]="ict.workingLocation">
+                      </mat-form-field>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autocomplete="off"  placeholder="Employee Category" disabled  [value]="ict.employeeCategory">
+                      </mat-form-field>
+                </div>
+                <div class="col-md-6">
+                        <mat-form-field class="example-full-width">
+                            <input matInput autocomplete="off"  placeholder="Cost Centre" disabled  [value]="ict.costCentre">
+                          </mat-form-field>
+                </div>
+        </div>
+
+
+           
+        <div class="row" style="margin-top: 10px">
+                <div class="col-md-12" style="margin-top : 0px;">
+                    <mat-form-field class="example-full-width">
+                        <input matInput  autocomplete="off" placeholder="Activity Status" disabled  [value]="ict.activityStatus">
+                        </mat-form-field>
+                </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px">
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" [formControl]="this.activeDirAccountControl" placeholder="Active Dir Account">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3">
+                <mat-form-field class="example-full-width">
+                    <input matInput autocomplete="off" [formControl]="this.workstaionNumberControl" placeholder="Worksation No.">
+                </mat-form-field>
+             </div>
+             <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autocomplete="off" [formControl]="this.approvalLevel1Control" placeholder="Approval Level I">
+                    </mat-form-field>
+             </div>
+            <div class="col-md-3">
+                    <mat-form-field class="example-full-width">
+                        <input matInput autocomplete="off" [formControl]="this.approvalLevel2Control" placeholder="Approval Level II">
+                    </mat-form-field>
+             </div>
+        </div>
+
+        <div class="row" style="margin-top: 10px">
+                     <div class="col-md-3">
+                        <mat-form-field class="example-full-width">
+                                <mat-select [formControl]="this.macroAggregationControl" placeholder="Macro Aggregation">
+                                        <mat-option *ngFor="let item of macroAggregationList" [value]="item">
+                                          {{item}}
+                                        </mat-option>
+                                </mat-select>                      
+                              </mat-form-field>
+                     </div>
+                    <div class="col-md-3">
+                        <mat-form-field class="example-full-width">
+                            <input matInput autocomplete="off" [formControl]="this.deskPhoneNumberControl" placeholder="Desk Phone No.">
+                        </mat-form-field>
+                     </div>
+                     <div class="col-md-3">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autocomplete="off" [formControl]="this.mobileNumberControl" placeholder="Mobile No">
+                            </mat-form-field>
+                     </div>
+                     <div class="col-md-3">
+                            <mat-form-field class="example-full-width">
+                                <input matInput autocomplete="off" [formControl]="this.emailAddressControl" placeholder="Email Address">
+                            </mat-form-field>
+                     </div>
+
+         </div>
+
+
+         <div class="row" style="margin-top: 10px">
+                <div class="col-md-3" style="margin-top : 0px;">
+                        <div style="text-align: center !important">
+                                 <div class="mat-form-field" style="color:#4caf50;text-align: center !important" > Advanced Skype Profile </div>  
+                                 <mat-slide-toggle [formControl]="this.advancedLyncProfileControl" labelPosition="before" [checked]="this.ict.advancedLyncProfile"></mat-slide-toggle>
+                        </div>
+                </div>
+
+                <div class="col-md-3" style="margin-top : 0px;">
+                        <div style="text-align: center !important">
+                                 <div class="mat-form-field" style="color:#4caf50;text-align: center !important" > SAP </div>  
+                                 <mat-slide-toggle [formControl]="this.sapControl" labelPosition="before" [checked]="this.ict.sap"></mat-slide-toggle>
+                        </div>
+                </div>
+
+                <div class="col-md-3">
+                        <div style="text-align: center !important">
+                                    <div class="mat-form-field" style="color:#4caf50;text-align: center !important" > Link to Attachment </div>  
+                                     <a [href]="'http://epww.eni.com/sites/eme/ict/attachment%20A/' + this.ict.linkToAttachment" target="_blank"> {{this.ict.linkToAttachment}} </a>
+                            </div>
+                 </div>
+
+                <div class="col-md-3">
+                        <mat-form-field class="example-full-width">
+                                <input matInput autocomplete="off"  #startDate [formControl]="this.startMoveDateControl"  [matDatepicker]="myDatepicker"
+                                placeholder="Start/Move Date">
+                            <mat-datepicker-toggle matSuffix
+                                                   [for]="myDatepicker">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #myDatepicker></mat-datepicker>
+                                </mat-form-field>
+                 </div>
+            </div>
+    
+            <div class="row" style="margin-top: 10px">
+                    <div class="col-md-12" style="margin-top : 0px;">
+                        <mat-form-field class="example-full-width">
+                            <input matInput  autocomplete="off" placeholder="Note"  [formControl]="this.noteControl">
+                         </mat-form-field>
+                    </div>
+            </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button  matDialogClose  (keydown.enter)="$event.preventDefault()"  mat-raised-button class="btn btn-default" [disabled]="isSubmit" (click)="close()"> Close </button>
+    <button  type="submit" mat-raised-button class="btn btn-primary" [disabled]="isSubmit" (click)="save()" >Update ICT</button>
+</mat-dialog-actions>
+
+
+</form>

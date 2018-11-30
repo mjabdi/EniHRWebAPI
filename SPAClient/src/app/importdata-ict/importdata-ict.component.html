@@ -1,0 +1,142 @@
+<!-- <div class="main-content">
+    <div class="container-fluid">
+
+        <div class="card">
+              <div class="card-header card-header-danger">
+                        <div class="row">
+
+                              <div class="col-3 text-left">
+                                        <mat-icon class="icon-employees" aria-label="archive" >archive</mat-icon>
+                                        <h4 style="display: inline-block;font-weight: bold" class="card-title ">Import Data</h4>
+                              </div>
+
+                              <div class="col-6">
+
+                             </div>
+
+                    
+                              <div class="col-3 text-right">
+                               </div>
+                    
+                            </div>
+                 </div>
+
+                 <div class="card-body"> -->
+
+
+
+
+<input style="margin-top:2px;" type="file"  accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" (change)="onFileChange($event)" multiple="false" />
+
+<div class="example-loading-shade"
+        *ngIf="isLoading && !data">
+        <mat-spinner color="warn"></mat-spinner>
+</div>
+
+<div class="my-table">
+<table *ngIf="data" class="ExcelTable2007">
+    
+    <tr>
+            <td class="heading"></td>
+            <th *ngFor="let val of data[0];let rowIndex=index">
+                {{this.rowIndex}}
+                <!-- {{this.fromCharCode(rowIndex)}} -->
+             </th>
+    </tr>
+    <tr>
+        <td class="heading" > 
+                <mat-checkbox *ngIf="validate && HasNewOrChanged()" #checkall (change)="checkallchanged(checkall.checked)" id="check-all">
+                </mat-checkbox>
+                <span class="text-row-number">
+                        #
+                </span>
+        </td>
+        <th *ngFor="let val of data[0]" class="my-heading">
+           {{val}}
+        </th>
+    </tr>
+
+    <tr *ngFor="let row of data.slice(1);let rowIndex=index">
+            <td class="heading">
+                    <mat-checkbox  *ngIf="validate && IsNewOrChanged(rowIndex)" #thischeck (change)="chkallchanged=false;this.rowChecked[rowIndex]=thischeck.checked" [checked]="this.chkallchanged ? this.CheckAll : thischeck.checked ">
+                     </mat-checkbox>
+                     <span class="text-row-number">
+                         {{rowIndex+1}}
+                    </span>
+            </td>
+
+
+            <td *ngFor="let val of row;let colIndex=index" >
+                        <span style="width: 100%" [class]="getCellClass(rowIndex,colIndex)">
+                                {{getNewCellValue(rowIndex,colIndex) ? getNewCellValue(rowIndex,colIndex) : val }}
+                          <span class="text-prev-value">
+                                  <br>
+                                  {{getCurrentCellValue(rowIndex,colIndex)}}
+                          </span>
+                        </span>
+             </td>
+    </tr>
+</table>
+</div>
+
+<div class="row">
+
+    <div class="col-4">
+
+            <div *ngIf="data" style="margin-left:5px;">
+                    Total Rows : {{data.length -1 }} 
+                    <!-- Columns : {{data[0].length}} -->
+
+                 <div *ngIf="validate">
+                    <span *ngIf="this.SelectedCounts() == 0" class="row-checked">
+                        No Rows Selected! <br>
+                    </span>
+
+                    <span *ngIf="this.SelectedCounts() == 1" class="row-checked">
+                            1 Row Selected
+                    </span>
+
+                    <span *ngIf="this.SelectedCounts() > 1" class="row-checked">
+                            {{this.SelectedCounts()}} Rows Selected
+                    </span>
+                </div>
+            </div>
+    </div>
+
+    <div class="col-4" style="margin-top : 20px">
+            <div align="center">
+
+                    <button mat-raised-button [disabled]="validating" class="btn btn-danger" *ngIf="data && !validate" (click)="LoadData()">Load Data</button>
+                    <button  mat-raised-button [disabled]="this.SelectedCounts()==0 || changing" class="btn btn-danger" *ngIf="validate" (click)="ApplyChanges()">Apply Selected Data!</button>
+                    <div *ngIf="validating" >
+                    Checking data in progress! Please wait...<mat-spinner color="warn" diameter="30"></mat-spinner>
+                    </div>
+
+                    <div *ngIf="changing" >
+                       Applying changes in progress! Please wait...<mat-spinner color="warn" diameter="30"></mat-spinner>
+                     </div>
+            </div>
+    </div>
+
+    <div *ngIf="validate" class="col-4">
+                <div class="bg-new-record">
+                        {{this.newRecords}} New Records Found!
+                </div>
+
+                <div class="bg-changed-record">
+                        {{this.changedRecords}} Different Records Found!
+                </div>
+                
+                <div class="bg-changed-cell">
+                         {{this.changedFields}} Different Fields Found!
+                </div>
+    </div>
+
+</div>
+
+<!-- 
+</div>
+</div>
+
+</div>
+</div> -->

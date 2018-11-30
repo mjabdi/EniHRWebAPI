@@ -1,3 +1,5 @@
+import { stream } from "xlsx/types";
+
 export class Employee {
 
 employeeID : number;
@@ -29,4 +31,16 @@ emailAddress : string;
 activityStatus : string;
 
 isNew: boolean;
+
+
+public toArray(length) : string[]
+{
+    var strarray : string[];
+    for(var i = 0; i< length; i++)
+    {
+        strarray.push('test');
+    }
+    return strarray;
+}
+
 }

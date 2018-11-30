@@ -348,4 +348,28 @@ ALTER TABLE `Housing` ADD `HRApproval` decimal(65, 30) NULL;
 INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
 VALUES ('20181019151428_MyDBContext-housingchanges4', '2.1.2-rtm-30932');
 
+CREATE TABLE `ICTs` (
+    `ICTID` bigint NOT NULL AUTO_INCREMENT,
+    `EmployeeID` bigint NULL,
+    `ActiveDirAccount` longtext NULL,
+    `WorkstaionNumber` longtext NULL,
+    `ApprovalLevel1` longtext NULL,
+    `ApprovalLevel2` longtext NULL,
+    `MacroAggregation` longtext NULL,
+    `DeskPhoneNumber` longtext NULL,
+    `MobileNumber` longtext NULL,
+    `AdvancedLyncProfile` bit NOT NULL,
+    `SAP` bit NOT NULL,
+    `LinkToAttachment` longtext NULL,
+    `Note` longtext NULL,
+    `StartMoveDate` datetime(6) NULL,
+    CONSTRAINT `PK_ICTs` PRIMARY KEY (`ICTID`),
+    CONSTRAINT `FK_ICTs_Employees_EmployeeID` FOREIGN KEY (`EmployeeID`) REFERENCES `Employees` (`EmployeeID`) ON DELETE NO ACTION
+);
+
+CREATE INDEX `IX_ICTs_EmployeeID` ON `ICTs` (`EmployeeID`);
+
+INSERT INTO `__EFMigrationsHistory` (`MigrationId`, `ProductVersion`)
+VALUES ('20181130091832_MyDBContext-ICT', '2.1.2-rtm-30932');
+
 

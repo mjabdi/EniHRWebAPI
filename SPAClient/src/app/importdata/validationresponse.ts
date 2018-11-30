@@ -12,3 +12,7 @@ export class ValidationResponse
     isNew : boolean;
     changedColumns : ChangeColumn[];
 }
+
+
+
+   

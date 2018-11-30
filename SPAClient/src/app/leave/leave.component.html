@@ -107,6 +107,10 @@
                                 </div>
                                 <div class="col-3" style="text-align: right">
                                     <span *ngIf="leaves" class="text-table-count fadeIn animated">
+                                        <img matTooltip="Export to Excel" class="icon-excel" src = "http://icons.iconarchive.com/icons/ncrow/mega-pack-1/128/Excel-icon.png" (click)="export()"> 
+                                    </span>  
+ 
+                                    <span *ngIf="leaves" class="text-table-count fadeIn animated">
                                        {{this.dataSource.filteredData.length}} Rows   
                                     </span>  
                                 </div>
@@ -185,11 +189,11 @@
 
     <ng-container matColumnDef="fromDate">
         <mat-header-cell *matHeaderCellDef mat-sort-header> From Date </mat-header-cell>
-        <mat-cell *matCellDef="let Leave"> {{Leave.fromDate | date}} </mat-cell>
+        <mat-cell *matCellDef="let Leave"> {{Leave.fromDate | date : 'dd/MM/yyyy'}} </mat-cell>
     </ng-container>
     <ng-container matColumnDef="untilDate">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Until Date </mat-header-cell>
-        <mat-cell *matCellDef="let Leave"> {{Leave.untilDate | date }} </mat-cell>
+        <mat-cell *matCellDef="let Leave"> {{Leave.untilDate | date : 'dd/MM/yyyy' }} </mat-cell>
     </ng-container>
     <ng-container matColumnDef="countedDays">
         <mat-header-cell *matHeaderCellDef mat-sort-header> Counted Days </mat-header-cell>

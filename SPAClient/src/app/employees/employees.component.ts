@@ -10,6 +10,8 @@ import {MatDialog, MatDialogConfig} from "@angular/material";
 import {EmployeeDialogComponent} from '../employee-dialog/employee-dialog.component';
 import { ViewEncapsulation } from '@angular/core';
 import {CountryService} from '../services/country.service';
+import * as XLSX from 'xlsx';
+import { DatePipe } from '@angular/common';
 
 import {
   Overlay,
@@ -19,6 +21,7 @@ import {
   ScrollStrategy,
   ScrollStrategyOptions,
 } from '@angular/cdk/overlay';
+
 
 @Component({
   selector: 'app-employees',
@@ -32,6 +35,8 @@ export class EmployeesComponent implements OnInit {
    employees : Employee[];
 
    today : Date;
+
+   
 
   selectedEmployee: Employee;
 
@@ -62,6 +67,74 @@ export class EmployeesComponent implements OnInit {
   ngOnInit() {
       this.getAllEmployees(); 
   }
+
+  
+  export(): void {
+    /* generate worksheet */
+
+    var datePipe = new DatePipe("en-GB");
+
+    var tt = datePipe.transform(Date(), 'dd-MM-yyyy');
+
+    var fileName = "employees-" + tt +   ".xlsx";;
+    
+    var data = new Array<any[]>();
+
+    
+    data.push(this.displayedColumns);
+
+    for (var i=0;i<this.dataSource.filteredData.length;i++)
+    {
+      data.push(this.makeArrayFromEmployee(i+1 , this.dataSource.filteredData[i]));
+    }
+
+		const ws: XLSX.WorkSheet = XLSX.utils.aoa_to_sheet(data);
+
+		/* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+		XLSX.utils.book_append_sheet(wb, ws, 'Employees');
+
+		/* save to file */
+    XLSX.writeFile(wb, fileName);
+    
+    }
+
+    makeArrayFromEmployee(index : number, emp : Employee) : any[]
+    {
+        var arr = new Array<any>();
+
+        arr.push(index);
+        arr.push(emp.employeeID);
+        arr.push(emp.name);
+        arr.push(emp.surname);
+        arr.push(emp.technicalID);
+        arr.push(emp.localPlus);
+        arr.push(emp.workingLocation);
+        arr.push(emp.employeeCategory);
+        arr.push(emp.organizationUnit);
+        arr.push(emp.costCentre);
+        arr.push(emp.position);
+        arr.push(emp.professionalArea);
+        arr.push(emp.companyHiringDate);
+        arr.push(emp.homeCompany);
+        arr.push(emp.yearsInEni);
+        arr.push(emp.gender);
+        arr.push(emp.birthDate);
+        arr.push(emp.age);
+        arr.push(emp.countryOfBirth);
+        arr.push(emp.nationality);
+        arr.push(emp.familyStatus);
+        arr.push(emp.followingPartner);
+        arr.push(emp.followingChildren);
+        arr.push(emp.spouseNationality);
+        arr.push(emp.typeOfVisa);
+        arr.push(emp.visaExpiryDate);
+        arr.push(emp.emailAddress);
+        arr.push(emp.activityStatus);
+        return arr;
+    }
+
+
 
   doubleClick(row : Employee)
   {

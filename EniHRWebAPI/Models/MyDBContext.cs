@@ -29,6 +29,8 @@ namespace EniHRWebAPI.Models
 
         public virtual DbSet<Leave> Leaves { get; set; }
 
+        public virtual DbSet<ICT> ICTs { get; set; }
+
 
         public virtual DbSet<LocalPlus> LocalPlus { get; set; }
         public virtual DbSet<StaffTypology> StaffTypology { get; set; }

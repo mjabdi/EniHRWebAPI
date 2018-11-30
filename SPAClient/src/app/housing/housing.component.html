@@ -38,6 +38,10 @@
                                 </div>
                                 <div class="col-3" style="text-align: right">
                                     <span *ngIf="housings" class="text-table-count fadeIn animated">
+                                        <img matTooltip="Export to Excel" class="icon-excel" src = "http://icons.iconarchive.com/icons/ncrow/mega-pack-1/128/Excel-icon.png" (click)="export()"> 
+                                    </span>  
+
+                                    <span *ngIf="housings" class="text-table-count fadeIn animated">
                                        {{this.dataSource.filteredData.length}} Rows   
                                     </span>  
                                 </div>

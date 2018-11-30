@@ -1623,5 +1623,217 @@ namespace EniHRWebAPI.Controllers
             }
         }
 
+
+
+        [HttpPost("loadict")]
+        public async Task<UpdateICTReport> LoadICTDataAsync([FromBody]object[][] data)
+        {
+            try
+            {
+
+                int newRecords = 0;
+                int updatedRecords = 0;
+
+                if (data[0].Length < 23)
+                {
+                    throw new Exception("Wrong Columns!");
+                }
+
+                if (data[0][0].ToString().ToLower() != "active dir account")
+                    throw new Exception("Wrong Columns!");
+
+                if (data[0][1].ToString().ToLower() != "workstation number")
+                    throw new Exception("Wrong Columns!");
+
+                if (data[0][5].ToString().ToLower() != "employee number")
+                    throw new Exception("Wrong Columns!");
+
+
+                List<Employee> employeeList = await context.Employees
+                                        .Include(e => e.LocalPlus)
+                                        .Include(e => e.standardEmployeeCategory)
+                                        .Include(e => e.location)
+                                        .Include(e => e.businessUnit)
+                                        .Include(e => e.organisationUnit)
+                                        .Include(e => e.workingCostCentre)
+                                        .Include(e => e.position)
+                                        .Include(e => e.professionalArea)
+                                        .Include(e => e.homeCompany)
+                                        .Include(e => e.CountryofBirth)
+                                        .Include(e => e.Nationality)
+                                        .Include(e => e.SpouseNationality)
+                                        .Include(e => e.city)
+                                        .Include(e => e.typeOfVISA)
+                                        .Include(e => e.assignmentStatus)
+                                        .Include(e => e.Children)
+                                        .Include(e => e.familyStatus)
+                                        .Include(e => e.activityStatus)
+                                        .ToListAsync();
+
+                Dictionary<long, Employee> employeeDic = new Dictionary<long, Employee>();
+                foreach (Employee emp in employeeList)
+                {
+                    employeeDic.Add(emp.EmployeeID, emp);
+                }
+
+
+                List<ICT> ictList = await context.ICTs.AsNoTracking().ToListAsync();
+                Dictionary<long, ICT> ictDic = new Dictionary<long, ICT>();
+                foreach (ICT ict in ictList)
+                {
+                    ictDic.Add(ict.ICTID, ict);
+                }
+
+                for (int i = 1; i < data.Length; i++)
+                {
+                    try
+                    {
+                        long employeeNumber = 0;
+
+                        try
+                        {
+                            employeeNumber = long.Parse(data[i][5]?.ToString().Trim());
+                        }catch(Exception){
+                        }
+
+                        if (employeeNumber == 0)
+                        {
+                            try
+                            {
+                                var emailAddress = data[i][16]?.ToString().Trim();
+                                var tmpEmployee = context.Employees.FirstOrDefault(emp => emp.EmailAddress.ToLower().Trim() == emailAddress.ToLower().Trim());
+                                if (tmpEmployee != null)
+                                {
+                                    employeeNumber = tmpEmployee.EmployeeID;
+                                }
+                            }
+                            catch(Exception){}
+
+                            if (employeeNumber == 0)
+                                continue;
+                        }
+
+
+                        var employee = employeeDic.ContainsKey(employeeNumber) ?  employeeDic[employeeNumber] : null;
+
+                        ICT iCT = new ICT();
+
+                        iCT.ICTID = employeeNumber;
+                        iCT.employee = employee;
+                        iCT.ActiveDirAccount = data[i][0]?.ToString().Trim();
+                        iCT.WorkstaionNumber = data[i][1]?.ToString().Trim();
+                        iCT.ApprovalLevel1 = data[i][10]?.ToString().Trim();
+                        iCT.ApprovalLevel2 = data[i][11]?.ToString().Trim();
+                        iCT.MacroAggregation = data[i][13]?.ToString().Trim();
+                        iCT.DeskPhoneNumber = data[i][14]?.ToString().Trim();
+                        iCT.MobileNumber = data[i][15]?.ToString().Trim();
+                        employee.EmailAddress = data[i][16]?.ToString().Trim();
+                        iCT.AdvancedLyncProfile = (data[i][21]?.ToString().ToLower().Trim() == "yes");
+                        iCT.SAP = (data[i][22]?.ToString().ToLower().Trim() == "yes");
+                        iCT.LinkToAttachment = data[i][23]?.ToString().Trim();
+
+                        if (data[i].Length > 24)
+                            iCT.Note = data[i][24]?.ToString().Trim();
+
+                        if (data[i].Length > 25)
+                            iCT.Note +=  (" " + data[i][25]?.ToString().Trim());
+
+                        DateTime? startDate = null;
+                        try
+                        {
+                            if (data[i].Length > 26)
+                            {
+                                var dateStr = data[i][26]?.ToString().ToLower().Trim();
+                                startDate = DateTime.FromOADate(double.Parse(dateStr));
+                            }
+   
+                        }catch(Exception){}
+
+                        iCT.StartMoveDate = startDate;
+
+                        if (!ictDic.ContainsKey(iCT.ICTID))
+                        {
+                            context.ICTs.Add(iCT);
+                            newRecords++;
+                        }
+                        else
+                        {
+                            if (ICTDIFF(iCT,ictDic[iCT.ICTID]))
+                            {
+                                context.ICTs.Update(iCT);
+                                updatedRecords++;
+                            }
+                        }
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+
+                await context.SaveChangesAsync();
+
+                return new UpdateICTReport(newRecords, updatedRecords);
+
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private bool ICTDIFF(ICT iCT1, ICT iCT2)
+        {
+            if (iCT1.AdvancedLyncProfile != iCT2.AdvancedLyncProfile)
+                return true;
+            
+            if (iCT1.SAP != iCT2.SAP)
+                return true;
+            
+            if (iCT1.ActiveDirAccount != iCT2.ActiveDirAccount)
+                return true;
+            
+            if (iCT1.ApprovalLevel1 != iCT2.ApprovalLevel1)
+                return true;
+            
+            if (iCT1.ApprovalLevel2 != iCT2.ApprovalLevel2)
+                return true;
+            
+            if (iCT1.DeskPhoneNumber != iCT2.DeskPhoneNumber)
+                return true;
+            
+            if (iCT1.LinkToAttachment != iCT2.LinkToAttachment)
+                return true;
+
+            if (iCT1.MacroAggregation != iCT2.MacroAggregation)
+                return true;
+            
+            if (iCT1.MobileNumber != iCT2.MobileNumber)
+                return true;
+            
+            if (iCT1.Note != iCT2.Note)
+                return true;
+
+            if (iCT1.WorkstaionNumber != iCT2.WorkstaionNumber)
+                return true;
+
+            if (iCT1.StartMoveDate != iCT2.StartMoveDate)
+                return true;
+
+            return false;
+        }
+    }
+
+
+    public class UpdateICTReport
+    {
+        public UpdateICTReport(int _new , int _update)
+        {
+            newRecords = _new;
+            updatedRecords = _update;
+        }
+        
+        public int newRecords { get; set; }
+        public int updatedRecords { get; set; }
     }
 }
