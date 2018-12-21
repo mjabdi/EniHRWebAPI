@@ -30,11 +30,20 @@ import { ChangepasswordComponent } from 'app/changepassword/changepassword.compo
 import { ICTComponent } from 'app/ict/ict.component';
 import { ImportDataICTComponent } from 'app/importdata-ict/importdata-ict.component';
 import { ICTDialogComponent } from 'app/ict-dialog/ict-dialog.component';
+import { UserDialogComponent } from 'app/user-dialog/user-dialog.component';
+import { HistoryAddressDialogComponent } from 'app/history-address-dialog/history-address-dialog.component';
+import { ImageUploadModule } from "angular2-image-upload";
 
-
+import { AgmCoreModule } from '@agm/core';
+import { UploadPictureDialogComponent } from 'app/uploadpicture-dialog/upload-picture-dialog.component';
 
 @NgModule({
   imports: [
+    ImageUploadModule.forRoot(),
+    AgmCoreModule.forRoot({
+      apiKey: "YOUR KEY GOES HERE",
+      libraries: ["places"]
+    }),
     CommonModule,
     RouterModule.forChild(AdminLayoutRoutes),
     FormsModule,
@@ -59,10 +68,14 @@ import { ICTDialogComponent } from 'app/ict-dialog/ict-dialog.component';
     DynamicTableComponent,
     ChangepasswordComponent,
     ICTComponent,
-    ICTDialogComponent
+    ICTDialogComponent,
+    UsersComponent,
+    UserDialogComponent,
+    HistoryAddressDialogComponent,
+    UploadPictureDialogComponent
   ],
   providers: [AuthenticationService,{ provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }],
-  entryComponents: [EmployeeDialogComponent,HousingDialogComponent,LeaveDialogComponent,ICTDialogComponent]
+  entryComponents: [EmployeeDialogComponent,HousingDialogComponent,LeaveDialogComponent,ICTDialogComponent,UserDialogComponent,HistoryAddressDialogComponent,UploadPictureDialogComponent]
 })
 
 export class AdminLayoutModule {}

@@ -105,5 +105,10 @@ getActiveCount() : Observable<number | any[]>
   ); 
 }
 
+uploadSave(employeeID : number)
+{
+  return this.http.post(this.employeerUrl + "/uploadsave/" + employeeID,{employee : employeeID },httpOptions);
+}
+
 
 }

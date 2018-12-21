@@ -9,6 +9,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using static System.Net.Mime.MediaTypeNames;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Net;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -20,9 +26,12 @@ namespace EniHRWebAPI.Controllers
         
         private readonly MyDBContext context;
 
-        public EmployeeController( MyDBContext _context)
+        private readonly IHostingEnvironment _hostingEnvironment;
+
+        public EmployeeController( MyDBContext _context, IHostingEnvironment hostingEnvironment)
         {
             this.context = _context;
+            _hostingEnvironment = hostingEnvironment;
         }
 
         [HttpGet("max")]
@@ -260,5 +269,131 @@ namespace EniHRWebAPI.Controllers
             context.SaveChanges();
             return Ok(employee);
         }
+
+
+        // POST api/employee/uploadphoto
+        [HttpPost("uploadphoto/{employeeId}")]
+        public async Task<IActionResult> UploadPhotoAsync(long employeeId)
+        {
+            try
+            {
+                var result = await Request.ReadFormAsync();
+                string filePath = _hostingEnvironment.WebRootPath + "/profilepictures/" + employeeId + "_tmp" + ".jpg";
+                using (System.IO.StreamWriter file =
+                    new System.IO.StreamWriter(System.IO.File.Create(filePath)))
+                {
+                    await result.Files[0].CopyToAsync(file.BaseStream);
+                }
+
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        // POST api/employee/uploadphoto
+        [HttpPost("uploadsave/{employeeId}")]
+        public async Task<IActionResult> UploadSaveAsync(long employeeId)
+        {
+            try
+            {
+                string tmpfilePath = _hostingEnvironment.WebRootPath + "/profilepictures/" + employeeId + "_tmp" + ".jpg";
+                string filePath = _hostingEnvironment.WebRootPath + "/profilepictures/" + employeeId  + ".jpg";
+
+
+                using (
+                    System.IO.StreamReader reader = new System.IO.StreamReader(tmpfilePath))
+                {
+                    using (System.IO.StreamWriter file =
+                         new System.IO.StreamWriter(System.IO.File.Create(filePath)))
+                    {
+                        await reader.BaseStream.CopyToAsync(file.BaseStream);
+                    }
+
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpGet("images/{employeeID}/{random}")]
+        public async Task<ActionResult> GetImageAsync(long employeeID,string random)
+        {
+            try
+            {
+                string _rootPath = _hostingEnvironment.WebRootPath + "/profilepictures/";
+                string imagePath = employeeID + ".jpg";
+
+                var serverPath = Path.Combine(_rootPath, imagePath);
+
+                Byte[] b = await System.IO.File.ReadAllBytesAsync(serverPath);   // You can use your own method over here.         
+                return File(b, "image/jpeg");
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [HttpGet("images/importall")]
+        public async Task<ActionResult> ImportAllAsync()
+        {
+            try
+            {
+                string _rootPath = _hostingEnvironment.WebRootPath + "/profilepictures/";
+                string _serverPath = "http://my.eeep.intranet:8099/PhotoIDs/";
+                string tmpfilePath = _rootPath + "user.jpg";
+
+                List<Employee> employees = await context.Employees.ToListAsync();
+
+                foreach (var employee in employees)
+                {
+                    string serverUrl = _serverPath + employee.UserId + ".jpg";
+                    string filePath = _rootPath + employee.EmployeeID + ".jpg";
+                    using (WebClient webClient = new WebClient())
+                    {
+                        try
+                        {
+                            byte[] data = webClient.DownloadData(serverUrl);
+                            using (System.IO.BinaryWriter file =
+                                 new System.IO.BinaryWriter(System.IO.File.Create(filePath)))
+                            {
+                                await file.BaseStream.WriteAsync(data, 0, data.Length);
+                            }
+                        }
+
+                        catch (Exception)
+                        {
+                            using (
+                                System.IO.StreamReader reader = new System.IO.StreamReader(tmpfilePath))
+                            {
+                                using (System.IO.StreamWriter file =
+                                     new System.IO.StreamWriter(System.IO.File.Create(filePath)))
+                                {
+                                    await reader.BaseStream.CopyToAsync(file.BaseStream);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                    return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+
     }
 }

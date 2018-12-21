@@ -14,10 +14,14 @@ import {map, startWith} from 'rxjs/operators';
 import { ToastrService } from 'ngx-toastr';
 
 import {MatDialog, MatDialogConfig} from "@angular/material";
+import { UploadPictureDialogComponent } from 'app/uploadpicture-dialog/upload-picture-dialog.component';
 
 //import {DifferencePipe} from 'angular2-moment';
 
+import { environment } from 'environments/environment';
+import { getRandomString } from 'selenium-webdriver/safari';
 
+const baseUrl :string = environment.apiUrl;
 
 
 @Component({
@@ -37,6 +41,8 @@ export class EmployeeDialogComponent implements OnInit {
     
     imageUrl;
 
+
+
     nameControl = new FormControl();
     surnameControl = new FormControl();
     technicalIDControl = new FormControl();
@@ -46,6 +52,8 @@ export class EmployeeDialogComponent implements OnInit {
     followingPartnerControl = new FormControl();  
     followingChildrenControl = new FormControl();    
     visaExpiryDateControl = new FormControl();   
+    terminationDateControl = new FormControl();   
+
     emailControl = new FormControl(); 
    
 
@@ -106,6 +114,8 @@ export class EmployeeDialogComponent implements OnInit {
     gender : string[];
 
     CreateMode : boolean = false;
+  
+    random : number;
 
     constructor(
         public dialog: MatDialog,
@@ -119,9 +129,8 @@ export class EmployeeDialogComponent implements OnInit {
             this.employee = data;
             this.CreateMode = this.employee.isNew;
             this.today = new Date();
-
-            this.imageUrl = 'http://my.eeep.intranet:8099/PhotoIDs/' + this.employee.technicalID + '.jpg'
-
+            this.random = this.getRandom();
+            this.imageUrl = baseUrl + "/api/employee/images/" + this.employee.employeeID +  "/" + this.random ;
     }
 
     isloaded() : boolean {
@@ -302,6 +311,8 @@ export class EmployeeDialogComponent implements OnInit {
         this.spousenationalityControl.setValue(this.employee.spouseNationality);
         this.typeofvisaControl.setValue(this.employee.typeOfVisa);
         this.activitystatusControl.setValue(this.employee.activityStatus);
+        this.terminationDateControl.setValue(this.employee.terminationDate);
+
 
     }
 
@@ -358,11 +369,16 @@ export class EmployeeDialogComponent implements OnInit {
 
     confirmDelete()
     {
-        var msg = "Are you sure you want to delete this record? employee# : " + this.employeeIDControl.value;
-        if (confirm(msg))
-        {
-            this.deleteEmployee();
-        }
+
+      let snackBarRef = this.snackBar.open('Are you sure you want to delete this record? employee# : ' + this.employeeIDControl.value+ '?','Delete',{
+        duration: 5000,
+        panelClass : 'my-snackbar-style',
+  
+      });
+  
+      snackBarRef.onAction().subscribe(() => {
+        this.deleteEmployee();
+      });
     }
 
     deleteEmployee()
@@ -372,12 +388,9 @@ export class EmployeeDialogComponent implements OnInit {
       var newEmployee = this.buildEmployeefromForm();
       this.employeeService.deleteEmployee(newEmployee.employeeID)
       .subscribe(data => {
-        this.snackBar.open('Employee with employee# : ' + newEmployee.employeeID + ' has been deleted successfully','Employee Deleted',{
-          duration: 10000,
-          panelClass : 'my-snackbar-style'
-        });
-        this.dialogRef.close(true);
+        this.toastrService.success( newEmployee.employeeID + ' was successfully deleted','Employee Deleted');
         this.isSubmit = false;  
+        this.dialogRef.close(true);
         return true;  
       },
       error =>
@@ -417,6 +430,7 @@ export class EmployeeDialogComponent implements OnInit {
       em1.visaExpiryDate = em2.visaExpiryDate;
       em1.workingLocation = em2.workingLocation;
       em1.yearsInEni = em2.yearsInEni;
+      em1.terminationDate = em2.terminationDate;
     }
 
      buildEmployeefromForm() : Employee
@@ -448,8 +462,8 @@ export class EmployeeDialogComponent implements OnInit {
         newEmployee.visaExpiryDate = this.visaExpiryDateControl.value;
         newEmployee.emailAddress = this.emailControl.value;
         newEmployee.activityStatus = this.activitystatusControl.value;
-  
-       
+        newEmployee.terminationDate = this.terminationDateControl.value;
+
         return newEmployee;        
     }
 
@@ -484,5 +498,48 @@ export class EmployeeDialogComponent implements OnInit {
     //  {
     //     return (Date.now - date). ;
     //  } 
+
+
+    showChangePicture()
+    {
+
+        if (!this.employeeIDControl.value)
+        {
+          this.toastrService.warning("Please enter an Employee# first","Employee# Required!");
+          return;
+        }
+
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.hasBackdrop = true;
+        dialogConfig.disableClose = true;
+        dialogConfig.autoFocus = false;
+        dialogConfig.width = "500px";
+        dialogConfig.height = "350px";
+
+    
+        dialogConfig.panelClass = "custom-modalbox";
+
+        dialogConfig.data = this.employeeIDControl.value;
+    
+    
+        const dialogRef = this.dialog.open(UploadPictureDialogComponent,dialogConfig);
+    
+        dialogRef.afterClosed().subscribe(
+          val => {
+              if (val)
+              {
+                  this.random = this.getRandom();
+                  this.imageUrl = baseUrl + "/api/employee/images/" + this.employee.employeeID + "/" + this.random;
+              }
+          }
+      );
+    
+    }
+
+    getRandom()
+    {
+      return Math.floor(Math.random() * (999999 - 100000)) + 100000;
+    }
 
 }

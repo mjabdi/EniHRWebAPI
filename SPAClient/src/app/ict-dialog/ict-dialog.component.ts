@@ -25,7 +25,9 @@ import { ICTService } from 'app/ict/ict.service';
 //import {DifferencePipe} from 'angular2-moment';
 
 
+import { environment } from 'environments/environment';
 
+const baseUrl :string = environment.apiUrl;
 
 @Component({
     selector: 'ict-dialog',
@@ -74,7 +76,7 @@ export class ICTDialogComponent implements OnInit {
 
             this.ict = data;
             this.today = new Date();
-            this.imageUrl = 'http://my.eeep.intranet:8099/PhotoIDs/' + this.ict.technicalID + '.jpg'
+            this.imageUrl = baseUrl + "/api/employee/images/" + this.ict.employeeID +  "/" + Math.floor(Math.random() * (999999 - 100000)) + 100000 ;
 
     }
 

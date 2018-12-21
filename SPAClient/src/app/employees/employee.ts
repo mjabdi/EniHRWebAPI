@@ -1,4 +1,3 @@
-import { stream } from "xlsx/types";
 
 export class Employee {
 
@@ -29,18 +28,9 @@ typeOfVisa : string;
 visaExpiryDate : Date;
 emailAddress : string;
 activityStatus : string;
+terminationDate : Date;
 
 isNew: boolean;
 
-
-public toArray(length) : string[]
-{
-    var strarray : string[];
-    for(var i = 0; i< length; i++)
-    {
-        strarray.push('test');
-    }
-    return strarray;
-}
 
 }

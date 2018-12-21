@@ -124,15 +124,15 @@
          <div class="row" style="margin-top: 10px">
                 <div class="col-md-3" style="margin-top : 0px;">
                         <div style="text-align: center !important">
-                                 <div class="mat-form-field" style="color:#4caf50;text-align: center !important" > Advanced Skype Profile </div>  
-                                 <mat-slide-toggle [formControl]="this.advancedLyncProfileControl" labelPosition="before" [checked]="this.ict.advancedLyncProfile"></mat-slide-toggle>
+                                 <div class="mat-form-field" [style.color]="chk1.checked ? '#4caf50'  : 'gray'" style="text-align: center !important" > Advanced Skype Profile </div>  
+                                 <mat-slide-toggle #chk1 [formControl]="this.advancedLyncProfileControl" labelPosition="before" [checked]="this.ict.advancedLyncProfile"></mat-slide-toggle>
                         </div>
                 </div>
 
                 <div class="col-md-3" style="margin-top : 0px;">
                         <div style="text-align: center !important">
-                                 <div class="mat-form-field" style="color:#4caf50;text-align: center !important" > SAP </div>  
-                                 <mat-slide-toggle [formControl]="this.sapControl" labelPosition="before" [checked]="this.ict.sap"></mat-slide-toggle>
+                                 <div class="mat-form-field" [style.color]="chk2.checked ? '#4caf50'  : 'gray'" style="text-align: center !important" > SAP </div>  
+                                 <mat-slide-toggle #chk2 [formControl]="this.sapControl" labelPosition="before" [checked]="this.ict.sap"></mat-slide-toggle>
                         </div>
                 </div>
 

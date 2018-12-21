@@ -11,3 +11,4 @@
 /Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/obj/Debug/netcoreapp2.1/EniHRWebAPI.RazorTargetAssemblyInfo.cache
 /Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/obj/Debug/netcoreapp2.1/EniHRWebAPI.dll
 /Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/obj/Debug/netcoreapp2.1/EniHRWebAPI.pdb
+/Users/mohammad/Projects/EniHRWebAPI/EniHRWebAPI/obj/Debug/netcoreapp2.1/EniHRWebAPI.csprojAssemblyReference.cache

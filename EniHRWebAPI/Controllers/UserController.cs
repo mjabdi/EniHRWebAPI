@@ -8,6 +8,8 @@ using EniHRWebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using System.Collections.Generic;
+using EniHRWebAPI.ViewModel;
+using Newtonsoft.Json.Linq;
 
 namespace EniHR.Controllers
 {
@@ -16,22 +18,42 @@ namespace EniHR.Controllers
     public class UserController : Controller
     {
         private readonly MyUsersDBContext contextUsers;
-        public UserController( MyUsersDBContext _contextUsers)
+        private readonly MyDBContext context;
+
+        public UserController( MyUsersDBContext _contextUsers, MyDBContext _context)
         {
             this.contextUsers = _contextUsers;
+            this.context = _context;
         }
 
 
         // GET : api/user
         [HttpGet]
-        public async Task<ActionResult<List<User>>> GetAll()   
+        public IEnumerable<UserViewModel> GetAll()   
         {
-            return await contextUsers.Users.ToListAsync();
+            var users = contextUsers.Users.ToList();
+            foreach (var user in users)
+            {
+                yield return new UserViewModel(user,context);
+            }
         }
 
+
+        // GET : api/user/active
+        [HttpGet("active")]
+        public IEnumerable<UserViewModel> GetAllActives()
+        {
+            var users = contextUsers.Users.Where(usr => usr.ActiveStatus.Trim().ToLower() == "active").ToList();
+            foreach (var user in users)
+            {
+                yield return new UserViewModel(user,context);
+            }
+        }
+
+
         // GET : api/user/{username}
-        [HttpGet("{username}", Name = "GetUser")]
-        public ActionResult<User> GetByUsername(string username)
+        [HttpGet("{username}")]
+        public ActionResult<UserViewModel> GetByUsername(string username)
         {
             var user = contextUsers.Users.Find(username);
             if (user == null)
@@ -39,27 +61,30 @@ namespace EniHR.Controllers
                 return NotFound();
             }
 
-            return user;
+            return new UserViewModel(user,context);
         }
 
         // POST: api/user
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([FromBody] User user)
+        public async Task<IActionResult> Create([FromBody] UserViewModel userVM)
         {
+
+            if (contextUsers.Users.Find(userVM.username) != null || userVM.username.Trim().ToLower() == "admin")
+                return BadRequest("DuplicateUsername");
+
+            var user = new User();
+            user.UpdateFromUserViewModel(userVM);
             user.IsFirstLogon = true;
             user.Password = "123456";
 
             contextUsers.Users.Add(user);
             await contextUsers.SaveChangesAsync();
-            return CreatedAtRoute("GetUser", new { username = user.Username }, user);
-
+            return Ok();
         }
 
         // PUT: User/{username}
-        [HttpPut]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(string username , [FromBody] User user)
+        [HttpPut("{username}")]
+        public async Task<IActionResult> Update(string username , [FromBody] UserViewModel userVM)
         {
             var _user = contextUsers.Users.Find(username);
             if (_user == null)
@@ -67,16 +92,10 @@ namespace EniHR.Controllers
                 return NotFound();
             }
 
-            _user.Name = user.Name;
-            _user.Surname = user.Surname;
-            _user.Email = user.Email;
-            _user.Password = user.Password;
-            _user.ActiveStatus = user.ActiveStatus;
-            _user.IsFirstLogon = user.IsFirstLogon;
-            _user.LastLogon = user.LastLogon;
+            _user.UpdateFromUserViewModel(userVM);
 
             await contextUsers.SaveChangesAsync();
-            return NoContent();
+            return Ok();
         }
 
         // DELETE: User/{username}
@@ -91,8 +110,7 @@ namespace EniHR.Controllers
 
             contextUsers.Users.Remove(_user);
             await contextUsers.SaveChangesAsync();
-            return NoContent();
+            return Ok();
         }
-
     }
 }

@@ -21,7 +21,9 @@ import {EmployeeService} from '../employees/employee.service';
 
 //import {DifferencePipe} from 'angular2-moment';
 
+import { environment } from 'environments/environment';
 
+const baseUrl :string = environment.apiUrl;
 
 
 @Component({
@@ -101,7 +103,7 @@ export class LeaveDialogComponent implements OnInit {
             
             this.CreateMode = this.leave.isNew;
             this.today = new Date();
-           // this.imageUrl = 'http://my.eeep.intranet:8099/PhotoIDs/' + this.leave.technicalID + '.jpg'
+            this.imageUrl = baseUrl + "/api/employee/images/" + this.leave.employeeID +  "/" + Math.floor(Math.random() * (999999 - 100000)) + 100000 ;
 
     }
 
@@ -259,9 +261,7 @@ export class LeaveDialogComponent implements OnInit {
                 this.followingPartnerControl.setValue(employee.followingPartner);
                 this.followingChildrenControl.setValue(employee.followingChildren);
                 this.activityStatusControl.setValue(employee.activityStatus);
-                this.imageUrl = 'http://my.eeep.intranet:8099/PhotoIDs/' + employee.technicalID + '.jpg'
-
-
+                this.imageUrl = baseUrl + "/api/employee/images/" + employee.employeeID +  "/" + Math.floor(Math.random() * (999999 - 100000)) + 100000 ;
             },
             error => {
                 this.employeeNameControl.setValue(null);

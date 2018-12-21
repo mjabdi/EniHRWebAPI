@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using EniHRWebAPI.ViewModel;
 
 namespace EniHRWebAPI.Models
 {
@@ -11,6 +12,17 @@ namespace EniHRWebAPI.Models
         {
             ActiveStatus = "Active";
             IsFirstLogon = true;
+        }
+
+        public void UpdateFromUserViewModel(UserViewModel userVM)
+        {
+            Username = userVM.username;
+            Name = userVM.name;
+            Surname = userVM.surname;
+            Email = userVM.email;
+            ActiveStatus = userVM.active ? "Active" : "Disabled";
+            TechnicalID = userVM.technicalid;
+            RolesStr = userVM.roles;
         }
 
 
@@ -27,6 +39,9 @@ namespace EniHRWebAPI.Models
         public DateTime? LastLogon { get; set; }
 
         public string ActiveStatus { get; set; }
+
+        public string TechnicalID { get; set; }
+        public string RolesStr { get; set; }
 
     }
 }

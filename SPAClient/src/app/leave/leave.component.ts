@@ -19,6 +19,9 @@ import { LeaveDialogComponent } from '../leave-dialog/leave-dialog.component';
 
 import * as XLSX from 'xlsx';
 import { DatePipe } from '@angular/common';
+import { UserService } from 'app/users/userservice';
+import { AuthenticationService } from 'app/services/authentication.service';
+import { User } from 'app/users/user';
 
 
 @Component({
@@ -69,10 +72,13 @@ import { DatePipe } from '@angular/common';
    constructor(private router: Router,
     private leaveService : LeaveService,
     private employeeService : EmployeeService,
-    private dialog: MatDialog) { 
+    private dialog: MatDialog
+    ,private userService : UserService, private authService:AuthenticationService) { 
      this.today = new Date();
    }
  
+   allowed = 0;
+   user : User;
    ngOnInit() {
      this.employeeNameControl.disable();
      this.employeeSurnameControl.disable();
@@ -80,6 +86,15 @@ import { DatePipe } from '@angular/common';
       this.LeaveTypes = data;
       });
      this.getAllLeave(); 
+
+     this.userService.findUser(this.authService.getUsername()).subscribe(
+      (data : User)=>
+      {
+        this.user = data;
+        this.allowed = (this.user.roles.indexOf('leave') > -1) ? 1 : -1;
+      }
+    );
+
    }
  
    export(): void {

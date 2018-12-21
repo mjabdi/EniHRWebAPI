@@ -7,10 +7,11 @@ import { Observable } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { User } from '../models/index';
 
-import { environment } from 'environments/environment';
+
 
 import { HttpErrorHandler, HandleError } from '../http-error-handler.service';
 
+import { environment } from 'environments/environment';
 
 const baseUrl :string = environment.apiUrl;
 

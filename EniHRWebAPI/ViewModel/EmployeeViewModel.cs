@@ -41,6 +41,7 @@ namespace EniHRWebAPI.ViewModel
             visaExpiryDate = employee.VISAExpirayDate;
             emailAddress = employee.EmailAddress;
             activityStatus = employee.activityStatus?.Description;
+            terminationDate = employee.TerminationDate;
                               
         }
 
@@ -71,6 +72,7 @@ namespace EniHRWebAPI.ViewModel
         public DateTime? visaExpiryDate { get; set; }
         public string emailAddress { get; set; }
         public string activityStatus { get; set; }
+        public DateTime? terminationDate { get; set; }
 
 
         public double CalcCompleteness()

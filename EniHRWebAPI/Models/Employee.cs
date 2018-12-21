@@ -61,17 +61,13 @@ namespace EniHRWebAPI.Models
         public ReportsTo ReportsTo { get; set; }
 
 
-		[DataType(DataType.Date)]
-		[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true,NullDisplayText = "N/A")]
-		[Display(Name = "Company.Hiring.Date")]
 		public DateTime? CompanyHiringDate { get; set; }
 
-		public static explicit operator Employee(long v)
-		{
-			throw new NotImplementedException();
-		}
+        public DateTime? TerminationDate { get; set; }
 
-		public virtual HomeCompany homeCompany { get; set; }
+
+
+        public virtual HomeCompany homeCompany { get; set; }
 
         [Display(Name = "No.of.Years.in.Eni")]
 		[DisplayFormat(NullDisplayText = "N/A" , DataFormatString = "{0:0.0}", ApplyFormatInEditMode = true)]
@@ -512,6 +508,10 @@ namespace EniHRWebAPI.Models
                     _activityStatus = new ActivityStatus { Description = _employee.activityStatus.Trim() };
                 }
                 this.activityStatus = _activityStatus;
+
+                this.TerminationDate = _employee.terminationDate;
+
+
             }catch (Exception ex)
             {
                 throw ex;

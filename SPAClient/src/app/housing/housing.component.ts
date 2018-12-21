@@ -21,6 +21,13 @@ import {
   ScrollStrategyOptions,
 } from '@angular/cdk/overlay';
 import { HousingDialogComponent } from '../housing-dialog/housing-dialog.component';
+import { User } from 'app/users/user';
+import { UserService } from 'app/users/userservice';
+import { AuthenticationService } from 'app/services/authentication.service';
+
+import { environment } from 'environments/environment';
+
+const baseUrl :string = environment.apiUrl;
 
 @Component({
   selector: 'app-housing',
@@ -35,8 +42,10 @@ export class HousingComponent implements OnInit {
 
    today : Date;
 
+   user : User;
+
   selectedHousing: Housing;
-  imageUrl = 'http://my.eeep.intranet:8099/PhotoIDs/';
+  baseImageUrl = baseUrl + "/api/employee/images/";
 
 
 
@@ -58,12 +67,24 @@ export class HousingComponent implements OnInit {
 
                                 
 
-  constructor(private router: Router,private housingService : HousingService,private dialog: MatDialog) { 
+  constructor(private router: Router,private housingService : HousingService,private dialog: MatDialog,private userService : UserService,private authService:AuthenticationService) { 
     this.today = new Date();
   }
 
+  allowed = 0;
+  random : number;
   ngOnInit() {
     this.getAllHousing(); 
+
+    this.userService.findUser(this.authService.getUsername()).subscribe(
+      (data : User)=>
+      {
+        this.user = data;
+        this.allowed = (this.user.roles.indexOf('housing') > -1) ? 1 : -1;
+      }
+    );
+
+    this.random = this.getRandom();
   }
 
   export(): void {
@@ -204,6 +225,11 @@ export class HousingComponent implements OnInit {
           return 'GBP';
       else
           return val;    
+  }
+
+  getRandom()
+  {
+    return Math.floor(Math.random() * (999999 - 100000)) + 100000;
   }
 }
 

@@ -14,7 +14,7 @@ namespace EniHRWebAPI.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.2-rtm-30932")
+                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("EniHRWebAPI.Models.ActivityStatus", b =>
@@ -66,6 +66,18 @@ namespace EniHRWebAPI.Migrations
                     b.ToTable("BusinessUnit");
                 });
 
+            modelBuilder.Entity("EniHRWebAPI.Models.COS", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("COS");
+                });
+
             modelBuilder.Entity("EniHRWebAPI.Models.Child", b =>
                 {
                     b.Property<int>("ID")
@@ -98,18 +110,6 @@ namespace EniHRWebAPI.Migrations
                     b.HasIndex("CityCountryID");
 
                     b.ToTable("City");
-                });
-
-            modelBuilder.Entity("EniHRWebAPI.Models.COS", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("COS");
                 });
 
             modelBuilder.Entity("EniHRWebAPI.Models.Country", b =>
@@ -164,6 +164,8 @@ namespace EniHRWebAPI.Migrations
                     b.Property<string>("SuperVisor");
 
                     b.Property<string>("Surname");
+
+                    b.Property<DateTime?>("TerminationDate");
 
                     b.Property<string>("UserId");
 
@@ -264,6 +266,24 @@ namespace EniHRWebAPI.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("FamilyStatus");
+                });
+
+            modelBuilder.Entity("EniHRWebAPI.Models.HomeAddressHistory", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long>("EmployeeID");
+
+                    b.Property<string>("address");
+
+                    b.Property<string>("changedby");
+
+                    b.Property<DateTime>("changeddate");
+
+                    b.HasKey("ID");
+
+                    b.ToTable("HomeAddressHistories");
                 });
 
             modelBuilder.Entity("EniHRWebAPI.Models.HomeCompany", b =>

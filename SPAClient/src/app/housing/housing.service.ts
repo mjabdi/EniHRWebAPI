@@ -12,6 +12,7 @@ import { Housing } from './housing'
 import { environment } from 'environments/environment';
 
 import { HttpErrorHandler, HandleError } from '../http-error-handler.service';
+import { HomeAddress } from 'app/history-address-dialog/homeaddress';
 
 
 const baseUrl :string = environment.apiUrl;
@@ -56,6 +57,11 @@ updateHousing(id , housing)
   return this.http.put<Housing>(this.housingrUrl + '/' + id,
     body,
     httpOptions);
+}
+
+getAddressHistory(id : number)
+{
+  return this.http.get<HomeAddress[]>(this.housingrUrl + '/addresshistory/' + id);
 }
 
 

@@ -21,7 +21,13 @@ import {
   ScrollStrategy,
   ScrollStrategyOptions,
 } from '@angular/cdk/overlay';
+import { UserService } from 'app/users/userservice';
+import { AuthenticationService } from 'app/services/authentication.service';
+import { User } from 'app/users/user';
 
+import { environment } from 'environments/environment';
+
+const baseUrl :string = environment.apiUrl;
 
 @Component({
   selector: 'app-employees',
@@ -41,7 +47,7 @@ export class EmployeesComponent implements OnInit {
   selectedEmployee: Employee;
 
    flagUrl = 'http://flagpedia.net/data/flags/h160/';
-   imageUrl = 'http://my.eeep.intranet:8099/PhotoIDs/';
+   baseImageUrl = baseUrl + "/api/employee/images/";
 
 
    dataSource: MatTableDataSource<Employee>;
@@ -52,7 +58,7 @@ export class EmployeesComponent implements OnInit {
                                 ,'employeeCategory','organizationUnit','costCentre','position','professionalArea'
                                 ,'companyHiringDate','homeCompany','yearsInEni','gender','birthDate','age'
                                 ,'countryOfBirth','nationality','familyStatus','followingPartner','followingChildren'
-                                ,'spouseNationality','typeOfVisa','visaExpiryDate','emailAddress','activityStatus'
+                                ,'spouseNationality','typeOfVisa','visaExpiryDate','emailAddress','activityStatus','terminationDate'
                                 ];
 
 
@@ -60,12 +66,26 @@ export class EmployeesComponent implements OnInit {
 
   constructor(private router: Router,private employeeService : EmployeeService
     ,private dialog: MatDialog
-    ,private countryService : CountryService ) { 
+    ,private countryService : CountryService 
+    ,private userService : UserService,private authService:AuthenticationService) { 
     this.today = new Date();
   }
 
+  allowed = 0;
+  user : User;
+  random : number;
   ngOnInit() {
       this.getAllEmployees(); 
+
+      this.userService.findUser(this.authService.getUsername()).subscribe(
+        (data : User)=>
+        {
+          this.user = data;
+          this.allowed = (this.user.roles.indexOf('employees') > -1) ? 1 : -1;
+        }
+      );
+
+      this.random = this.getRandom();
   }
 
   
@@ -160,6 +180,7 @@ export class EmployeesComponent implements OnInit {
           {
             this.ngOnInit();
           }
+          this.random = this.getRandom();
       }
   );
 
@@ -221,10 +242,14 @@ export class EmployeesComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-
   getCountryCode(country) : string
   {
     return this.countryService.getCountryCode(country);
+  }
+
+  getRandom()
+  {
+    return Math.floor(Math.random() * (999999 - 100000)) + 100000;
   }
 }
 

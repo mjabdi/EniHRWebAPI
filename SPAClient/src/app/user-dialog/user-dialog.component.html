@@ -1,0 +1,134 @@
+
+    <div align="center" *ngIf="!isloaded()">
+        <mat-spinner color="warn" diameter="50"></mat-spinner>
+    </div> 
+
+
+    <mat-progress-bar mode="query"  color="warn" style="padding:0 ; margin-left:0; margin-right:0 ; margin-top: 0; margin-bottom:10px ;width: 100%" *ngIf="isSubmit" ></mat-progress-bar>
+
+    <form *ngIf="isloaded()" (keydown.enter)="$event.preventDefault()">
+
+    <mat-dialog-content>
+
+        <div class="row">
+
+            <div class="col-md-2">
+                    <img class="img" [src]="this.imageUrl" class="image-cover"/>
+            </div>
+    
+            <div class="col-md-3" style="margin-left:20px ; margin-top: 50px">
+                <mat-form-field class="example-full-width">
+                 <input matInput autocomplete="off" [formControl]="usernameControl"  placeholder="Username" [readonly]="!CreateMode">
+                 </mat-form-field>
+             </div>
+
+            <div class="col-md-3" style="margin-top: 50px" >
+              <mat-form-field class="example-full-width">
+                  <input  matInput autocomplete="off" [formControl]="nameControl"  placeholder="Name">
+                </mat-form-field>
+            </div>
+            <div class="col-md-3" style="margin-top: 50px">
+                <mat-form-field class="example-full-width">
+                  <input  matInput autocomplete="off" [formControl]="surnameControl"  placeholder="Surname">
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row">
+
+                <!-- <div class="col-md-4" style="margin-top: 20px">
+                        <mat-form-field class="example-full-width">
+                          <input matInput autocomplete="off" [formControl]="technicalidControl"  placeholder="Active Dir Account">
+                        </mat-form-field>
+                 </div> -->
+
+                <div class="col-md-9" style="margin-top: 20px">
+                        <mat-form-field class="example-full-width">
+                          <input matInput autocomplete="off" [formControl]="emailControl"  placeholder="Email">
+                        </mat-form-field>
+                 </div>
+
+                 <div class="col-md-3" style="margin-top : 20px;">
+                        <div align = "center">
+                                 <div class="mat-form-field" [style.color]="chkactive.checked ? '#4caf50'  : 'gray'" style="text-align: center" > Active </div>  
+                                 <mat-slide-toggle #chkactive [formControl]="statusControl" labelPosition="before" ></mat-slide-toggle>
+                        </div>
+                </div>
+        </div>
+
+        <div class="row" style="margin-top:10px;margin-bottom:10px">
+                <div class="col-md-12">
+                <mat-accordion>
+                    <mat-expansion-panel class="expansion-search" (opened)="panelOpenState = true"  (closed)="panelOpenState = false">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title style="color:rgb(99, 99, 99)">
+                          Access Rights...
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          {{panelOpenState ? 'click to collapse' : 'click to expand'}}
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                  
+                <div class="row" style="margin-top:10px;margin-bottom:10px">
+                      <div class="col-md-2">
+                        <div align = "center">
+                                <div class="mat-form-field" [style.color]="chk1.checked ? '#4caf50'  : 'gray'" style="text-align: center;margin-bottom: 5px" > Employees </div>  
+                                <mat-slide-toggle #chk1 labelPosition="before" [checked]="roleStr.toLowerCase().indexOf('employees') > -1" (change)="roleChange('employees',chk1.checked)"></mat-slide-toggle>
+                       </div>
+                     </div>
+                      <div class="col-md-2">
+                        <div align = "center">
+                                <div class="mat-form-field" [style.color]="chk2.checked ? '#4caf50'  : 'gray'" style="text-align: center;margin-bottom: 5px" > Housing </div>  
+                                <mat-slide-toggle #chk2 labelPosition="before" [checked]="roleStr.toLowerCase().indexOf('housing') > -1" (change)="roleChange('housing',chk2.checked)"></mat-slide-toggle>
+                       </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div align = "center">
+                                <div class="mat-form-field" [style.color]="chk3.checked ? '#4caf50'  : 'gray'" style="text-align: center;margin-bottom: 5px" > Leave </div>  
+                                <mat-slide-toggle #chk3 labelPosition="before" [checked]="roleStr.toLowerCase().indexOf('leave') > -1" (change)="roleChange('leave',chk3.checked)"></mat-slide-toggle>
+                       </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div align = "center">
+                                <div class="mat-form-field" [style.color]="chk4.checked ? '#4caf50'  : 'gray'" style="text-align: center;margin-bottom: 5px" > ICT </div>  
+                                <mat-slide-toggle #chk4 labelPosition="before" [checked]="roleStr.toLowerCase().indexOf('ict') > -1" (change)="roleChange('ict',chk4.checked)"></mat-slide-toggle>
+                       </div>
+                        </div>
+
+                        <div class="col-md-2">
+                                <div align = "center">
+                                        <div class="mat-form-field" [style.color]="chk5.checked ? '#4caf50'  : 'gray'" style="text-align: center;margin-bottom: 5px"> Settings </div>  
+                                        <mat-slide-toggle #chk5 labelPosition="before" [checked]="roleStr.toLowerCase().indexOf('settings') > -1" (change)="roleChange('settings',chk5.checked)"></mat-slide-toggle>
+                               </div>
+                        </div>
+                </div>
+    
+                    </mat-expansion-panel>
+                </mat-accordion>
+                </div>
+            </div>    
+    
+            <div *ngIf="!CreateMode" class="row" style="margin-top:0px">
+                        <div class="col-md-12">
+                                      <button  matTooltip="Delete this record forever!" class="btn-delete"  type="submit" (click)="this.confirmDelete()">
+                                               Delete This User 
+                                       </button>
+                         </div>
+            </div>
+
+
+
+   
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button  matDialogClose  (keydown.enter)="$event.preventDefault()"  mat-raised-button class="btn btn-default" [disabled]="isSubmit" (click)="close()"> Close </button>
+    <button  type="submit" [hidden]="CreateMode"   mat-raised-button class="btn btn-primary" [disabled]="isSubmit" (click)="save()" >Update Employee</button>
+    <button  type="submit" [hidden]="!CreateMode"  mat-raised-button class="btn btn-danger" [disabled]="isSubmit" (click)="createNew()">Create New Employee</button>
+</mat-dialog-actions>
+
+<!-- <div align ="center" *ngIf="isSubmit" class="jqbox_innerhtml">
+        <mat-spinner  color="warn" diameter="100"></mat-spinner>
+</div> -->
+
+</form>

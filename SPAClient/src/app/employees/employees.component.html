@@ -1,6 +1,10 @@
-
-
-<div class="main-content">
+<div *ngIf="allowed==-1" class="main-content">
+                <div class="container-fluid">
+                    Access Denied!
+                 </div>
+        </div>
+        
+<div *ngIf="allowed==1" class="main-content">
         <div class="container-fluid">
             <div class="row">
                         <div class="col-md-12" align="right">
@@ -61,7 +65,7 @@
                 <ng-container matColumnDef="ID">
                         <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
                         <mat-cell *matCellDef="let rowIndex=index;let employee"> 
-                            <img *ngIf="employee.technicalID && employee.technicalID.length > 1" style="margin-right:20px;" width="64px" [src]="this.imageUrl +  employee.technicalID + '.jpg'">     
+                            <img  style="margin-right:20px;" width="64px" [src]="baseImageUrl + employee.employeeID  +  '/' + random">     
                                {{rowIndex+1}} 
                         </mat-cell>
                 </ng-container>
@@ -185,6 +189,12 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header> Activity Status </mat-header-cell>
                     <mat-cell style="margin-left:20px" *matCellDef="let employee"> {{ employee.activityStatus}} </mat-cell>
             </ng-container>
+            <ng-container matColumnDef="terminationDate">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> Termination Date</mat-header-cell>
+                <mat-cell *matCellDef="let employee"> {{employee.terminationDate | date : 'dd/MM/yyyy'}} </mat-cell>
+            </ng-container>
+
+
 
             <ng-container matColumnDef="expandedDetail">
                 <mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length"> 

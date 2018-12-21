@@ -77,6 +77,11 @@ namespace EniHRWebAPI.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(long id, [FromBody]JToken  housing)
         {
+            string username = AuthController.CurrentUserName(Request);
+            if (String.IsNullOrEmpty(username))
+            {
+                return Unauthorized();
+            }
 
             Housing oldHousing = context.Housing.Find(id);
             if (oldHousing == null)
@@ -84,7 +89,7 @@ namespace EniHRWebAPI.Controllers
 
             try
             {
-                oldHousing.UpdateFromHousingViewModel(context, housing);
+                oldHousing.UpdateFromHousingViewModel(context, housing, username);
                 context.SaveChanges();
             }
             catch (Exception ex)
@@ -95,5 +100,16 @@ namespace EniHRWebAPI.Controllers
             return Ok(housing);
 
         }
+
+
+        // GET: api/housing/addresshistory
+        [HttpGet("addresshistory/{employeeid}")]
+        public async Task<ActionResult<List<HomeAddressHistory>>> GetHomeAddressHistory(long employeeid)
+        {
+            List<HomeAddressHistory> addressList = await context.HomeAddressHistories.Where(e => e.EmployeeID == employeeid).ToListAsync();
+            return addressList;
+        }
+
+
     }
 }

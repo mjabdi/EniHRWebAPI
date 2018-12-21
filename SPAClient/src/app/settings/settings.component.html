@@ -1,4 +1,10 @@
-<div class="main-content">
+<div *ngIf="allowed==-1" class="main-content">
+        <div class="container-fluid">
+            Access Denied!
+         </div>
+</div>
+
+<div *ngIf="allowed==1" class="main-content">
     <div class="container-fluid">
 
             <div class="card">

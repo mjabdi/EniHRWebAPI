@@ -22,6 +22,13 @@ import {
 } from '@angular/cdk/overlay';
 
 import { ICTDialogComponent } from '../ict-dialog/ict-dialog.component';
+import { UserService } from 'app/users/userservice';
+import { AuthenticationService } from 'app/services/authentication.service';
+import { User } from 'app/users/user';
+
+import { environment } from 'environments/environment';
+
+const baseUrl :string = environment.apiUrl;
 
 @Component({
   selector: 'app-ict',
@@ -37,7 +44,7 @@ export class ICTComponent implements OnInit {
    today : Date;
 
   selectedICT: ICT;
-  imageUrl = 'http://my.eeep.intranet:8099/PhotoIDs/';
+  baseImageUrl = baseUrl + "/api/employee/images/";
 
 
 
@@ -54,12 +61,26 @@ export class ICTComponent implements OnInit {
                                 ];
                                 
 
-  constructor(private router: Router,private ICTService : ICTService,private dialog: MatDialog) { 
+  constructor(private router: Router,private ICTService : ICTService,private dialog: MatDialog,private userService : UserService,private authService:AuthenticationService) { 
     this.today = new Date();
   }
 
+  allowed = 0;
+  user : User;
+  random : number;
   ngOnInit() {
     this.getAllICT(); 
+
+
+    this.userService.findUser(this.authService.getUsername()).subscribe(
+      (data : User)=>
+      {
+        this.user = data;
+        this.allowed = (this.user.roles.indexOf('ict') > -1) ? 1 : -1;
+      }
+    );
+
+    this.random = this.getRandom();
   }
 
   export(): void {
@@ -181,6 +202,11 @@ export class ICTComponent implements OnInit {
           return 'GBP';
       else
           return val;    
+  }
+
+  getRandom()
+  {
+    return Math.floor(Math.random() * (999999 - 100000)) + 100000;
   }
 }
 

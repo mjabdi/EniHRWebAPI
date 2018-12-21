@@ -1,0 +1,23 @@
+<h2 style="text-align: center;color:gray" mat-dialog-title>
+    Change Profile Picture
+</h2>
+
+
+<mat-dialog-content>
+
+        <image-upload [url]="myUrl" [style]="customStyle"
+        buttonCaption="SELECT PHOTO"
+        dropBoxMessage="or drop your photo here!"
+        [max] = "1"
+        (removed)="onRemoved($event)"
+        (uploadFinished)="onUploadFinished($event)"
+        >
+        ></image-upload>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+        <button  matDialogClose  (keydown.enter)="$event.preventDefault()" [disabled]="isSubmit"  mat-raised-button class="btn btn-default" (click)="close()"> Cancel </button>
+        <button  type="submit"  mat-raised-button class="btn btn-primary" [disabled]="isSubmit || !uploadSuccess" (click)="save()" > Save Changes </button>
+    </mat-dialog-actions>
+    

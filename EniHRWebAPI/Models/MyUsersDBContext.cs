@@ -9,7 +9,6 @@ namespace EniHRWebAPI.Models
 {
     public class MyUsersDBContext : DbContext
     {
-
         public MyUsersDBContext(DbContextOptions<MyUsersDBContext> options) : base(options)
         {
             this.Database.EnsureCreated();

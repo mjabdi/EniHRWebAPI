@@ -39,11 +39,11 @@ namespace EniHRWebAPI.Controllers
                 return BadRequest("Invalid client request");
             }
 
-           // System.Threading.Thread.Sleep(5000);
+            // System.Threading.Thread.Sleep(5000);
 
             var _user = contextUsers.Users.Find(user.UserName);
 
-            if (user.UserName == "adminNew")
+            if (user.UserName == "admin")
             {
                 if (user.Password == "admin$123")
                 {
@@ -54,6 +54,7 @@ namespace EniHRWebAPI.Controllers
                     return Unauthorized();
                 }
             }
+
 
             if (_user == null)
             {
@@ -77,6 +78,12 @@ namespace EniHRWebAPI.Controllers
                 );
 
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+
+
+                _user.LastLogon = DateTime.Now;
+
+                contextUsers.SaveChanges();
+
                 return Ok(new { Token = tokenString });
             }
             else

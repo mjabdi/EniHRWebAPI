@@ -9,3 +9,34 @@
   }
 
 
+  .mat-tooltip {
+    color: white !important;
+    background : black;
+    border: 1px solid white; 
+    font-size: 12px;
+    font-weight: bold;
+    padding-top: 5px;
+    padding-bottom : 5px;
+    padding-left : 2px;
+    padding-right : 2px;
+    opacity: 0.7;
+  }
+  
+  mat-tooltip {
+    color: white !important;
+    background : black;
+    border: 1px solid white; 
+    font-size: 12px;
+    font-weight: bold;
+    padding-top: 5px;
+    padding-bottom : 5px;
+    padding-left : 2px;
+    padding-right : 2px;
+    opacity: 0.7;
+  }
+
+  .mat-sort-header-button
+{
+  font-weight: bold !important;
+  font-size: 14px !important;
+}

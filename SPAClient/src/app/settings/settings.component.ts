@@ -5,6 +5,9 @@ import {MatSnackBar} from '@angular/material';
 import { ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 import { BaseInfoService } from 'app/services/baseInfo.service';
+import { UserService } from 'app/users/userservice';
+import { AuthenticationService } from 'app/services/authentication.service';
+import { User } from '../users/user';
 
 
 
@@ -19,7 +22,8 @@ import { BaseInfoService } from 'app/services/baseInfo.service';
     constructor(
         private router : Router,
         private baseinfoService : BaseInfoService,
-        private snackBar : MatSnackBar
+        private snackBar : MatSnackBar,
+        private userService : UserService, private authService:AuthenticationService
     ){}
 
 
@@ -36,8 +40,18 @@ familyStatus = null;
 typeofVisa = null;
 activityStatus = null;
 
+allowed = 0;
+user : User;
 ngOnInit()
 {
+    this.userService.findUser(this.authService.getUsername()).subscribe(
+        (data : User)=>
+        {
+          this.user = data;
+          this.allowed = (this.user.roles.indexOf('settings') > -1) ? 1 : -1;
+        }
+      );
+
     this.loadStaffTypology();
     this.loadWorkingLocation();
     this.loadEmployeeCategory();
@@ -50,6 +64,8 @@ ngOnInit()
     this.loadFamilyStatus();
     this.loadTypeofVisa();
     this.loadActivityStatus();
+
+
 }
 
 loadStaffTypology()

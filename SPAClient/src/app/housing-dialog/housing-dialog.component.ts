@@ -19,10 +19,14 @@ import { DecimalPipe, formatNumber, formatCurrency } from '@angular/common';
 
 import {CurrencyPipe} from '@angular/common'
 import { isNumber } from 'util';
+import { HistoryAddressDialogComponent } from 'app/history-address-dialog/history-address-dialog.component';
+import { HomeAddress } from 'app/history-address-dialog/homeaddress';
 
 //import {DifferencePipe} from 'angular2-moment';
 
+import { environment } from 'environments/environment';
 
+const baseUrl :string = environment.apiUrl;
 
 
 @Component({
@@ -33,6 +37,8 @@ import { isNumber } from 'util';
 export class HousingDialogComponent implements OnInit {
 
     today : Date ;
+
+    addressList : HomeAddress[];
 
     isSubmit: boolean = false;
 
@@ -86,7 +92,7 @@ export class HousingDialogComponent implements OnInit {
 
             this.housing = data;
             this.today = new Date();
-            this.imageUrl = 'http://my.eeep.intranet:8099/PhotoIDs/' + this.housing.technicalID + '.jpg'
+            this.imageUrl = baseUrl + "/api/employee/images/" + this.housing.employeeID +  "/" + Math.floor(Math.random() * (999999 - 100000)) + 100000 ;
 
     }
 
@@ -99,11 +105,22 @@ export class HousingDialogComponent implements OnInit {
 
     isLoaded : boolean = false;
     ngOnInit() {
-
+         this.loadHomeAddressHistory();
          this.setupFilters();
          this.LoadFormValues();
          this.isLoaded = true;
 
+    }
+
+    loadHomeAddressHistory()
+    {
+        this.housingService.getAddressHistory(this.housing.employeeID).subscribe(
+
+            (data : HomeAddress[]) =>
+            {
+                this.addressList = data;
+            }
+        );
     }
 
     setupFilters()
@@ -291,5 +308,32 @@ export class HousingDialogComponent implements OnInit {
     //  {
     //     return (Date.now - date). ;
     //  } 
+
+
+    showHistory()
+    {
+        const dialogConfig = new MatDialogConfig();
+
+        dialogConfig.hasBackdrop = true;
+        dialogConfig.disableClose = false;
+        dialogConfig.autoFocus = false;
+        dialogConfig.width = "700px";
+    
+        dialogConfig.panelClass = "custom-modalbox";
+    
+        dialogConfig.data = this.addressList;
+    
+        const dialogRef = this.dialog.open(HistoryAddressDialogComponent,dialogConfig);
+    
+        dialogRef.afterClosed().subscribe(
+          val => {
+              if (val)
+              {
+
+              }
+          }
+      );
+    
+    }
 
 }

@@ -116,8 +116,19 @@ namespace EniHRWebAPI.Models
         public string HousingComments { get; set; }
 
 
-        public void UpdateFromHousingViewModel(MyDBContext context, JToken housing)
+        public void UpdateFromHousingViewModel(MyDBContext context, JToken housing,string user)
         {
+            var prevAdress = this.HomeAddressUK;
+            if (prevAdress.ToLower().Trim() != ((string)housing["homeAddress"]).Trim().ToLower())
+            {
+                HomeAddressHistory history = new HomeAddressHistory();
+                history.EmployeeID = this.HousingID;
+                history.address = prevAdress;
+                history.changeddate = DateTime.Today;
+                history.changedby = user;
+                context.HomeAddressHistories.Add(history);
+            }
+
             this.HomeAddressUK = (string)housing["homeAddress"];
 
             this.EntitledNumberofBedrooms = (int?)housing["entitledBedrooms"];

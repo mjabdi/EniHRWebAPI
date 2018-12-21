@@ -1,6 +1,10 @@
+<div *ngIf="allowed==-1" class="main-content">
+        <div class="container-fluid">
+            Access Denied!
+         </div>
+</div>
 
-
-<div class="main-content">
+<div *ngIf="allowed==1" class="main-content">
     <div class="container-fluid">
         <div class="row">
                     <div class="col-md-12" align="right">
@@ -65,7 +69,8 @@
             <ng-container matColumnDef="ID">
                     <mat-header-cell *matHeaderCellDef> # </mat-header-cell>
                     <mat-cell *matCellDef="let rowIndex=index;let housing"> 
-                        <img *ngIf="housing.technicalID && housing.technicalID.length > 1" style="margin-right:20px;" width="64px" [src]="this.imageUrl +  housing.technicalID + '.jpg'">     
+                        <img  style="margin-right:20px;" width="64px" [src]="baseImageUrl + housing.employeeID  +  '/' + random">     
+
                            {{rowIndex+1}} 
                     </mat-cell>
         </ng-container>

@@ -1,0 +1,21 @@
+<h2 style="text-align: center;color:gray" mat-dialog-title>
+    Home Address History
+</h2>
+
+<mat-dialog-content>
+    
+    <mat-list>
+        <mat-list-item *ngFor="let address of addressList; let i = index;">
+        <mat-icon mat-list-icon>room</mat-icon>
+        <h4 mat-line> <span [title]="address.address"> {{address.address}} </span></h4>
+        <p style="color:gray" mat-line> changed at : {{address.changeddate | date}} </p>
+        <p style="color:gray" mat-line> changed by : {{address.changedby}} </p>
+        <mat-divider *ngIf="i != addressList.length -1 "></mat-divider>
+        </mat-list-item>
+    </mat-list>
+
+    <div *ngIf="!addressList || addressList.length == 0" style="text-align: center;color:gray">
+        No history data!
+    </div>
+
+</mat-dialog-content>
